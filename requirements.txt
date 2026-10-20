@@ -1,0 +1,25 @@
+# Versões fixadas para DORL-codes (commit 818c9bd) + fork do tianshou (commit 0f59e38), Python 3.10.
+# Testado em 20/10/2026 (CPU): pré-processamento, modelo de usuário, DORL, UCB e epsilon-greedy rodam de ponta a ponta.
+#
+# Por que estas versões:
+#   pandas < 2.0      -> o código usa DataFrame.append (removido no pandas 2)
+#   numpy 1.23        -> compatível com gym 0.23, numba 0.56 e tensorflow 2.11
+#   gym 0.23.1        -> versão mínima exigida pelo fork do tianshou (API antiga: step devolve 4 valores)
+#   tensorflow 2.11   -> o DeepCTR-Torch embutido importa tensorflow.python.keras.callbacks
+#   protobuf 3.19     -> exigido pelo fork do tianshou e pelo tensorflow 2.11
+#   torch 1.13.1      -> o pacote do PyPI para Linux já vem com CUDA 11.7 (driver NVIDIA >= 515)
+torch==1.13.1
+numpy==1.23.5
+pandas==1.5.3
+scipy==1.10.1
+scikit-learn==1.2.2
+tensorflow-cpu==2.11.0
+protobuf==3.19.6
+gym==0.23.1
+numba==0.56.4
+h5py==3.8.0
+tensorboard==2.11.2
+tqdm==4.65.0
+logzero==1.7.0
+matplotlib==3.7.1
+seaborn==0.12.2
