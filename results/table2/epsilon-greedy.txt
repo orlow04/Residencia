@@ -1,0 +1,10 @@
+Log: saved_models/KuaiEnv-v0/EpsilonGreedy/logs/[epsilon-greedy]_2026_10_20-16_40_19.log
+Épocas usadas: 177 (de 0 a 176)
+
+== No Overlapping (Tabela 2)
+  R_tra       3.692 ± 0.626   | artigo 3.515 ± 0.731   diferença = +0.24 desvios do artigo
+  R_each      0.855 ± 0.112   | artigo 0.828 ± 0.129   diferença = +0.21 desvios do artigo
+  Length      4.308 ± 0.385   | artigo 4.219 ± 0.405   diferença = +0.22 desvios do artigo
+  MCD         0.814 ± 0.053   | artigo 0.823 ± 0.048   diferença = -0.20 desvios do artigo
+
+Atenção: o ± do artigo é a dispersão entre épocas de uma execução. Para afirmar reprodutibilidade, repita com outras sementes e compare as médias.

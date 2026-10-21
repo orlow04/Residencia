@@ -1,0 +1,11 @@
+Passo 4.2 — cronometragem do MBPO (2 épocas), 20/10/2026, RTX 4090
+Comando: time python run_Policy_Main.py --env KuaiEnv-v0 --seed 2 --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
+  --which_tracker avg --reward_handle cat --lambda_variance 0 --lambda_entropy 0 --window_size 3 \
+  --read_message pointneg --message MBPO-timing --epoch 2
+
+Resumo do tianshou: duration 20.55s, train_time/model 20.44s, train_step 998, train_episode 100
+real    0m34,980s
+user    0m34,782s
+sys     0m5,609s
+
+Estimativa: ~10 s por época + ~14 s de inicialização. Execução real de 200 épocas (semente 2): 16:39 -> 17:20 (~41 min).

@@ -1,0 +1,37 @@
+{
+  "stats": {
+    "train": {
+      "users": 7176,
+      "items": 10728,
+      "interactions": 12530806,
+      "categories": 31
+    },
+    "test": {
+      "users": 1411,
+      "items": 3327,
+      "interactions": 4676570,
+      "categories": 31
+    }
+  },
+  "expected": {
+    "train": {
+      "users": 7176,
+      "items": 10728,
+      "interactions": 12530806,
+      "categories": 31
+    },
+    "test": {
+      "users": 1411,
+      "items": 3327,
+      "interactions": 4676570,
+      "categories": 31
+    }
+  },
+  "match": true,
+  "sha256": {
+    "big_matrix.csv": "4ee1a72ff9ce4e86ef50525da9dfd7aefcefa717b37c9d570010f689c42f4ef9",
+    "small_matrix.csv": "6b601cd38b2600d8734b4aede309ad73d1e201fdc4bd76d4bc7d2534793d7d15",
+    "user_features.csv": "c03ce5c6e90c50407b45585bde983db3079492346f7fa676d860777abfd783f4",
+    "item_categories.csv": "b8b8330387cd69659ff6b35b9b69bb35303196a5264d5d7743e92ae8e19cd15e"
+  }
+}
