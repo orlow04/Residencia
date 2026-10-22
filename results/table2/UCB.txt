@@ -1,10 +1,10 @@
 Log: saved_models/KuaiEnv-v0/LinUCB/logs/[UCB]_2026_10_20-16_40_19.log
-Épocas usadas: 176 (de 0 a 175)
+Épocas usadas: 200 (de 0 a 199)
 
 == No Overlapping (Tabela 2)
-  R_tra       3.575 ± 0.637   | artigo 3.606 ± 0.609   diferença = -0.05 desvios do artigo
-  R_each      0.854 ± 0.116   | artigo 0.853 ± 0.114   diferença = +0.01 desvios do artigo
-  Length      4.175 ± 0.400   | artigo 4.219 ± 0.389   diferença = -0.11 desvios do artigo
-  MCD         0.822 ± 0.055   | artigo 0.811 ± 0.058   diferença = +0.20 desvios do artigo
+  R_tra       3.597 ± 0.631   | artigo 3.606 ± 0.609   diferença = -0.01 desvios do artigo
+  R_each      0.857 ± 0.117   | artigo 0.853 ± 0.114   diferença = +0.04 desvios do artigo
+  Length      4.186 ± 0.401   | artigo 4.219 ± 0.389   diferença = -0.09 desvios do artigo
+  MCD         0.822 ± 0.054   | artigo 0.811 ± 0.058   diferença = +0.19 desvios do artigo
 
 Atenção: o ± do artigo é a dispersão entre épocas de uma execução. Para afirmar reprodutibilidade, repita com outras sementes e compare as médias.
