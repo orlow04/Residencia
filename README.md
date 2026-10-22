@@ -113,6 +113,55 @@ Como ler a saída:
 - `--all-protocols` imprime também FB e NX_10. Não são da Tabela 2, mas são os dados do experimento
   de inversão por protocolo; guarde todos os logs em `saved_models/`.
 
+## 6. DORL (e MOPO) no KuaiRec
+
+Configuração tirada do log original dos autores (`results_for_paper/results_all/kuairec/[DORL]_*.log`).
+O DORL usa os **mesmos** argumentos do MBPO; mudam só as duas penalidades:
+
+| Método | `--lambda_variance` | `--lambda_entropy` |
+|---|---|---|
+| MBPO | 0 | 0 |
+| MOPO | 0.05 | 0 |
+| DORL | 0.05 | 5 |
+
+**Atenção:** o primeiro comando de DORL no README do repositório usa `--lambda_variance 0.01 --lambda_entropy 0.05`.
+Não é o que gerou a Tabela 2. O log dos autores e a lista de comandos mais abaixo no mesmo README usam `0.05` e `5`.
+
+O modelo de usuário é o mesmo da seção 4.1 (`--read_message pointneg`); não precisa treinar de novo.
+No log dos autores, o DORL levou ~14% mais tempo que o MBPO; aqui, conte ~45–50 min por semente.
+
+```bash
+# DORL, 5 sementes em sequência (rode dentro de tmux ou com nohup bash -c '...' &)
+for s in 0 1 2 3 4; do
+  python run_Policy_Main.py --env KuaiEnv-v0 --seed $s --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
+    --which_tracker avg --reward_handle cat --lambda_variance 0.05 --lambda_entropy 5 --window_size 3 \
+    --read_message pointneg --message DORL_s$s > dorl_s$s.out 2>&1
+done
+
+# Opcional: MOPO (só a penalidade de variância). Isola o efeito da penalidade de entropia,
+# que é a contribuição do DORL. Pode rodar em paralelo com o laço acima.
+for s in 0 1 2 3 4; do
+  python run_Policy_Main.py --env KuaiEnv-v0 --seed $s --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
+    --which_tracker avg --reward_handle cat --lambda_variance 0.05 --lambda_entropy 0 --window_size 3 \
+    --read_message pointneg --message MOPO_s$s > mopo_s$s.out 2>&1
+done
+```
+
+Comparar com a Tabela 2:
+
+```bash
+for m in DORL MOPO; do
+  for f in saved_models/KuaiEnv-v0/A2C_with_emb/logs/\[${m}_s*\]_*.log; do
+    python ../../table2_from_log.py "$f" --dataset KuaiRec --method $m --all-protocols
+  done
+done
+```
+
+O que esperar no KuaiRec (Tabela 2): o ganho do DORL sobre o MBPO está em **Length** (26.7 contra 15.6)
+e, por consequência, em **R_tra** (20.5 contra 12.0). R_each e MCD ficam praticamente iguais aos do MBPO
+(MCD 0.379 contra 0.362). Se a média entre sementes do DORL não ficar claramente acima do MBPO em
+Length e R_tra, a afirmação principal do artigo não se reproduziu aqui.
+
 ## Registro para o apêndice técnico
 
 Guarde: `versions.txt`, `KuaiRec.zip.sha256`, `kuairec_validation.json`, os logs de `saved_models/`,
