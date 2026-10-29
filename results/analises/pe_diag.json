@@ -1,0 +1,96 @@
+{
+  "config": {
+    "data": "environments/KuaiRec/data",
+    "matpre": "matPre.pickle",
+    "matvar": "matVar.pickle",
+    "lambda_variance": 0.05,
+    "lambda_entropy": 5.0,
+    "n_traj": 20000,
+    "max_turn": 30,
+    "seed": 0,
+    "out": "pe_diag.json"
+  },
+  "tabela_k1": {
+    "n_chaves": 10726,
+    "frac_uma_continuacao (vale 1 por regra)": 0.0273,
+    "frac_valor_igual_1": 0.1589,
+    "quantis_10_50_90": [
+      0.8822,
+      0.9618,
+      1.0
+    ]
+  },
+  "tabela_k2": {
+    "n_chaves": 4340472,
+    "frac_uma_continuacao (vale 1 por regra)": 0.4937,
+    "frac_valor_igual_1": 0.9631,
+    "quantis_10_50_90": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entropy_min": 0.29089468761793486,
+  "entropy_max": 2.000000000000001,
+  "spearman_log_popularidade_vs_PE_k1": -0.5288,
+  "politicas": {
+    "uniforme": {
+      "PE_media_t0": 1.91,
+      "PE_media_t>=1": 1.909,
+      "PE_dp_t>=1": 0.0478,
+      "frac_passos_PE_no_maximo_2 (t>=1)": 0.0006,
+      "frac_k1_ausente": 0.0,
+      "frac_k2_ausente (t>=1)": 0.5268,
+      "frac_termos_valendo_1_por_uma_continuacao (t>=1)": 0.0903,
+      "bonus_medio_por_passo lambda2*(PE - entropy_min) (t>=1)": 8.0905,
+      "escala (t>=1)": {
+        "r_hat": {
+          "media": -0.0018,
+          "dp": 0.0221
+        },
+        "lambda1*P_U": {
+          "media": 0.0043,
+          "dp": 0.0123
+        },
+        "lambda2*P_E": {
+          "media": 9.545,
+          "dp": 0.239
+        },
+        "r_tilde": {
+          "media": 8.6194,
+          "dp": 0.2412
+        }
+      },
+      "corr_r_tilde_com_lambda2PE (t>=1)": 0.9964
+    },
+    "popularidade": {
+      "PE_media_t0": 1.8982,
+      "PE_media_t>=1": 1.8961,
+      "PE_dp_t>=1": 0.0604,
+      "frac_passos_PE_no_maximo_2 (t>=1)": 0.0,
+      "frac_k1_ausente": 0.0,
+      "frac_k2_ausente (t>=1)": 0.4495,
+      "frac_termos_valendo_1_por_uma_continuacao (t>=1)": 0.091,
+      "bonus_medio_por_passo lambda2*(PE - entropy_min) (t>=1)": 8.026,
+      "escala (t>=1)": {
+        "r_hat": {
+          "media": -0.002,
+          "dp": 0.0228
+        },
+        "lambda1*P_U": {
+          "media": 0.0044,
+          "dp": 0.0125
+        },
+        "lambda2*P_E": {
+          "media": 9.4805,
+          "dp": 0.302
+        },
+        "r_tilde": {
+          "media": 8.5546,
+          "dp": 0.3044
+        }
+      },
+      "corr_r_tilde_com_lambda2PE (t>=1)": 0.9976
+    }
+  }
+}

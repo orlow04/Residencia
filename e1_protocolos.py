@@ -22,6 +22,7 @@ import argparse
 import glob
 import itertools
 import os
+import re
 import sys
 
 import numpy as np
@@ -38,18 +39,37 @@ p = argparse.ArgumentParser()
 p.add_argument("runs", nargs="+", help='"NOME=glob dos logs" (um glob por método; cada log é uma semente)')
 p.add_argument("--out", default="e1")
 p.add_argument("--aleatoria", default=None, help="aleatoria.json do politica_aleatoria.py (linha de referência)")
+p.add_argument("--min_epocas", type=int, default=200, help="logs com menos épocas são descartados (execução incompleta)")
 a = p.parse_args()
 
-# 1. Valor por semente: média sobre as épocas (igual à Tabela 2)
-rows = []
+# 1. Valor por semente: média sobre as épocas (igual à Tabela 2).
+#    Só entram logs completos; se a mesma mensagem (ex.: DORL_s2) tiver mais de um log completo,
+#    entra o mais recente (o nome termina em _AAAA_MM_DD-hh_mm_ss.log, que ordena por data).
+LOGNAME = re.compile(r"^\[(?P<msg>.+?)\]_(?P<ts>\d{4}_\d{2}_\d{2}-\d{2}_\d{2}_\d{2})\.log$")
+rows, report = [], []
 for spec in a.runs:
     name, pattern = spec.split("=", 1)
     files = sorted(glob.glob(pattern))
     if not files:
         raise SystemExit(f"nenhum log para {name}: {pattern}")
+    chosen = {}
     for f in files:
         df = read_log(f)
         df = df[df.index >= 0]
+        m = LOGNAME.match(os.path.basename(f))
+        msg, ts = (m.group("msg"), m.group("ts")) if m else (os.path.basename(f), "")
+        if len(df) < a.min_epocas:
+            report.append(f"  descartado (incompleto, {len(df)} épocas): {os.path.basename(f)}")
+            continue
+        if msg in chosen:
+            old = chosen[msg]
+            keep, drop = ((f, df, ts), old) if ts > old[2] else (old, (f, df, ts))
+            report.append(f"  descartado (repetido; ficou o mais recente): {os.path.basename(drop[0])}")
+            chosen[msg] = keep
+        else:
+            chosen[msg] = (f, df, ts)
+    for msg, (f, df, ts) in sorted(chosen.items()):
+        report.append(f"  usado: {name:12s} {os.path.basename(f)} ({len(df)} épocas)")
         for proto, prefix in PROTOS.items():
             for metric, (mean, _) in summarize(df, prefix).items():
                 rows.append({"metodo": name, "log": os.path.basename(f), "protocolo": proto,
@@ -61,6 +81,7 @@ if a.aleatoria:  # mesma agregação: média sobre as épocas em cada semente
             for metric, (mean, _) in metrics.items():
                 rows.append({"metodo": "aleatória", "log": f"aleatoria_s{seed}", "protocolo": proto,
                              "metrica": metric, "valor": mean})
+print("== Logs\n" + "\n".join(report) + "\n")
 seeds = pd.DataFrame(rows)
 seeds.to_csv(f"{a.out}_por_semente.csv", index=False)
 
@@ -110,12 +131,10 @@ def better(proto, metric, x, y):
     return np.sign(d), robust
 
 
-def tag(res):
-    """Inversão robusta: ao menos uma vitória e uma derrota que superam o dp entre sementes."""
-    if any(r is None for _, r in res.values()):
+def tag(flags):
+    if any(f is None for f in flags):
         return "[sem dp: 1 semente nos dois]"
-    ok = any(r for s, r in res.values() if s > 0) and any(r for s, r in res.values() if s < 0)
-    return "[supera o dp entre sementes]" if ok else "[dentro da variação entre sementes]"
+    return "[supera o dp entre sementes]" if all(flags) else "[dentro da variação entre sementes]"
 
 
 lines_m, lines_p = [], []
@@ -126,14 +145,14 @@ for x, y in itertools.combinations(methods, 2):
         loss = [m for m, (s, _) in res.items() if s < 0]
         if wins and loss:
             lines_m.append(f"  {pr:5s} {x} × {y}: {x} melhor em {', '.join(wins)}; {y} melhor em {', '.join(loss)} "
-                           + tag(res))
+                           + tag([r for _, r in res.values()]))
     for m in METRICS:                                         # entre protocolos, mesma métrica
         res = {pr: better(pr, m, x, y) for pr in PROTOS if valid(pr, m)}
         wins = [pr for pr, (s, _) in res.items() if s > 0]
         loss = [pr for pr, (s, _) in res.items() if s < 0]
         if wins and loss:
             lines_p.append(f"  {m:6s} {x} × {y}: {x} melhor em {', '.join(wins)}; {y} melhor em {', '.join(loss)} "
-                           + tag(res))
+                           + tag([r for _, r in res.values()]))
 
 print("\n== Inversões entre métricas (mesmo protocolo)")
 print("\n".join(lines_m) or "  nenhuma")

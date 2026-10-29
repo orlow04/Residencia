@@ -40,20 +40,30 @@ Registro completo dos experimentos da semana 8: @docs/experimentos_semana8.md
 
 | Id | Experimento | Status |
 |---|---|---|
-| R | Reprodução MBPO/MOPO/DORL, 5 sementes | MBPO feito; DORL rodado, a tabular; MOPO em execução |
+| R | Reprodução MBPO/MOPO/DORL, 5 sementes | Feito |
 | S1 | Diagnóstico do P_E sem treino (`diagnostico_pe.py`) | Feito |
 | S2 | r̂ × recompensa de avaliação (`r_hat_vs_avaliacao.py`) | Feito |
 | S3 | Política aleatória (`politica_aleatoria.py`) | Feito |
-| E1 | Inversão por protocolo (`e1_protocolos.py --aleatoria aleatoria.json`) | Parcial: falta incluir MOPO e DORL |
-| P | Registro do P_E no treino (`pe_log.patch`, `analisa_pe_log.py`) | Pendente |
-| E2 | Ablação: DORL com P_E constante | Pendente (constante vem de P) |
+| E1 | Inversão por protocolo (`e1_protocolos.py --aleatoria aleatoria.json`) | Feito (7 métodos) |
+| P | Registro do P_E no treino (`pe_log.patch`, `analisa_pe_log.py`) | Feito (s2; c = 1,9609) |
+| E2 | Ablação: DORL com P_E constante (`DORLconst_s0..4`) | Feito |
 
-Resultados principais até aqui (detalhes em `docs/experimentos_semana8.md`):
-- MBPO, 5 sementes, NX_0: R_tra 11,69 ± 2,32; R_each 0,736 ± 0,071; Length 15,78 ± 1,83; MCD 0,323 ± 0,061 (artigo: 12,04; 0,770; 15,65; 0,362).
-- S1: sob políticas de referência, o P_E explica ~99% da variação da recompensa do DORL; 96,3% dos pares da tabela valem 1.
-- S2: top-10 por r̂ = 0,40 de recompensa de avaliação, contra 0,87 do acaso e 2,33 da média do vídeo.
-- S3: política aleatória (NX_0) R_tra 4,01, R_each 0,872, Length 4,60, MCD 0,828; supera UCB e ε-greedy.
-- E1: com 10 rodadas forçadas (NX_10), o MBPO passa de 1º a último em R_tra.
+Resultados principais (NX_0, média ± dp entre 5 sementes; detalhes em `docs/experimentos_semana8.md` e `results/e1/e1_saida.txt`):
+
+| Método | R_tra | R_each | Length | MCD |
+|---|---|---|---|---|
+| MBPO | 11,69 ± 2,32 | 0,736 ± 0,071 | 15,78 ± 1,83 | 0,323 ± 0,061 |
+| MOPO | 12,00 ± 2,61 | 0,763 ± 0,061 | 15,60 ± 2,34 | 0,366 ± 0,085 |
+| DORL | 18,27 ± 2,46 | 0,780 ± 0,086 | 23,42 ± 1,10 | 0,431 ± 0,027 |
+| DORL-const | 18,53 ± 0,29 | 0,781 ± 0,095 | 24,00 ± 2,66 | 0,406 ± 0,026 |
+| Aleatória | 4,01 ± 0,02 | 0,872 ± 0,001 | 4,60 ± 0,02 | 0,827 ± 0,001 |
+
+- Afirmação principal reproduzida (DORL > MBPO em Length e R_tra, acima do dp); C1 (MOPO × MBPO em MCD) dentro do ruído.
+- E2: DORL-const = DORL nas quatro métricas → o ganho do DORL vem do bônus fixo por passo, não da variação do P_E.
+- P: na política treinada, P_E ≈ 1,96 de 2, quase constante; no fim do treino as sessões simuladas duram 30 passos. DORL_pelog_s2 = DORL_s2 (patch inerte, execução determinística).
+- S1/S2/S3: P_E explica ~99% da variação da recompensa (políticas de referência); top-10 do r̂ = 0,40 contra 0,87 do acaso; bandits abaixo do acaso.
+- E1: em NX_10 os quatro métodos de RL ficam abaixo do acaso e dos bandits em R_tra; em R_each, abaixo do acaso nos três protocolos; no FB, DORL e DORL-const duram ~15 passos contra ~27 de MBPO/MOPO.
+- Logs do DORL: havia repetições e execuções incompletas; o `e1_protocolos.py` usa só o log completo mais recente de cada semente.
 
 ## Próxima semana (planejada)
 

@@ -1,0 +1,51 @@
+{
+  "config": {
+    "data": "environments/KuaiRec/data",
+    "matpre": "matPre.pickle",
+    "k": 10,
+    "out": "rhat_aval.json"
+  },
+  "matriz_avaliacao": {
+    "forma": [
+      1411,
+      3327
+    ],
+    "celulas_ausentes (valem 0)": 17827,
+    "pares_duplicados (somados)": 0
+  },
+  "escala": {
+    "r_hat_dp": 0.0223,
+    "avaliacao_dp": 0.6611
+  },
+  "correlacao_global_r_hat_vs_avaliacao": {
+    "pearson": 0.0825,
+    "spearman": 0.0856
+  },
+  "variancia_da_avaliacao_explicada": {
+    "pela_media_do_video": 0.2753,
+    "pela_media_do_usuario": 0.0513
+  },
+  "media_do_video_big_vs_small (pearson)": 0.9767,
+  "ordenacao_por_usuario": {
+    "r_hat (o que a política vê)": {
+      "recompensa_media_top10": 0.4001,
+      "spearman_por_usuario_mediana": 0.075
+    },
+    "r_hat na escala original (média + dp do vídeo × r_hat)": {
+      "recompensa_media_top10": 2.2979,
+      "spearman_por_usuario_mediana": 0.6743
+    },
+    "só a média do vídeo (sem personalização)": {
+      "recompensa_media_top10": 2.3267,
+      "spearman_por_usuario_mediana": 0.6733
+    },
+    "oráculo (recompensa de avaliação)": {
+      "recompensa_media_top10": 4.3301,
+      "spearman_por_usuario_mediana": 1.0
+    },
+    "aleatório (média de cada usuário)": {
+      "recompensa_media_top10": 0.8723,
+      "spearman_por_usuario_mediana": 0.0
+    }
+  }
+}
