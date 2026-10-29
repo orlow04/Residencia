@@ -28,7 +28,7 @@ fi
 # 4. Ambiente: commit do DORL, prova de que a única alteração é o pe_log.patch, versões e hash das matrizes
 git -C "$W" rev-parse HEAD > results/ambiente/dorl_commit.txt
 git -C "$W" diff > results/ambiente/dorl_codes_diff.patch
-pip freeze > results/ambiente/versions_venv.txt
+if command -v uv >/dev/null 2>&1; then uv pip freeze; else python -m pip freeze; fi > results/ambiente/versions_venv.txt
 find "$W/saved_models" -name "*_mat*.pickle" -exec sha256sum {} \; > results/ambiente/mats.sha256
 
 echo "Pronto. Confira com: git status --short results/"
