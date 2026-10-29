@@ -1,0 +1,71 @@
+diff --git a/src/core/worldModel/simulated_env.py b/src/core/worldModel/simulated_env.py
+index 753ea40..fa841a4 100644
+--- a/src/core/worldModel/simulated_env.py
++++ b/src/core/worldModel/simulated_env.py
+@@ -12,6 +12,31 @@ from tqdm import tqdm
+ 
+ from core.util import compute_action_distance, clip0, compute_exposure
+ 
++# --- Residência (diagnóstico do P_E) ------------------------------------------------------------
++# PE_LOG=<arquivo.csv>  grava, a cada passo de TREINO no ambiente simulado, o P_E e seus componentes.
++# PE_CONST=<valor>      (E2) substitui o P_E calculado por uma constante.
++# Sem as duas variáveis, o comportamento é idêntico ao original.
++import atexit
++import os
++
++_PE_LOG = os.environ.get("PE_LOG")
++_PE_CONST = os.environ.get("PE_CONST")
++_pe_state = {"fh": None, "n_envs": 0}
++
++
++def _pe_write(env, row):
++    if _pe_state["fh"] is None:
++        new = not os.path.exists(_PE_LOG) or os.path.getsize(_PE_LOG) == 0
++        _pe_state["fh"] = open(_PE_LOG, "a", buffering=1 << 16)
++        atexit.register(_pe_state["fh"].close)
++        if new:
++            _pe_state["fh"].write("env,turn,user,item,PE,n_ausentes,n_completados,PE_usado,r_hat,max_var,r_penalizado\n")
++    if not hasattr(env, "_pe_env_id"):
++        env._pe_env_id = _pe_state["n_envs"]
++        _pe_state["n_envs"] += 1
++    _pe_state["fh"].write(",".join(str(x) for x in (env._pe_env_id, *row)) + "\n")
++# -------------------------------------------------------------------------------------------------
++
+ 
+ # from virtualTB.model.UserModel import UserModel
+ 
+@@ -130,6 +155,7 @@ class SimulatedEnv(gym.Env):
+             # if 0 in self.entropy_window:
+             #     entropy_u = self.entropy_dict["on_user"].loc[self.cur_user[0]]
+             entropy = 0
++            n_ausentes, n_completados, item_orig = 0, 0, action  # Residência: componentes do P_E
+             entropy_set = set(self.entropy_window) - {0}
+             if len(entropy_set):
+                 action_k = self.history_action[max(0, self.total_turn - self.step_n_actions + 1):self.total_turn + 1]
+@@ -138,6 +164,7 @@ class SimulatedEnv(gym.Env):
+                 else:
+                     action_trans = action_k
+                 action_reverse = action_trans[::-1]
++                item_orig = action_reverse[0]
+                 for k in range(len(action_reverse)):
+                     action_set = tuple(sorted(action_reverse[:k + 1]))
+                     # print(action_set)
+@@ -145,10 +172,18 @@ class SimulatedEnv(gym.Env):
+                         entropy += self.entropy_dict["map"][action_set]
+                     else:
+                         entropy += 1 # todo! 补足差额
++                        n_ausentes += 1
+                 if len(action_reverse) < self.step_n_actions:
+                     entropy += self.step_n_actions - len(action_reverse) # todo 补足差额
++                    n_completados = self.step_n_actions - len(action_reverse)
++            pe_calculado = entropy
++            if _PE_CONST is not None:
++                entropy = float(_PE_CONST)
+             penalized_reward = pred_reward - self.lambda_variance * max_var + \
+                                self.lambda_entropy * entropy - self.MIN_R
++            if _PE_LOG:
++                _pe_write(self, (self.total_turn, self.cur_user[0], item_orig, pe_calculado, n_ausentes,
++                                 n_completados, entropy, pred_reward, max_var, penalized_reward))
+ 
+         if self.version == "v1":
+             # version 1

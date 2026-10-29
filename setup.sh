@@ -39,7 +39,7 @@ fi
   echo "DORL-codes: $(git -C DORL-codes rev-parse HEAD)"
   echo "tianshou fork: $(git -C DORL-codes/src/tianshou rev-parse HEAD)"
   python --version
-  pip freeze
+  if command -v uv >/dev/null 2>&1; then uv pip freeze; else pip freeze; fi   # o venv do uv não tem pip
   nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv 2>/dev/null || echo "sem GPU NVIDIA visível"
 } > versions.txt
 
