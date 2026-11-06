@@ -1,0 +1,22 @@
+Log: saved_models/KuaiEnv-v0/A2C_with_emb/logs/[MOPO_s4]_2026_10_29-05_22_20.log
+Épocas usadas: 200 (de 1 a 200)
+
+== No Overlapping (Tabela 2)
+  R_tra       8.526 ± 1.019   | artigo 11.427 ± 1.750   diferença = -1.66 desvios do artigo
+  R_each      0.722 ± 0.026   | artigo 0.892 ± 0.051   diferença = -3.34 desvios do artigo
+  Length     11.811 ± 1.335   | artigo 12.809 ± 1.850   diferença = -0.54 desvios do artigo
+  MCD         0.496 ± 0.046   | artigo 0.479 ± 0.062   diferença = +0.27 desvios do artigo
+
+== Free (FB)
+  R_tra      15.900 ± 3.060
+  R_each      0.574 ± 0.062
+  Length     28.051 ± 5.471
+  MCD         0.350 ± 0.088
+
+== No Overlapping, 10 rodadas forçadas
+  R_tra       6.988 ± 0.292
+  R_each      0.699 ± 0.029
+  Length     10.000 ± 0.000
+  MCD         0.476 ± 0.063
+
+Atenção: o ± do artigo é a dispersão entre épocas de uma execução. Para afirmar reprodutibilidade, repita com outras sementes e compare as médias.

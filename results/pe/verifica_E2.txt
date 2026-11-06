@@ -1,0 +1,10 @@
+Verificação do E2: PE_CONST=1.9609, épocas 1 e 2, colunas ['NX_0_R_tra', 'NX_0_ctr', 'NX_0_len_tra', 'NX_0_ifeat_feat', 'R_tra', 'NX_10_R_tra']
+
+semente 0: IDÊNTICO  ([DORLconst_s0]_2026_10_29-04_25_24.log × [E2check_s0]_2026_11_06-19_34_37.log)
+semente 1: IDÊNTICO  ([DORLconst_s1]_2026_10_29-05_00_05.log × [E2check_s1]_2026_11_06-19_35_14.log)
+semente 2: IDÊNTICO  ([DORLconst_s2]_2026_10_29-05_35_21.log × [E2check_s2]_2026_11_06-19_35_48.log)
+semente 3: IDÊNTICO  ([DORLconst_s3]_2026_10_29-06_10_13.log × [E2check_s3]_2026_11_06-19_36_23.log)
+semente 4: IDÊNTICO  ([DORLconst_s4]_2026_10_29-06_42_06.log × [E2check_s4]_2026_11_06-19_36_58.log)
+controle (sem PE_CONST, semente 0): difere, como esperado
+
+Resultado: E2 rodou com PE_CONST=1.9609

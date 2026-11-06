@@ -94,8 +94,11 @@ Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
 | `e1_protocolos.py` | Agregação entre sementes, posições e inversões nos três protocolos |
 | `diagnostico_pe.py`, `r_hat_vs_avaliacao.py`, `politica_aleatoria.py` | Análises S1, S2, S3 (CPU, sem treino) |
 | `pe_log.patch`, `analisa_pe_log.py` | Registro do P_E no treino e constante do E2 |
+| `verifica_E2.sh` | Prova que o E2 usou `PE_CONST=1.9609` (repete 2 épocas por semente; o treino é determinístico) |
+| `exporta_resultados.sh` | Na 4090: copia para `results/` logs, saídas do E1, resumo do P_E, diff e versões |
+| `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |
-| `results/` | Logs, tabelas e saídas exportadas da 4090 |
+| `results/` | Logs, tabelas e saídas exportadas da 4090; índice em `results/README.md` |
 | `docs/` | Contexto do TCC, registro de experimentos e figuras |
 
 ## Documentos fora do repositório

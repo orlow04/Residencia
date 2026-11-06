@@ -10,6 +10,11 @@ Tabela 1 e (3) a primeira métrica da Tabela 2 (MBPO no KuaiRec), mais os baseli
 | `smoke_test.sh` + `make_synthetic_kuairec.py` | Roda a pipeline inteira com dados sintéticos em ~2 min, sem baixar nada |
 | `validate_kuairec.py` | Confere usuários, itens, interações e categorias contra a Tabela 1 e grava os SHA-256 dos dados |
 | `table2_from_log.py` | Resume um log no formato da Tabela 2, com a mesma agregação do script dos autores |
+| `diagnostico_pe.py`, `r_hat_vs_avaliacao.py`, `politica_aleatoria.py` | Análises S1, S2 e S3, em CPU e sem treino (seção 7) |
+| `pe_log.patch`, `analisa_pe_log.py`, `verifica_E2.sh` | Registro do P_E no treino (P) e DORL com P_E constante (E2) (seção 8) |
+| `e1_protocolos.py` | E1: agregação entre sementes, posições e inversões por protocolo (seção 9) |
+| `exporta_resultados.sh`, `figuras.py` | Copiam da 4090 para `results/` o que entra no repositório; geram `docs/figuras/` (seção 10) |
+| `tests/` | Testes de fidelidade dos scripts contra cópias literais do código do DORL (`tests/README.md`) |
 
 O que já foi verificado (20/10/2026, CPU, sem GPU):
 - `setup.sh` + `smoke_test.sh` rodam de ponta a ponta numa pasta limpa: pré-processamento,
@@ -151,7 +156,7 @@ Comparar com a Tabela 2:
 
 ```bash
 for m in DORL MOPO; do
-  for f in saved_models/KuaiEnv-v0/A2C_with_emb/logs/\[${m}_s*\]_*.log; do
+  for f in saved_models/KuaiEnv-v0/A2C_with_emb/logs/[[]${m}_s[0-9][]]_*.log; do   # filtro estrito
     python ../../table2_from_log.py "$f" --dataset KuaiRec --method $m --all-protocols
   done
 done
@@ -162,7 +167,69 @@ e, por consequência, em **R_tra** (20.5 contra 12.0). R_each e MCD ficam pratic
 (MCD 0.379 contra 0.362). Se a média entre sementes do DORL não ficar claramente acima do MBPO em
 Length e R_tra, a afirmação principal do artigo não se reproduziu aqui.
 
+Se uma semente foi interrompida e repetida, há mais de um log para ela. O `e1_protocolos.py` (seção 9)
+descarta os incompletos e os repetidos e lista quais usou; o laço acima não faz isso.
+
+## 7. Análises sem treino (S1, S2, S3), em CPU
+
+Rodam no Mac, de `dorl-workspace/DORL-codes`, com os dados da seção 3. S1 e S2 precisam das matrizes do
+modelo de usuário (`find saved_models -name "*_mat*.pickle"`; hash em `results/ambiente/mats.sha256`).
+
+```bash
+# S1: quanto do P_E é sinal e quanto é preenchimento
+python ../../diagnostico_pe.py --data environments/KuaiRec/data \
+  --matpre matPre.pickle --matvar matVar.pickle --out pe_diag.json
+# S2: o r_hat prevê a recompensa usada na avaliação?
+python ../../r_hat_vs_avaliacao.py --data environments/KuaiRec/data --matpre matPre.pickle --out rhat_aval.json
+# S3: política aleatória nos três protocolos (referência do E1)
+python ../../politica_aleatoria.py --data environments/KuaiRec/data \
+  --domination environments/KuaiRec/env/feature_domination.pickle --seeds 0 1 2 3 4 --out aleatoria.json
+```
+
+Saídas: `results/analises/pe_diag.json`, `results/analises/rhat_aval.json`, `results/e1/aleatoria.json`.
+
+## 8. Registro do P_E (P) e DORL com P_E constante (E2), na 4090
+
+O `pe_log.patch` altera só o `simulated_env.py`. Sem `PE_LOG` e `PE_CONST`, a recompensa é idêntica à
+original (`tests/test_patch.py`).
+
+```bash
+git apply ../../pe_log.patch        # em dorl-workspace/DORL-codes
+```
+
+Os comandos exatos estão em `results/pe/comandos_P_E2.md`. Em resumo: o DORL da semente 2 roda com
+`PE_LOG=pe_log_DORL_s2.csv`, o `analisa_pe_log.py` dá a constante (média do P_E na última fase,
+c = 1,9609), e as cinco sementes `DORLconst_s*` rodam com `PE_CONST=1.9609`.
+
+O `verifica_E2.sh` confirma a constante sem depender do histórico do shell. Como o treino é
+determinístico, ele repete 2 épocas por semente e compara com os logs (`results/pe/verifica_E2.txt`).
+Use um arquivo novo de `PE_LOG` a cada execução: o patch abre o arquivo em modo de acréscimo.
+
+## 9. E1: inversão por protocolo
+
+```bash
+L=saved_models/KuaiEnv-v0
+python ../../e1_protocolos.py \
+  "MBPO=$L/A2C_with_emb/logs/[[]MBPO_s[0-9][]]_*.log" \
+  "MOPO=$L/A2C_with_emb/logs/[[]MOPO_s[0-9][]]_*.log" \
+  "DORL=$L/A2C_with_emb/logs/[[]DORL_s[0-9][]]_*.log" \
+  "DORL-const=$L/A2C_with_emb/logs/[[]DORLconst_s[0-9][]]_*.log" \
+  "UCB=$L/LinUCB/logs/[[]UCB[]]_*.log" \
+  "eps-greedy=$L/EpsilonGreedy/logs/[[]epsilon-greedy[]]_*.log" \
+  --aleatoria aleatoria.json --out e1 > e1_saida.txt
+```
+
+O mesmo comando, apontando para `results/logs/`, reproduz `results/e1/e1_saida.txt` no Mac.
+
+## 10. Levar os resultados para o repositório
+
+Na 4090, na raiz do repositório e com o venv ativo, rode `bash exporta_resultados.sh`. Ele copia os logs,
+as saídas do E1 e o resumo do P_E, e grava o diff do DORL-codes, as versões do venv e os hashes das
+matrizes. Depois, em qualquer máquina, `python figuras.py` refaz `docs/figuras/` a partir de `results/`.
+O índice de `results/` está em `results/README.md`.
+
 ## Registro para o apêndice técnico
 
-Guarde: `versions.txt`, `KuaiRec.zip.sha256`, `kuairec_validation.json`, os logs de `saved_models/`,
-o tempo medido em 4.2 e a saída do `table2_from_log.py`.
+Está em `results/`: as versões do venv (`ambiente/versions_venv.txt`), o commit e o diff do DORL-codes,
+`KuaiRec.zip.sha256`, `kuairec_validation.json`, os logs, o tempo medido em 4.2 (`timing_4.2.txt`) e as
+saídas do `table2_from_log.py` (`table2/`). O `versions_INVALIDO.txt` fica só como histórico.

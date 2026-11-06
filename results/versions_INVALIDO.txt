@@ -1,3 +1,5 @@
+# INVÁLIDO: gerado pelo setup.sh antigo, cujo pip freeze pegou o pip do sistema (o venv do uv não tem pip).
+# O registro válido é results/ambiente/versions_venv.txt (uv pip freeze com o venv ativo).
 data: 2026-10-20T12:50:10-0300
 DORL-codes: 818c9bd79732b87168b514695bdc2ee957782edf
 tianshou fork: 0f59e38b126f7fb7696b79e53c86cd7b321550cb

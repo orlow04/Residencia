@@ -1,0 +1,21 @@
+Log: saved_models/KuaiEnv-v0/A2C_with_emb/logs/[DORLconst_s0]_2026_10_29-04_25_24.log
+Épocas usadas: 200 (de 1 a 200)
+
+== No Overlapping (Tabela 2)
+  R_tra      18.951 ± 2.261
+  R_each      0.714 ± 0.018
+  Length     26.543 ± 3.071
+  MCD         0.371 ± 0.026
+
+== Free (FB)
+  R_tra      10.436 ± 4.837
+  R_each      0.660 ± 0.035
+  Length     15.966 ± 7.606
+  MCD         0.313 ± 0.071
+
+== No Overlapping, 10 rodadas forçadas
+  R_tra       6.652 ± 0.375
+  R_each      0.665 ± 0.037
+  Length     10.000 ± 0.000
+  MCD         0.311 ± 0.067
+
