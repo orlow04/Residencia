@@ -1,0 +1,16 @@
+diff --git a/environments/KuaiRec/env/KuaiEnv.py b/environments/KuaiRec/env/KuaiEnv.py
+index cc80cad..a666b90 100644
+--- a/environments/KuaiRec/env/KuaiEnv.py
++++ b/environments/KuaiRec/env/KuaiEnv.py
+@@ -67,6 +67,11 @@ class KuaiEnv(gym.Env):
+         filename = os.path.join(DATAPATH, name)
+         df_data = pd.read_csv(filename,
+                               usecols=['user_id', 'item_id', 'timestamp', 'watch_ratio_normed', 'duration_normed'])
++        if os.environ.get("E5_RAW_WR"):
++            # E5: alvo = watch_ratio bruto limitado a 5, o mesmo sinal da avaliação (load_mat). Mantém o nome
++            # da coluna para o resto do código (get_features, get_task) seguir inalterado.
++            df_wr = pd.read_csv(filename, usecols=['watch_ratio'])
++            df_data['watch_ratio_normed'] = df_wr['watch_ratio'].clip(upper=5).to_numpy()
+ 
+         # df_data['duration_normed'] = df_data['duration_ms'] / 1000
+ 

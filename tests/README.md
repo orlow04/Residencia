@@ -12,6 +12,7 @@ Requisitos: numpy, pandas, scipy e scikit-learn (o venv do DORL já tem).
 | `test_random.py` | `politica_aleatoria.py` | `KuaiEnv.step` / `_determine_whether_to_leave`, laço de `evaluator.interactive_evaluation`, `get_feat_dominate_dict` |
 | `test_traj.py` | `traj_log.patch` aplicado ao `evaluator.py` | caminhada de `Callback_Coverage_Count.get_actions_feat` sobre o `VectorReplayBuffer` do fork do tianshou |
 | `test_bolha.py` | `bolha.py` | a definição de V e D calculada item a item (não há código do DORL a copiar) |
+| `test_e5.py` | `e5_alvo.patch` aplicado ao `KuaiEnv.py` | o `KuaiEnv.get_df_kuairec` original, **com os dados reais** (o carregador lê categorias e características): idêntico sem `E5_RAW_WR`; com a variável, só o alvo muda |
 
 ## Como rodar (da raiz deste repositório)
 
@@ -36,6 +37,14 @@ python tests/test_traj.py /tmp/eval_orig.py /tmp/eval_patch.py dorl-workspace/DO
 
 # bolha: V, D e janelas do usuário contra a definição item a item
 python tests/test_bolha.py "$PWD/bolha.py"
+
+# E5: carregador original (do git) × cópia com o e5_alvo.patch, nos dados reais (de dorl-workspace/DORL-codes)
+# Rode duas vezes se video_duration_normed.csv ainda não existir: a primeira chamada cria esse cache e a
+# duração lida do CSV difere da calculada em memória no último dígito.
+cd dorl-workspace/DORL-codes
+git show HEAD:environments/KuaiRec/env/KuaiEnv.py > /tmp/kuai_orig.py
+cp /tmp/kuai_orig.py /tmp/kuai_patch.py && patch -s /tmp/kuai_patch.py ../../e5_alvo.patch
+python ../../tests/test_e5.py /tmp/kuai_orig.py /tmp/kuai_patch.py environments/KuaiRec/data
 ```
 
 Cada teste imprime uma linha começando com `OK:` ou falha com `AssertionError`.

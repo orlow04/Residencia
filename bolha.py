@@ -27,8 +27,9 @@ import re
 import numpy as np
 import pandas as pd
 
-NOMES = {"MBPO": "MBPO", "MOPO": "MOPO", "DORL": "DORL", "DORLconst": "DORL-const"}
-ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "aleatória"]
+NOMES = {"MBPO": "MBPO", "MOPO": "MOPO", "DORL": "DORL", "DORLconst": "DORL-const",
+         "E5_MBPO": "MBPO-E5", "E5_DORL": "DORL-E5"}            # E5: modelo de usuário com watch_ratio bruto
+ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5", "aleatória"]
 
 
 def matrizes_categorias(feats, n_cat):
