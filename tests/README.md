@@ -10,6 +10,7 @@ Requisitos: numpy, pandas, scipy e scikit-learn (o venv do DORL já tem).
 | `test_patch.py` | `pe_log.patch` aplicado ao `simulated_env.py` | o `simulated_env.py` original: recompensa idêntica sem variáveis e com `PE_LOG`; `PE_CONST` altera |
 | `test_evmat.py` | `r_hat_vs_avaliacao.py` | `KuaiEnv.load_mat` (duplicatas, células ausentes, NaN, valores > 5) |
 | `test_random.py` | `politica_aleatoria.py` | `KuaiEnv.step` / `_determine_whether_to_leave`, laço de `evaluator.interactive_evaluation`, `get_feat_dominate_dict` |
+| `test_traj.py` | `traj_log.patch` aplicado ao `evaluator.py` | caminhada de `Callback_Coverage_Count.get_actions_feat` sobre o `VectorReplayBuffer` do fork do tianshou |
 
 ## Como rodar (da raiz deste repositório)
 
@@ -26,6 +27,11 @@ python tests/test_random.py "$PWD/politica_aleatoria.py" /tmp/rtest /tmp/rtest/d
 git -C dorl-workspace/DORL-codes show HEAD:src/core/worldModel/simulated_env.py > /tmp/simenv_orig.py
 python tests/test_patch.py /tmp/simenv_orig.py \
     dorl-workspace/DORL-codes/src/core/worldModel/simulated_env.py /tmp/synth /tmp/pe_log_teste.csv
+
+# trajetórias: original (do git) × cópia com o traj_log.patch
+git -C dorl-workspace/DORL-codes show HEAD:src/core/evaluation/evaluator.py > /tmp/eval_orig.py
+cp /tmp/eval_orig.py /tmp/eval_patch.py && patch -s /tmp/eval_patch.py traj_log.patch
+python tests/test_traj.py /tmp/eval_orig.py /tmp/eval_patch.py dorl-workspace/DORL-codes/src/tianshou /tmp/traj_teste.csv
 ```
 
 Cada teste imprime uma linha começando com `OK:` ou falha com `AssertionError`.
