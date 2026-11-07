@@ -11,6 +11,7 @@ Requisitos: numpy, pandas, scipy e scikit-learn (o venv do DORL já tem).
 | `test_evmat.py` | `r_hat_vs_avaliacao.py` | `KuaiEnv.load_mat` (duplicatas, células ausentes, NaN, valores > 5) |
 | `test_random.py` | `politica_aleatoria.py` | `KuaiEnv.step` / `_determine_whether_to_leave`, laço de `evaluator.interactive_evaluation`, `get_feat_dominate_dict` |
 | `test_traj.py` | `traj_log.patch` aplicado ao `evaluator.py` | caminhada de `Callback_Coverage_Count.get_actions_feat` sobre o `VectorReplayBuffer` do fork do tianshou |
+| `test_bolha.py` | `bolha.py` | a definição de V e D calculada item a item (não há código do DORL a copiar) |
 
 ## Como rodar (da raiz deste repositório)
 
@@ -32,6 +33,9 @@ python tests/test_patch.py /tmp/simenv_orig.py \
 git -C dorl-workspace/DORL-codes show HEAD:src/core/evaluation/evaluator.py > /tmp/eval_orig.py
 cp /tmp/eval_orig.py /tmp/eval_patch.py && patch -s /tmp/eval_patch.py traj_log.patch
 python tests/test_traj.py /tmp/eval_orig.py /tmp/eval_patch.py dorl-workspace/DORL-codes/src/tianshou /tmp/traj_teste.csv
+
+# bolha: V, D e janelas do usuário contra a definição item a item
+python tests/test_bolha.py "$PWD/bolha.py"
 ```
 
 Cada teste imprime uma linha começando com `OK:` ou falha com `AssertionError`.

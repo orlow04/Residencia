@@ -96,6 +96,8 @@ Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
 | `pe_log.patch`, `analisa_pe_log.py` | Registro do P_E no treino e constante do E2 |
 | `verifica_E2.sh` | Prova que o E2 usou `PE_CONST=1.9609` (repete 2 épocas por semente; o treino é determinístico) |
 | `exporta_resultados.sh` | Na 4090: copia para `results/` logs, saídas do E1, resumo do P_E, diff e versões |
+| `traj_log.patch`, `verifica_traj.sh`, `roda_trajetorias.sh` | Registro das trajetórias de avaliação (`TRAJ_LOG`), sua verificação e as reexecuções conferidas contra os logs originais |
+| `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |
 | `results/` | Logs, tabelas e saídas exportadas da 4090; índice em `results/README.md` |
