@@ -1,0 +1,26 @@
+diff --git a/environments/KuaiRec/env/KuaiEnv.py b/environments/KuaiRec/env/KuaiEnv.py
+index cc80cad..5fb6c59 100644
+--- a/environments/KuaiRec/env/KuaiEnv.py
++++ b/environments/KuaiRec/env/KuaiEnv.py
+@@ -31,6 +31,10 @@ CODEPATH = os.path.dirname(__file__)
+ ROOTPATH = os.path.dirname(CODEPATH)
+ DATAPATH = os.path.join(ROOTPATH, "data")
+ 
++# Residência (A5): A5_FIX=1 corrige a janela da regra de saída (ver _determine_whether_to_leave). Sem a variável,
++# o comportamento é idêntico ao original.
++_A5_FIX = bool(os.environ.get("A5_FIX"))
++
+ 
+ class KuaiEnv(gym.Env):
+     metadata = {'render.modes': ['human']}
+@@ -346,6 +350,10 @@ class KuaiEnv(gym.Env):
+         if t == 0:
+             return False
+         window_actions = self.sequence_action[t - self.num_leave_compute:t]
++        if _A5_FIX:
++            # A lista tem t itens; com t < N, o índice negativo faz o fatiamento original começar em 2t − N e
++            # comparar menos itens que os N anteriores (com N = 4, o passo 3 compara 1 item). Aqui: os min(t, N) anteriores.
++            window_actions = self.sequence_action[max(0, t - self.num_leave_compute):t]
+         hist_categories_each = list(map(lambda x: self.list_feat_small[x], window_actions))
+ 
+         # hist_set = set.union(*list(map(lambda x: self.list_feat[x], self.sequence_action[t - self.num_leave_compute:t-1])))

@@ -34,6 +34,8 @@ p.add_argument("--epochs", type=int, default=200)
 p.add_argument("--n_traj", type=int, default=100)
 p.add_argument("--num_leave_compute", type=int, default=4)
 p.add_argument("--leave_threshold", type=float, default=0)
+p.add_argument("--janela_correta", action="store_true",
+               help="janela = min(t, N) anteriores, como o a5_janela.patch com A5_FIX (sem a opção: recorte original)")
 p.add_argument("--max_turn", type=int, default=30)
 p.add_argument("--force_length", type=int, default=10)
 p.add_argument("--top_rate", type=float, default=0.8)
@@ -77,7 +79,7 @@ def leave(seq, t, action):
     """Cópia de KuaiEnv._determine_whether_to_leave (seq = ações ANTES do passo t)."""
     if t == 0:
         return False
-    window = seq[t - a.num_leave_compute:t]
+    window = seq[max(0, t - a.num_leave_compute):t] if a.janela_correta else seq[t - a.num_leave_compute:t]
     hist = Counter(c for x in window for c in list_feat_small[x])
     return any(hist[c] > a.leave_threshold for c in list_feat_small[action])
 

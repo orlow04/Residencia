@@ -99,6 +99,9 @@ Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
 | `traj_log.patch`, `verifica_traj.sh`, `roda_trajetorias.sh` | Registro das trajetórias de avaliação (`TRAJ_LOG`), sua verificação e as reexecuções conferidas contra os logs originais |
 | `e5_alvo.patch`, `roda_e5.sh` | E5: modelo de usuário com watch_ratio bruto limitado a 5 (`E5_RAW_WR`, `--message rawwr`) e MBPO/DORL com ele (`E5_{MBPO,DORL}_s*`) |
 | `roda_e3.sh` | E3: MBPO/DORL com outro N da regra de saída (`--num_leave_compute`, treino e avaliação; `E3N{N}_{MBPO,DORL}_s*`); aleatória com o mesmo N em `results/e3/aleatoria_N*.json` |
+| `a5_janela.patch`, `roda_a5.sh` | Janela da regra de saída corrigida (`A5_FIX=1`: min(t, N) anteriores, sem o recorte); MBPO/DORL `A5N{N}_*`; aleatória com `--janela_correta` em `results/e3/aleatoria_N*c.json` |
+| `alem_da_acuracia.py` | Critérios além dos do artigo nas trajetórias NX_10 (cobertura, Gini da exposição, novidade, serendipidade, personalização) e inversões entre critérios |
+| `mecanismo_bolha.py`, `fb_rotacao.py` | Origem da diversidade (regra de saída contrafactual; V esperado dado o nº de itens dominantes) e estrutura das trajetórias FB |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |

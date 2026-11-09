@@ -28,11 +28,43 @@ import numpy as np
 import pandas as pd
 
 NOMES = {"MBPO": "MBPO", "MOPO": "MOPO", "DORL": "DORL", "DORLconst": "DORL-const",
-         "E5_MBPO": "MBPO-E5", "E5_DORL": "DORL-E5",              # E5: modelo de usuário com watch_ratio bruto
-         "E3N1_MBPO": "MBPO-N1", "E3N1_DORL": "DORL-N1",           # E3: N da regra de saída (o R usa N = 4)
-         "E3N8_MBPO": "MBPO-N8", "E3N8_DORL": "DORL-N8"}
-ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5", "MBPO-N1", "DORL-N1", "MBPO-N8", "DORL-N8",
-         "aleatória"]
+         "E5_MBPO": "MBPO-E5", "E5_DORL": "DORL-E5"}            # E5: modelo de usuário com watch_ratio bruto
+ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5"]
+
+
+def nome(orig):
+    """Nome do método a partir do prefixo do CSV; None se não for reconhecido.
+    E3N<N>_<M>: regra de saída com outro N (MBPO-N1); A5N<N>_<M>: idem com a janela corrigida (MBPO-N4c)."""
+    if orig in NOMES:
+        return NOMES[orig]
+    m = re.fullmatch(r"(E3|A5)N(\d+)_(MBPO|DORL)", orig)
+    return f"{m.group(3)}-N{m.group(2)}{'c' if m.group(1) == 'A5' else ''}" if m else None
+
+
+def ordem(metodos):
+    """Ordem das tabelas: métodos do R/E2/E5, depois as variações de N (por N), aleatória por último."""
+    def chave(m):
+        if m in ORDEM:
+            return (0, ORDEM.index(m), 0, m)
+        if m == "aleatória":
+            return (2, 0, 0, m)
+        n = re.search(r"-N(\d+)", m)
+        return (1, int(n.group(1)) if n else 0, m.endswith("c"), not m.startswith("MBPO"))
+    return sorted(metodos, key=chave)
+
+
+def execucoes_gravadas(traj, L):
+    """(método, semente, épocas, usuários, itens) de cada CSV de trajetórias com .ok, só NX_10."""
+    out = []
+    for f in sorted(glob.glob(os.path.join(traj, "*_traj_s*.csv"))):
+        m = re.fullmatch(r"(.+)_traj_s(\d+)\.csv", os.path.basename(f))
+        if not m or nome(m.group(1)) is None:
+            continue
+        if not os.path.isfile(f + ".ok"):
+            print(f"ignorado (sem .ok, incompleto ou não conferido): {f}")
+            continue
+        out.append((nome(m.group(1)), int(m.group(2)), *le_trajetorias(f, L)))
+    return out
 
 
 def matrizes_categorias(feats, n_cat):
@@ -128,15 +160,7 @@ def main():
     Vu, Du = ref["V_u"].to_numpy(), ref["D_u"].to_numpy()
     Vr, Dr = ref["V_u_com_repeticao"].to_numpy(), ref["D_u_com_repeticao"].to_numpy()
 
-    execucoes = []
-    for f in sorted(glob.glob(os.path.join(a.traj, "*_traj_s*.csv"))):
-        m = re.fullmatch(r"(.+)_traj_s(\d+)\.csv", os.path.basename(f))
-        if not m or m.group(1) not in NOMES:
-            continue
-        if not os.path.isfile(f + ".ok"):
-            print(f"ignorado (sem .ok, incompleto ou não conferido): {f}")
-            continue
-        execucoes.append((NOMES[m.group(1)], int(m.group(2)), *le_trajetorias(f, a.L)))
+    execucoes = execucoes_gravadas(a.traj, a.L)
     for s in a.seeds_aleatoria:
         execucoes.append(("aleatória", s, *aleatoria(np.random.default_rng(s), small_items, len(users),
                                                      a.epochs, a.n_traj, a.L)))
@@ -163,7 +187,7 @@ def main():
     g = por_semente.groupby("metodo")[cols]
     resumo = pd.concat({"media": g.mean(), "dp": g.std(ddof=1)}, axis=1)
     resumo["n"] = por_semente.groupby("metodo").size()
-    resumo = resumo.reindex([m for m in ORDEM if m in resumo.index])
+    resumo = resumo.reindex(ordem(resumo.index))
     resumo.to_csv(os.path.join(a.out, "bolha_resumo.csv"))
 
     fmt = lambda m, c, nd: f"{resumo.loc[m, ('media', c)]:.{nd}f} ± {resumo.loc[m, ('dp', c)]:.{nd}f}"
