@@ -112,9 +112,9 @@ semente; média ± dp entre sementes.
 2. DORL e DORL-const são mais diversos que MBPO e MOPO (B_V −1,94 contra −1,67, acima do dp). DORL-const = DORL e
    MOPO = MBPO, dentro do dp: a diversidade não vem da variação do P_E (mesmo padrão do E2).
 3. Com repetições no histórico, todos os B ficam mais negativos; a conclusão não muda.
-4. Hipótese (não testada): a política aprende no treino a não repetir categoria para não disparar a regra de saída
-   e mantém esse comportamento no NX_10, onde a regra está desligada. Neste simulador, a bolha seria impossível por
-   construção. Teste previsto: fração dos passos NX_10 que teriam disparado a regra, calculada das trajetórias.
+4. Hipótese inicial: a política aprende no treino a não repetir categoria para não disparar a regra de saída e
+   mantém esse comportamento no NX_10. O E3 (etapa 5) a enfraquece: mesmo com N = 1, que só proíbe repetir a
+   categoria do item imediatamente anterior, nenhum método se aproxima do consumo do usuário.
 5. A métrica satura: os métodos de RL estão no teto de variedade, então ela detecta bolha, mas separa mal métodos
    que já estão no teto.
 
@@ -171,6 +171,51 @@ No NX_10, o R_each do MBPO-E5 é 1,049 ± 0,197 (MBPO: 0,708). No FB, o seu Leng
 **Limitações.** Um único treino do modelo de usuário; a matriz salva não está na escala do alvo (o treino ajusta
 y/(1 + score) e empurra negativos para 0; `run_worldModel_ensemble.py:385` e `:415`).
 
+## Etapa 5 — E3: sensibilidade ao N da regra de saída
+
+**Pergunta.** A vantagem do DORL e a diversidade das trajetórias dependem do tamanho da janela da regra de saída?
+
+**O que foi feito.** MBPO e DORL treinados e avaliados com N = 1 e N = 8 (o R usa N = 4), 5 sementes cada, com as
+trajetórias gravadas (`roda_e3.sh`, mensagens `E3N{1,8}_{MBPO,DORL}_s*`). O `--num_leave_compute` vai para o
+`KuaiEnv` (`src/core/configs.py:170`), e o ambiente simulado do treino usa o `done` desse mesmo ambiente
+(`src/core/worldModel/simulated_env.py:165`): o N muda no treino e na avaliação. O script confere o N registrado em
+cada log. A política aleatória foi refeita com o mesmo N (`results/e3/aleatoria_N{1,8}.json`).
+
+**Resultado (verificado; `results/e3/e1_saida.txt`, `results/bolha/bolha_saida.txt`).** NX_0, média ± dp entre
+5 sementes; V da bolha sob NX_10.
+
+| N | Método | R_tra | R_each | Length | MCD | V (NX_10) |
+|---|---|---|---|---|---|---|
+| 1 | MBPO | 16,69 ± 1,90 | 0,740 ± 0,067 | 22,62 ± 2,01 | 0,375 | 9,35 ± 0,24 |
+| 1 | DORL | 21,40 ± 2,30 | 0,780 ± 0,076 | 27,40 ± 0,46 | 0,448 | 10,23 ± 0,37 |
+| 1 | Aleatória | 6,64 ± 0,04 | 0,872 ± 0,002 | 7,61 ± 0,05 | 0,828 | 8,88 |
+| 4 | MBPO | 11,69 ± 2,32 | 0,736 ± 0,071 | 15,78 ± 1,83 | 0,323 | 9,69 ± 0,17 |
+| 4 | DORL | 18,27 ± 2,46 | 0,780 ± 0,086 | 23,42 ± 1,10 | 0,431 | 9,96 ± 0,09 |
+| 4 | Aleatória | 4,01 ± 0,02 | 0,872 ± 0,001 | 4,60 ± 0,02 | 0,827 | 8,88 |
+| 8 | MBPO | 13,49 ± 2,83 | 0,690 ± 0,078 | 19,45 ± 2,28 | 0,316 | 9,90 ± 0,01 |
+| 8 | DORL | 15,79 ± 0,71 | 0,789 ± 0,033 | 20,08 ± 0,85 | 0,410 | 10,10 ± 0,35 |
+| 8 | Aleatória | 3,80 ± 0,02 | 0,871 ± 0,002 | 4,36 ± 0,02 | 0,828 | 8,88 |
+
+(A aleatória da bolha não depende do N: no NX_10 a regra está desligada.)
+
+**Interpretação.**
+
+1. **A afirmação principal depende do N.** DORL − MBPO em Length: +4,8 com N = 1 e +7,6 com N = 4, acima do dp;
+   +0,6 com N = 8, dentro do dp (2,3). Em R_tra, +2,3 com N = 8, dentro do dp (2,8). Com a janela maior, a
+   vantagem do DORL desaparece.
+2. **O Length não é monótono no N para o MBPO** (22,6 → 15,8 → 19,4), embora a regra fique mais restritiva.
+   Hipótese: o recorte da janela (A5) muda com o N; com N = 8, a janela encolhe nos passos 5 a 7. A aleatória
+   quase não muda de N = 4 para N = 8 (4,60 → 4,36).
+3. **R_each e NX_10 não mudam:** em todos os N, os métodos de RL ficam abaixo do acaso em R_each (0,69–0,79
+   contra 0,87) e em R_tra no NX_10. A MCD fica entre 0,32 e 0,45, longe dos 0,83.
+4. **A bolha não aparece com nenhum N.** O V do MBPO acompanha o N (9,35 → 9,69 → 9,90, diferenças acima do dp),
+   mas mesmo com N = 1 fica acima do consumo do usuário (8,02) e do acaso (8,88). O DORL fica no teto em todos os N.
+   A regra de saída explica só uma parte pequena da diversidade. Hipótese alternativa: a diversidade é o outro lado
+   da MCD baixa; evitar as 10 categorias dominantes empurra a política para a cauda de categorias e aumenta o V.
+5. **O FB mantém a rotação:** o MBPO dura cerca de 25 passos com N = 1 e com N = 8 (27,6 com N = 4).
+
+**Limitações.** Dois valores de N; MOPO e DORL-const não foram repetidos; o recorte A5 está presente em todos os N.
+
 ## Reprodutibilidade e organização
 
 | Item | Arquivo |
@@ -182,6 +227,6 @@ y/(1 + score) e empurra negativos para 0; `run_worldModel_ensemble.py:385` e `:4
 
 ## Pendências
 
-- Teste do mecanismo da bolha: fração dos passos NX_10 que teriam disparado a regra de saída.
-- E3 (N da regra de saída): [preencher conforme o andamento].
+- Teste da hipótese alternativa da bolha: relação, por trajetória, entre V e a fração de itens de categorias
+  dominantes; e fração dos passos NX_10 que teriam disparado a regra de saída.
 - Investigação do FB com as trajetórias gravadas.
