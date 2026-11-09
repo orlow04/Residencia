@@ -1,0 +1,13 @@
+(1) patch inerte (épocas 1 e 2 idênticas ao [MBPO_s2] original): SIM
+
+(2) métricas recalculadas do CSV × log
+  época 1 FB    n=100: OK  R_tra 4.8932/4.8932  len_tra 5.6400/5.6400  ctr 0.8676/0.8676  ifeat_feat 0.7004/0.7004
+  época 1 NX_0  n=100: OK  R_tra 4.6790/4.6790  len_tra 5.7400/5.7400  ctr 0.8152/0.8152  ifeat_feat 0.7178/0.7178
+  época 1 NX_10 n=100: OK  R_tra 8.6060/8.6060  len_tra 10.0000/10.0000  ctr 0.8606/0.8606  ifeat_feat 0.7180/0.7180
+  época 2 FB    n=100: OK  R_tra 7.6095/7.6095  len_tra 10.5900/10.5900  ctr 0.7186/0.7186  ifeat_feat 0.3522/0.3522
+  época 2 NX_0  n=100: OK  R_tra 7.8467/7.8467  len_tra 10.5500/10.5500  ctr 0.7438/0.7438  ifeat_feat 0.3583/0.3583
+  época 2 NX_10 n=100: OK  R_tra 7.2320/7.2320  len_tra 10.0000/10.0000  ctr 0.7232/0.7232  ifeat_feat 0.3660/0.3660
+
+(3) reward == mat[user, item] em 5,252 passos: SIM
+
+Resultado: traj_log.patch VERIFICADO

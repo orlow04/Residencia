@@ -1,0 +1,2 @@
+pointneg r_hat: média -0.002, dp 0.022, mín -0.453, máx 0.404; P_U máx 1.649; forma (1411, 3327)
+rawwr    r_hat: média 0.008, dp 0.013, mín -0.030, máx 0.339; P_U máx 1.256; forma (1411, 3327)

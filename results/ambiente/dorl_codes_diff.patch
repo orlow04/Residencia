@@ -1,3 +1,77 @@
+diff --git a/environments/KuaiRec/env/KuaiEnv.py b/environments/KuaiRec/env/KuaiEnv.py
+index cc80cad..a666b90 100644
+--- a/environments/KuaiRec/env/KuaiEnv.py
++++ b/environments/KuaiRec/env/KuaiEnv.py
+@@ -67,6 +67,11 @@ class KuaiEnv(gym.Env):
+         filename = os.path.join(DATAPATH, name)
+         df_data = pd.read_csv(filename,
+                               usecols=['user_id', 'item_id', 'timestamp', 'watch_ratio_normed', 'duration_normed'])
++        if os.environ.get("E5_RAW_WR"):
++            # E5: alvo = watch_ratio bruto limitado a 5, o mesmo sinal da avaliação (load_mat). Mantém o nome
++            # da coluna para o resto do código (get_features, get_task) seguir inalterado.
++            df_wr = pd.read_csv(filename, usecols=['watch_ratio'])
++            df_data['watch_ratio_normed'] = df_wr['watch_ratio'].clip(upper=5).to_numpy()
+ 
+         # df_data['duration_normed'] = df_data['duration_ms'] / 1000
+ 
+diff --git a/src/core/evaluation/evaluator.py b/src/core/evaluation/evaluator.py
+index 60e9eae..0ca5f28 100644
+--- a/src/core/evaluation/evaluator.py
++++ b/src/core/evaluation/evaluator.py
+@@ -6,6 +6,44 @@ import numpy as np
+ import torch
+ from tqdm import tqdm
+ 
++# --- Residência (registro das trajetórias de avaliação) ------------------------------------------
++# TRAJ_LOG=<arquivo.csv>  grava, a cada época, cada passo das trajetórias de avaliação dos três protocolos
++# (FB, NX_0, NX_10): usuário, item e recompensa. Só lê o buffer do coletor; não consome números aleatórios.
++# Sem a variável, o comportamento é idêntico ao original. O arquivo não pode existir (evita misturar execuções).
++import atexit
++import os
++
++_TRAJ_LOG = os.environ.get("TRAJ_LOG")
++_traj_state = {"fh": None}
++
++
++def _traj_write(epoch, protocol, buffer, indices, lbe_item):
++    if _traj_state["fh"] is None:
++        if os.path.exists(_TRAJ_LOG) and os.path.getsize(_TRAJ_LOG) > 0:
++            raise RuntimeError(f"TRAJ_LOG={_TRAJ_LOG} já existe; use um arquivo novo para cada execução")
++        _traj_state["fh"] = open(_TRAJ_LOG, "w", buffering=1 << 16)
++        atexit.register(_traj_state["fh"].close)
++        _traj_state["fh"].write("epoch,protocolo,traj,t,user,item,item_raw,reward\n")
++    fh = _traj_state["fh"]
++    idx = np.array(indices, dtype=int)
++    live = np.ones(len(idx), dtype=bool)
++    t = 0
++    while live.any() and t < 1000:               # mesma caminhada de get_actions_feat
++        sel = np.flatnonzero(live)
++        cur = idx[sel]
++        user = np.asarray(buffer.obs[cur])[:, 0].astype(int)
++        act = np.asarray(buffer.act[cur]).reshape(-1).astype(int)
++        raw = lbe_item.inverse_transform(act) if lbe_item is not None else act
++        rew = np.asarray(buffer.rew[cur]).reshape(-1)
++        done = np.asarray(buffer.done[cur]).reshape(-1).astype(bool)
++        fh.write("".join(f"{epoch},{protocol},{j},{t},{u},{i},{r},{w!r}\n"
++                         for j, u, i, r, w in zip(sel, user, act, raw, rew.tolist())))
++        live[sel[done]] = False
++        idx[sel] = buffer.next(cur)
++        t += 1
++    fh.flush()
++# -------------------------------------------------------------------------------------------------
++
+ 
+ def get_feat_dominate_dict(df_item_val, all_acts_origin, item_feat_domination, top_rate=0.8, draw_bar=False):
+     if item_feat_domination is None:  # for yahoo
+@@ -318,6 +356,8 @@ class Callback_Coverage_Count():
+ 
+             indices = results[name + "_idxs"] if name != "FB" else results["idxs"]
+             feat_dominate_dict = get_actions_feat(buffer, indices, draw_bar=self.draw_bar)
++            if _TRAJ_LOG:  # Residência
++                _traj_write(epoch, name, buffer, indices, self.lbe_item if self.need_transform else None)
+             feat_dominate_dict_k = {name + "_" + k: v for k, v in
+                                     feat_dominate_dict.items()} if name != "FB" else feat_dominate_dict
+             results_all.update(feat_dominate_dict_k)
 diff --git a/src/core/worldModel/simulated_env.py b/src/core/worldModel/simulated_env.py
 index 753ea40..fa841a4 100644
 --- a/src/core/worldModel/simulated_env.py

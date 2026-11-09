@@ -1,0 +1,22 @@
+Bolha por trajetória, NX_10 (L = 10); média entre sementes ± dp entre sementes
+B = referência do usuário − trajetória; B > 0: mais estreita que o consumo real do usuário
+Referência: janelas de 10 itens consecutivos do big_matrix, sem repetição de itens (média entre usuários: V_u 8.02, D_u 0.827)
+
+Método       n              V            B_V         B_V>0                D              B_D         B_D>0
+MBPO         5    9.69 ± 0.17   -1.67 ± 0.17 0.025 ± 0.015    0.893 ± 0.003   -0.066 ± 0.003 0.004 ± 0.002
+MOPO         5    9.63 ± 0.22   -1.62 ± 0.22 0.032 ± 0.032    0.892 ± 0.005   -0.065 ± 0.005 0.005 ± 0.005
+DORL         5    9.96 ± 0.09   -1.94 ± 0.09 0.003 ± 0.001    0.899 ± 0.001   -0.072 ± 0.001 0.000 ± 0.000
+DORL-const   5   10.12 ± 0.30   -2.10 ± 0.30 0.003 ± 0.000    0.899 ± 0.001   -0.072 ± 0.001 0.000 ± 0.000
+MBPO-E5      5    9.31 ± 0.24   -1.29 ± 0.24 0.101 ± 0.052    0.883 ± 0.006   -0.056 ± 0.006 0.022 ± 0.014
+DORL-E5      5   10.03 ± 0.14   -2.02 ± 0.15 0.004 ± 0.001    0.898 ± 0.001   -0.071 ± 0.001 0.000 ± 0.000
+aleatória    5    8.88 ± 0.00   -0.86 ± 0.00 0.295 ± 0.002    0.838 ± 0.000   -0.011 ± 0.000 0.321 ± 0.003
+
+Sensibilidade: referência com repetições de itens no histórico
+Método                  B_V              B_D
+MBPO           -2.10 ± 0.17   -0.078 ± 0.004
+MOPO           -2.05 ± 0.22   -0.078 ± 0.005
+DORL           -2.37 ± 0.09   -0.084 ± 0.001
+DORL-const     -2.53 ± 0.30   -0.085 ± 0.001
+MBPO-E5        -1.72 ± 0.24   -0.068 ± 0.006
+DORL-E5        -2.45 ± 0.15   -0.083 ± 0.001
+aleatória      -1.29 ± 0.01   -0.024 ± 0.000
