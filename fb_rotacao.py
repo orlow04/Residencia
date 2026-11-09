@@ -92,7 +92,9 @@ def main():
         txt.append(f"{m:11s} {int(resumo.loc[m, 'n'].iloc[0]):>2d} " + " ".join(
             f"{resumo.loc[m, ('media', c)]:.2f} ± {resumo.loc[m, ('dp', c)]:.2f}".rjust(15) for c in cols))
     if periodos:
-        dist = pd.concat(periodos, axis=1).T.groupby(level=0).mean().reindex(ordem(resumo.index)).fillna(0)
+        # fillna(0) antes da média: um bloco ausente numa semente conta 0 nela (e não some da média)
+        dist = pd.concat(periodos, axis=1).T.fillna(0).groupby(level=0).mean().reindex(ordem(resumo.index))
+        dist = dist[sorted(dist.columns)]
         txt += ["", "Entre as trajetórias em ciclo puro: fração com cada tamanho de bloco p (média entre sementes)",
                 dist.round(3).to_string()]
     texto = "\n".join(txt)
