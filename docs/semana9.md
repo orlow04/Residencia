@@ -91,10 +91,85 @@ O consumo real já é mais concentrado que o acaso. Uma bolha produzida pela pol
 consumo real do usuário, não apenas abaixo do acaso. Com repetições no histórico, a referência fica ainda mais
 estreita (B_V da aleatória = −1,29 contra −0,86); excluir as repetições é a escolha mais conservadora.
 
-**Métodos de RL:** [a preencher com `results/bolha/bolha_saida.txt`].
+**Resultado (verificado; `results/bolha/bolha_saida.txt`).** NX_10, 5 sementes por método, 20.000 trajetórias por
+semente; média ± dp entre sementes.
+
+| Método | V | B_V | Fração com B_V > 0 | D | B_D | Fração com B_D > 0 |
+|---|---|---|---|---|---|---|
+| MBPO | 9,69 ± 0,17 | −1,67 ± 0,17 | 0,025 | 0,893 ± 0,003 | −0,066 | 0,004 |
+| MOPO | 9,63 ± 0,22 | −1,62 ± 0,22 | 0,032 | 0,892 ± 0,005 | −0,065 | 0,005 |
+| DORL | 9,96 ± 0,09 | −1,94 ± 0,09 | 0,003 | 0,899 ± 0,001 | −0,072 | 0,000 |
+| DORL-const | 10,12 ± 0,30 | −2,10 ± 0,30 | 0,003 | 0,899 ± 0,001 | −0,072 | 0,000 |
+| MBPO-E5 | 9,31 ± 0,24 | −1,29 ± 0,24 | 0,101 | 0,883 ± 0,006 | −0,056 | 0,022 |
+| DORL-E5 | 10,03 ± 0,14 | −2,02 ± 0,15 | 0,004 | 0,898 ± 0,001 | −0,071 | 0,000 |
+| Aleatória | 8,88 ± 0,00 | −0,86 ± 0,00 | 0,295 | 0,838 ± 0,000 | −0,011 | 0,321 |
+
+**Interpretação.**
+
+1. Nenhum método de RL produz bolha. As trajetórias têm mais categorias que o consumo real (8,02) e que o acaso
+   (8,88), e de 0,3% a 10% delas são mais estreitas que o consumo do usuário, contra 30% da aleatória. O D de
+   0,89–0,90 está perto do teto de 0,90 para 10 itens de uma categoria cada.
+2. DORL e DORL-const são mais diversos que MBPO e MOPO (B_V −1,94 contra −1,67, acima do dp). DORL-const = DORL e
+   MOPO = MBPO, dentro do dp: a diversidade não vem da variação do P_E (mesmo padrão do E2).
+3. Com repetições no histórico, todos os B ficam mais negativos; a conclusão não muda.
+4. Hipótese (não testada): a política aprende no treino a não repetir categoria para não disparar a regra de saída
+   e mantém esse comportamento no NX_10, onde a regra está desligada. Neste simulador, a bolha seria impossível por
+   construção. Teste previsto: fração dos passos NX_10 que teriam disparado a regra, calculada das trajetórias.
+5. A métrica satura: os métodos de RL estão no teto de variedade, então ela detecta bolha, mas separa mal métodos
+   que já estão no teto.
 
 **Limitação.** O usuário simulado não tem histórico entre sessões. A definição de Michiels et al., que trata a
 bolha como um processo ao longo do tempo, não pode ser testada neste simulador; mede-se apenas o estado.
+
+## Etapa 4 — E5: modelo de usuário treinado com o sinal da avaliação
+
+**Pergunta.** Se o modelo de usuário aprender o mesmo sinal da avaliação (watch_ratio bruto limitado a 5), em vez
+do watch_ratio padronizado por vídeo (achado A4, S2), a vantagem do DORL e a ordem dos métodos mudam?
+
+**O que foi feito.** O `e5_alvo.patch` troca o alvo em `KuaiEnv.get_df_kuairec` (`KuaiEnv.py:66`), ativado só pela
+variável `E5_RAW_WR`; sem ela, a saída é idêntica à original (`tests/test_e5.py`). O `roda_e5.sh` treina o modelo
+(`--message rawwr`), confere que a tabela de entropia não mudou e roda MBPO e DORL com 5 sementes cada
+(`E5_{MBPO,DORL}_s*`, com trajetórias gravadas). Única mudança em relação ao R: o modelo de usuário.
+
+**Resultado (verificado).** Escala do modelo (`results/e5/modelo_rawwr_resumo.txt`) e S2 refeita sobre ele
+(`results/e5/rhat_aval_rawwr.json`):
+
+| | pointneg (original) | rawwr (E5) |
+|---|---|---|
+| r̂: média / dp / mínimo | −0,002 / 0,022 / −0,453 | 0,008 / 0,013 / −0,030 |
+| Bônus implícito por passo do MBPO (r̂ médio − r̂ mínimo, achado A3) | 0,45 | 0,04 |
+| Correlação global r̂ × avaliação (Pearson) | 0,083 | 0,152 |
+| Spearman por usuário, mediana | 0,075 | 0,181 |
+| Recompensa de avaliação do top-10 do r̂ (acaso 0,87; média do vídeo 2,33) | 0,40 | 1,44 |
+
+Métricas (`results/e5/e1_resumo.csv`), NX_0, média ± dp entre 5 sementes:
+
+| Método | R_tra | R_each | Length | MCD |
+|---|---|---|---|---|
+| MBPO | 11,69 ± 2,32 | 0,736 ± 0,071 | 15,78 ± 1,83 | 0,323 ± 0,061 |
+| MBPO-E5 | 12,32 ± 1,50 | 1,034 ± 0,152 | 12,07 ± 1,52 | 0,488 ± 0,056 |
+| DORL | 18,27 ± 2,46 | 0,780 ± 0,086 | 23,42 ± 1,10 | 0,431 ± 0,027 |
+| DORL-E5 | 17,73 ± 4,36 | 0,777 ± 0,078 | 22,44 ± 4,49 | 0,406 ± 0,034 |
+| Aleatória | 4,01 ± 0,02 | 0,872 ± 0,001 | 4,60 ± 0,02 | 0,827 ± 0,001 |
+
+No NX_10, o R_each do MBPO-E5 é 1,049 ± 0,197 (MBPO: 0,708). No FB, o seu Length cai de 27,6 para 5,6 e a MCD vai a
+0,81, perto da aleatória.
+
+**Interpretação.**
+
+1. O r̂ do E5 ordena os itens melhor que o original e melhor que o acaso (top-10 1,44 contra 0,40 e 0,87), mas
+   ainda bem abaixo da média do vídeo (2,33). O alinhamento do sinal foi parcial.
+2. O MBPO muda: R_each +0,30 (acima do dp), Length −3,7 e MCD +0,17. É o primeiro método de RL com R_each acima
+   do acaso, por cerca de um dp. A rotação de categorias no FB desaparece.
+3. O DORL não muda: DORL-E5 = DORL nas quatro métricas e nos três protocolos, e também na bolha.
+4. O E5 mudou duas coisas: a ordenação do r̂ e o bônus implícito por passo do MBPO, que caiu cerca de 12 vezes
+   (de cerca de 20 para 3 vezes o dp do r̂). Hipótese coerente com o E2: o comportamento é decidido pela razão
+   entre o bônus por passo e a variação do r̂. No MBPO, o bônus encolheu e a política passou a escolher itens; no
+   DORL, o bônus é dominado por λ₂·(P_E − 0,291) ≈ 8,35, que não mudou, e o r̂ continua irrelevante. O desenho
+   não separa a contribuição da ordenação melhor da do bônus menor.
+
+**Limitações.** Um único treino do modelo de usuário; a matriz salva não está na escala do alvo (o treino ajusta
+y/(1 + score) e empurra negativos para 0; `run_worldModel_ensemble.py:385` e `:415`).
 
 ## Reprodutibilidade e organização
 
@@ -107,6 +182,6 @@ bolha como um processo ao longo do tempo, não pode ser testada neste simulador;
 
 ## Pendências
 
-- Resultado da bolha para MBPO, MOPO, DORL e DORL-const.
-- E5 (modelo de usuário com watch_ratio bruto) e E3 (N da regra de saída): [preencher conforme o andamento].
+- Teste do mecanismo da bolha: fração dos passos NX_10 que teriam disparado a regra de saída.
+- E3 (N da regra de saída): [preencher conforme o andamento].
 - Investigação do FB com as trajetórias gravadas.

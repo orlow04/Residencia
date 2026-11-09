@@ -98,6 +98,7 @@ Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
 | `exporta_resultados.sh` | Na 4090: copia para `results/` logs, saídas do E1, resumo do P_E, diff e versões |
 | `traj_log.patch`, `verifica_traj.sh`, `roda_trajetorias.sh` | Registro das trajetórias de avaliação (`TRAJ_LOG`), sua verificação e as reexecuções conferidas contra os logs originais |
 | `e5_alvo.patch`, `roda_e5.sh` | E5: modelo de usuário com watch_ratio bruto limitado a 5 (`E5_RAW_WR`, `--message rawwr`) e MBPO/DORL com ele (`E5_{MBPO,DORL}_s*`) |
+| `roda_e3.sh` | E3: MBPO/DORL com outro N da regra de saída (`--num_leave_compute`, treino e avaliação; `E3N{N}_{MBPO,DORL}_s*`); aleatória com o mesmo N em `results/e3/aleatoria_N*.json` |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |

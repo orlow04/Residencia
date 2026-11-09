@@ -28,8 +28,11 @@ import numpy as np
 import pandas as pd
 
 NOMES = {"MBPO": "MBPO", "MOPO": "MOPO", "DORL": "DORL", "DORLconst": "DORL-const",
-         "E5_MBPO": "MBPO-E5", "E5_DORL": "DORL-E5"}            # E5: modelo de usuário com watch_ratio bruto
-ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5", "aleatória"]
+         "E5_MBPO": "MBPO-E5", "E5_DORL": "DORL-E5",              # E5: modelo de usuário com watch_ratio bruto
+         "E3N1_MBPO": "MBPO-N1", "E3N1_DORL": "DORL-N1",           # E3: N da regra de saída (o R usa N = 4)
+         "E3N8_MBPO": "MBPO-N8", "E3N8_DORL": "DORL-N8"}
+ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5", "MBPO-N1", "DORL-N1", "MBPO-N8", "DORL-N8",
+         "aleatória"]
 
 
 def matrizes_categorias(feats, n_cat):
