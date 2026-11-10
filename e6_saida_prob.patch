@@ -1,0 +1,26 @@
+diff --git a/environments/KuaiRec/env/KuaiEnv.py b/environments/KuaiRec/env/KuaiEnv.py
+index cc80cad..fdc205d 100644
+--- a/environments/KuaiRec/env/KuaiEnv.py
++++ b/environments/KuaiRec/env/KuaiEnv.py
+@@ -25,6 +25,11 @@ import sys
+ sys.path.extend(["./src", "./src/DeepCTR-Torch", "./src/tianshou"])
+ from core.util import get_sorted_domination_features
+ 
++# Residência (E6): E6_P_REP e E6_P_BASE trocam a regra de saída determinística por uma probabilística, calibrada nas
++# sessões reais (sessoes_reais.py): sai com probabilidade E6_P_REP se o item repete categoria da janela, senão
++# E6_P_BASE. Usa o random global, cuja semente o run_Policy_Main fixa. Sem as variáveis, idêntico ao original.
++_E6_P = (float(os.environ["E6_P_REP"]), float(os.environ["E6_P_BASE"])) if os.environ.get("E6_P_REP") else None
++
+ # from core.util import get_similarity_mat, get_distance_mat
+ 
+ CODEPATH = os.path.dirname(__file__)
+@@ -353,6 +358,9 @@ class KuaiEnv(gym.Env):
+         hist_categories = list(itertools.chain(*hist_categories_each))
+         hist_dict = Counter(hist_categories)
+         category_a = self.list_feat_small[action]
++        if _E6_P is not None:
++            repete = any(hist_dict[c] > self.leave_threshold for c in category_a)
++            return random.random() < (_E6_P[0] if repete else _E6_P[1])
+         for c in category_a:
+             if hist_dict[c] > self.leave_threshold:
+                 return True

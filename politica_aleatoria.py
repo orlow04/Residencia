@@ -34,6 +34,8 @@ p.add_argument("--epochs", type=int, default=200)
 p.add_argument("--n_traj", type=int, default=100)
 p.add_argument("--num_leave_compute", type=int, default=4)
 p.add_argument("--leave_threshold", type=float, default=0)
+p.add_argument("--p_saida", type=float, nargs=2, default=None, metavar=("P_REP", "P_BASE"),
+               help="saída probabilística do e6_saida_prob.patch (sem a opção: regra determinística original)")
 p.add_argument("--janela_correta", action="store_true",
                help="janela = min(t, N) anteriores, como o a5_janela.patch com A5_FIX (sem a opção: recorte original)")
 p.add_argument("--max_turn", type=int, default=30)
@@ -75,13 +77,16 @@ is_dom = np.array([any((c + 1) in dominated for c in feats) for feats in list_fe
 print(f"categorias dominantes (codificação +1 do DORL): {sorted(dominated)} ({len(dominated)})")
 
 
-def leave(seq, t, action):
+def leave(seq, t, action, rng=None):
     """Cópia de KuaiEnv._determine_whether_to_leave (seq = ações ANTES do passo t)."""
     if t == 0:
         return False
     window = seq[max(0, t - a.num_leave_compute):t] if a.janela_correta else seq[t - a.num_leave_compute:t]
     hist = Counter(c for x in window for c in list_feat_small[x])
-    return any(hist[c] > a.leave_threshold for c in list_feat_small[action])
+    repete = any(hist[c] > a.leave_threshold for c in list_feat_small[action])
+    if a.p_saida is not None:                    # E6: sai com P_REP se repete, P_BASE se não
+        return bool(rng.random() < (a.p_saida[0] if repete else a.p_saida[1]))
+    return repete
 
 
 def trajectory(rng, protocol):
@@ -97,7 +102,7 @@ def trajectory(rng, protocol):
             action = int(rng.integers(0, n_items))
             while action in used:
                 action = int(rng.integers(0, n_items))
-        done = False if force else (leave(seq, t, action) or t >= a.max_turn - 1)
+        done = False if force else (leave(seq, t, action, rng) or t >= a.max_turn - 1)
         seq.append(action)
         used.add(action)
         rew += mat[user, action]

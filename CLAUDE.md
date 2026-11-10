@@ -102,6 +102,8 @@ Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
 | `a5_janela.patch`, `roda_a5.sh` | Janela da regra de saída corrigida (`A5_FIX=1`: min(t, N) anteriores, sem o recorte); MBPO/DORL `A5N{N}_*`; aleatória com `--janela_correta` em `results/e3/aleatoria_N*c.json` |
 | `alem_da_acuracia.py` | Critérios além dos do artigo nas trajetórias NX_10 (cobertura, Gini da exposição, novidade, serendipidade, personalização) e inversões entre critérios |
 | `mecanismo_bolha.py`, `fb_rotacao.py` | Origem da diversidade (regra de saída contrafactual; V esperado dado o nº de itens dominantes) e estrutura das trajetórias FB |
+| `sessoes_reais.py` | Regra de saída × sessões reais do big_matrix (só cadeias contíguas): P(fim de sessão | repete categoria) → `results/sessoes/` |
+| `e6_saida_prob.patch`, `roda_e6.sh` | E6: saída probabilística calibrada nas sessões reais (`E6_P_REP=0.063 E6_P_BASE=0.026`, N = 1); MBPO/DORL `E6_*`; aleatória com `--p_saida` em `results/e6/aleatoria_E6.json` |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |
