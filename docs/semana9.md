@@ -104,6 +104,10 @@ semente; média ± dp entre sementes.
 | DORL-E5 | 10,03 ± 0,14 | −2,02 ± 0,15 | 0,004 | 0,898 ± 0,001 | −0,071 | 0,000 |
 | Aleatória | 8,88 ± 0,00 | −0,86 ± 0,00 | 0,295 | 0,838 ± 0,000 | −0,011 | 0,321 |
 
+![](figuras/grafico_bolha_V.png)
+
+(A figura inclui as variantes das etapas 4 a 6: E5, N = 1, N = 8 e janela corrigida.)
+
 **Interpretação.**
 
 1. Nenhum método de RL produz bolha. As trajetórias têm mais categorias que o consumo real (8,02) e que o acaso
@@ -244,6 +248,8 @@ sementes cada (`roda_a5.sh`, mensagens `A5N{4,8}_{MBPO,DORL}_s*`); aleatória co
 | 4c | Aleatória | 3,72 ± 0,01 | — | 4,27 ± 0,01 | — |
 | 8c | Aleatória | 3,62 ± 0,01 | — | 4,16 ± 0,01 | — |
 
+![](figuras/grafico_N_length.png)
+
 **Interpretação.**
 
 1. **Com N = 4, o recorte não altera nada.** MBPO e DORL com a janela corrigida ficam dentro do dp dos originais nas
@@ -273,23 +279,34 @@ p itens distintos (ciclo puro). Teste em casos montados à mão (`tests/test_mec
 
 **Resultado (verificado; `results/fb/fb_saida.txt`).**
 
-| Método | Length | Itens distintos | Repetição | Ciclo puro | Bloco mais frequente nos ciclos puros |
-|---|---|---|---|---|---|
-| MBPO (N = 4) | 27,6 ± 0,5 | 6,4 | 0,72 | 0,53 | 5 itens (80%; 6 itens em 20%) |
-| MOPO (N = 4) | 26,1 ± 3,6 | 5,8 | 0,70 | 0,60 | 5 itens (99%) |
-| MBPO-N4c | 28,0 ± 0,3 | 6,0 | 0,74 | 0,61 | 5 itens (99%) |
-| MBPO-N1 | 25,0 ± 3,8 | 5,6 | 0,69 | 0,38 | 2 itens (99%) |
-| MBPO-N8 | 24,9 ± 1,5 | 9,3 | 0,55 | 0,45 | 9 itens (59%; 10 itens em 20%) |
-| MBPO-N8c | 24,6 ± 1,0 | 10,8 | 0,48 | 0,14 | sem bloco dominante |
-| DORL (N = 4) | 16,2 ± 1,7 | 8,2 | 0,38 | 0,14 | 4 ou 5 itens |
-| DORL-const | 14,3 ± 2,2 | 8,6 | 0,31 | 0,05 | 1, 2 ou 4 itens |
+| Método | Length | Itens distintos | Repetição | Período mais frequente (fração dos passos) | Ciclo puro | Bloco mais frequente nos ciclos puros |
+|---|---|---|---|---|---|---|
+| MBPO (N = 4) | 27,6 ± 0,5 | 6,4 | 0,72 | 5,4 (0,86) | 0,53 ± 0,21 | 5 itens (80%; 6 itens em 20%) |
+| MOPO (N = 4) | 26,1 ± 3,6 | 5,8 | 0,70 | 5,0 (0,84) | 0,60 ± 0,24 | 5 itens (99%) |
+| MBPO-N4c | 28,0 ± 0,3 | 6,0 | 0,74 | 5,4 (0,89) | 0,61 ± 0,11 | 5 itens (99%) |
+| MBPO-N1 | 25,0 ± 3,8 | 5,6 | 0,69 | 3,7 (0,77) | 0,38 ± 0,26 | 2 itens (99%) |
+| MBPO-N8 | 24,9 ± 1,5 | 9,3 | 0,55 | 8,1 (0,80) | 0,45 ± 0,27 | 9 itens (59%; 10 itens em 20%) |
+| MBPO-N8c | 24,6 ± 1,0 | 10,8 | 0,48 | 6,7 (0,56) | 0,14 ± 0,29 | sem bloco dominante |
+| DORL (N = 4) | 16,2 ± 1,7 | 8,2 | 0,38 | 5,0 (0,47) | 0,14 ± 0,15 | 4 ou 5 itens |
+| DORL-const | 14,3 ± 2,2 | 8,6 | 0,31 | 4,8 (0,39) | 0,05 ± 0,01 | 1, 2 ou 4 itens |
+
+Período: média, entre as trajetórias, do p com mais passos em que item[t] = item[t − p]; entre parênteses, a fração
+desses passos. Ciclo puro: fração das trajetórias (média ± dp entre sementes).
+
+![](figuras/grafico_FB_ciclo.png)
 
 **Interpretação.**
 
-1. **Hipótese da semana 8 confirmada para N = 1 e N = 4:** MBPO e MOPO repetem um ciclo de N + 1 itens de categorias
-   distintas, o menor ciclo que nunca dispara a regra de saída. Com N = 8 e o código original, o bloco dominante é de
-   9 itens (N + 1); com a janela corrigida, o MBPO dura o mesmo, mas sem ciclo dominante.
-2. **DORL e DORL-const quase não ciclam** e por isso duram menos no FB. A causa não é a variação do P_E (o DORL-const
+1. **Hipótese da semana 8 confirmada em parte.** MBPO e MOPO sobrevivem repetindo itens em ciclo. Entre as
+   trajetórias em ciclo puro, o bloco tem N + 1 itens, o menor ciclo que nunca dispara a regra de saída, em 99%
+   (N = 1), 80% a 99% (N = 4) e 59% (N = 8 original) dos casos. O ciclo puro, porém, cobre só parte das trajetórias
+   (0,38 a 0,61, com dp de até 0,27 entre sementes).
+2. **Nem toda trajetória usa o ciclo mínimo.** Com N = 4, o conjunto das trajetórias é quase periódico com período
+   próximo de N + 1 (5,4; 86% dos passos repetem o item de p passos antes). Com N = 1, o período médio é 3,7, acima de
+   N + 1 = 2, e a média de itens distintos é 5,6: a política usa ciclos mais longos que o mínimo.
+3. **Com N = 8 e a janela corrigida, o MBPO dura o mesmo, mas sem ciclo dominante:** o ciclo puro aparece em uma
+   semente (0,66; nas outras quatro, 0,01 a 0,02; `results/fb/fb_por_semente.csv`).
+4. **DORL e DORL-const quase não ciclam** e por isso duram menos no FB. A causa não é a variação do P_E (o DORL-const
    também não cicla) e fica em aberto.
 
 ### 7.2 NX_10: regra de saída contrafactual e categorias dominantes
@@ -348,13 +365,19 @@ a item (`tests/test_alem.py`).
 | MBPO-E5 | 1,049 | 0,510 | 9,31 | 0,120 | 0,989 | 12,12 | 0,497 | 0,347 | 0,491 |
 | Aleatória | 0,872 | 0,826 | 8,88 | 0,865 | 0,771 | 12,17 | 0,421 | 0,213 | 0,998 |
 
+![](figuras/grafico_concentracao.png)
+
+(A figura inclui as variantes das etapas 4 a 6; os valores estão em `results/alem/alem_resumo.csv`.)
+
 **Interpretação.**
 
 1. **As duas medidas de concentração contam histórias opostas.** Pela MCD (categorias), os métodos de RL são muito
    menos concentrados que o acaso. Pela cobertura de itens, são muito mais: numa época, o DORL recomenda 3,3% de
    itens distintos (cerca de 33 itens em 1.000 posições), o MBPO 12%, a aleatória 86,5%. O efeito Mateus no nível
    do item, que o artigo discute, não é medido pela MCD. Na terminologia de Anwar et al. (WWW 2024), o DORL tem alta
-   diversidade intra-usuário e homogeneização da exposição.
+   diversidade intra-usuário e homogeneização da exposição. O padrão se repete nas variantes: os sete da família do
+   DORL (DORL, DORL-const e as variantes E5, N = 1, 4c, 8 e 8c) têm cobertura de 3,1% a 3,7%; os de MBPO e MOPO, de
+   5,0% (N = 8) a 22,4% (N = 1). A cobertura do MBPO cai quando o N aumenta (22,4% → 12,0% → 5,0%).
 2. **MBPO × DORL inverte:** o MBPO é melhor em cobertura e Gini, o DORL em V, novidade e personalização, todas as
    diferenças acima do dp.
 3. **A serendipidade depende da definição:** por popularidade, nenhum método de RL supera o acaso (0,32–0,33 contra
@@ -387,13 +410,15 @@ linha a linha (`tests/test_sessoes.py`).
 
 As conclusões se mantêm com G = 10 e 60 min e folga de 5 s.
 
+![](figuras/grafico_sessoes.png)
+
 **Interpretação.**
 
 1. **A direção da regra tem apoio:** repetir a categoria do vídeo anterior está associado a cerca de 2,4 vezes mais
    saídas, dentro de cada usuário.
 2. **A intensidade não:** o simulador supõe saída certa (1 contra 0); nos dados, 6% contra 3%. Usuários reais
    repetem categoria em 67–98% dos passos; com a regra determinística, quase toda sessão real terminaria no segundo
-   vídeo. É essa certeza que a política explora com o ciclo de N + 1 itens (etapa 7.1).
+   vídeo. É essa certeza que a política explora com os ciclos de pelo menos N + 1 itens (etapa 7.1).
 
 **Limitações.** Associação, não causa. As cadeias longas (N = 4 e 8) são raras e vêm de sessões contínuas; o N = 1
 é o caso com dados suficientes.
@@ -411,9 +436,9 @@ As conclusões se mantêm com G = 10 e 60 min e folga de 5 s.
 
 ## Pendências (próxima semana)
 
-- E6: usuário simulado com saída probabilística calibrada pela etapa 9 (`e6_saida_prob.patch`, `roda_e6.sh`; N = 1,
+- E6 (em execução desde 10/11): usuário simulado com saída probabilística calibrada pela etapa 9 (`e6_saida_prob.patch`, `roda_e6.sh`; N = 1,
   P = 0,063 se repete e 0,026 se não). Pergunta: a vantagem do DORL e a exploração da regra sobrevivem? A aleatória
   já foi medida: Length 20,1 e R_tra 17,5 no NX_0 (`results/e6/aleatoria_E6.json`).
 - Se houver tempo: MOPO e DORL-const com N = 8 corrigido; mais sementes para os bandits.
-- Figuras e tabela de afirmação × sinal × evidência × força; congelamento dos experimentos.
+- Tabela de afirmação × sinal × evidência × força; congelamento dos experimentos.
 - Em aberto: a forma não monótona do Length do MBPO no N; por que DORL e DORL-const quase não ciclam no FB.
