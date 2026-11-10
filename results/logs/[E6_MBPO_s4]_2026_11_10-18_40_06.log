@@ -1,0 +1,88 @@
+[I 261110 18:40:06 policy_utils:47] {
+      "env": "KuaiEnv-v0",
+      "user_model_name": "DeepFM",
+      "model_name": "A2C_with_emb",
+      "seed": 4,
+      "cuda": 0,
+      "draw_bar": false,
+      "is_userinfo": false,
+      "is_all_item_ranking": false,
+      "cpu": false,
+      "is_save": false,
+      "use_userEmbedding": false,
+      "exploration_noise": false,
+      "eps": 0.1,
+      "freeze_emb": false,
+      "reward_handle": "cat",
+      "which_tracker": "avg",
+      "embedding_dim": 32,
+      "window_size": 3,
+      "filter_sizes": [
+        2,
+        3,
+        4
+      ],
+      "num_filters": 16,
+      "dropout_rate": 0.1,
+      "num_heads": 1,
+      "version": "v1",
+      "tau": 0,
+      "gamma_exposure": 10,
+      "lambda_variance": 0.0,
+      "lambda_entropy": 0.0,
+      "use_exposure_intervention": false,
+      "buffer_size": 100000,
+      "lr": 0.001,
+      "epoch": 200,
+      "batch_size": 1024,
+      "hidden_sizes": [
+        64,
+        64
+      ],
+      "episode_per_collect": 100,
+      "training_num": 100,
+      "test_num": 100,
+      "render": 0,
+      "reward_threshold": null,
+      "gamma": 0.9,
+      "step_per_epoch": 100000,
+      "repeat_per_collect": 1,
+      "logdir": "log",
+      "vf_coef": 0.5,
+      "ent_coef": 0.0,
+      "max_grad_norm": null,
+      "gae_lambda": 1.0,
+      "rew_norm": false,
+      "read_message": "pointneg",
+      "message": "E6_MBPO_s4",
+      "all_item_ranking": false,
+      "is_binarize": false,
+      "need_transform": true,
+      "entropy_window": [
+        1,
+        2
+      ],
+      "yfeat": "watch_ratio_normed",
+      "leave_threshold": 0.0,
+      "num_leave_compute": 1,
+      "max_turn": 30,
+      "force_length": 10,
+      "top_rate": 0.8,
+      "hostname": "4090nrc01"
+    }
+[I 261110 18:40:30 utils:141] Epoch: [1], Info: [{'num_test': 100, 'CV': '0.42501', 'CV_turn': '0.72887', 'ctr': '0.92640', 'len_tra': 19.4, 'R_tra': 17.972256306661826, 'ifeat_feat': 0.8154639175257732, 'NX_0_CV': '0.42982', 'NX_0_CV_turn': '0.71679', 'NX_0_ctr': '0.87671', 'NX_0_len_tra': 19.95, 'NX_0_R_tra': 17.490357946875985, 'NX_0_ifeat_feat': 0.7974937343358396, 'NX_10_CV': '0.25158', 'NX_10_CV_turn': '0.83700', 'NX_10_ctr': '0.90541', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 9.05411416471261, 'NX_10_ifeat_feat': 0.846}]
+[I 261110 18:40:40 utils:141] Epoch: [2], Info: [{'num_test': 100, 'CV': '0.43583', 'CV_turn': '0.69378', 'ctr': '0.88100', 'len_tra': 20.9, 'R_tra': 18.412820121561843, 'ifeat_feat': 0.8114832535885167, 'NX_0_CV': '0.45236', 'NX_0_CV_turn': '0.71125', 'NX_0_ctr': '0.86226', 'NX_0_len_tra': 21.16, 'NX_0_R_tra': 18.245397199934935, 'NX_0_ifeat_feat': 0.8204158790170132, 'NX_10_CV': '0.25488', 'NX_10_CV_turn': '0.84800', 'NX_10_ctr': '0.93434', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 9.343409807867774, 'NX_10_ifeat_feat': 0.804}]
+[I 261110 18:40:50 utils:141] Epoch: [3], Info: [{'num_test': 100, 'CV': '0.42861', 'CV_turn': '0.69459', 'ctr': '0.84042', 'len_tra': 20.53, 'R_tra': 17.25372938023097, 'ifeat_feat': 0.7973697028738431, 'NX_0_CV': '0.43883', 'NX_0_CV_turn': '0.68933', 'NX_0_ctr': '0.88086', 'NX_0_len_tra': 21.18, 'NX_0_R_tra': 18.656604575888167, 'NX_0_ifeat_feat': 0.8050047214353163, 'NX_10_CV': '0.25098', 'NX_10_CV_turn': '0.83500', 'NX_10_ctr': '0.86485', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.648508093941155, 'NX_10_ifeat_feat': 0.822}]
+[I 261110 18:41:00 utils:141] Epoch: [4], Info: [{'num_test': 100, 'CV': '0.41629', 'CV_turn': '0.71172', 'ctr': '0.86185', 'len_tra': 19.46, 'R_tra': 16.77150580696654, 'ifeat_feat': 0.8072970195272353, 'NX_0_CV': '0.44695', 'NX_0_CV_turn': '0.70341', 'NX_0_ctr': '0.86674', 'NX_0_len_tra': 21.14, 'NX_0_R_tra': 18.322920639572978, 'NX_0_ifeat_feat': 0.7980132450331126, 'NX_10_CV': '0.25008', 'NX_10_CV_turn': '0.83200', 'NX_10_ctr': '0.83160', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.315973735922798, 'NX_10_ifeat_feat': 0.805}]
+[I 261110 18:41:09 utils:141] Epoch: [5], Info: [{'num_test': 100, 'CV': '0.43643', 'CV_turn': '0.67347', 'ctr': '0.86203', 'len_tra': 21.56, 'R_tra': 18.58535735403452, 'ifeat_feat': 0.8033395176252319, 'NX_0_CV': '0.41809', 'NX_0_CV_turn': '0.68086', 'NX_0_ctr': '0.85996', 'NX_0_len_tra': 20.43, 'NX_0_R_tra': 17.568883898081584, 'NX_0_ifeat_feat': 0.7909936368086148, 'NX_10_CV': '0.25579', 'NX_10_CV_turn': '0.85100', 'NX_10_ctr': '0.92557', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 9.255746529550388, 'NX_10_ifeat_feat': 0.795}]
+[I 261110 18:41:19 utils:141] Epoch: [6], Info: [{'num_test': 100, 'CV': '0.41268', 'CV_turn': '0.66943', 'ctr': '0.86653', 'len_tra': 20.51, 'R_tra': 17.77250054380758, 'ifeat_feat': 0.7893710385177962, 'NX_0_CV': '0.42140', 'NX_0_CV_turn': '0.68257', 'NX_0_ctr': '0.89080', 'NX_0_len_tra': 20.54, 'NX_0_R_tra': 18.297030377055993, 'NX_0_ifeat_feat': 0.7887049659201558, 'NX_10_CV': '0.24557', 'NX_10_CV_turn': '0.81700', 'NX_10_ctr': '0.88950', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.89504685520744, 'NX_10_ifeat_feat': 0.801}]
+[I 261110 18:41:29 utils:141] Epoch: [7], Info: [{'num_test': 100, 'CV': '0.41329', 'CV_turn': '0.68238', 'ctr': '0.88447', 'len_tra': 20.15, 'R_tra': 17.82216849749627, 'ifeat_feat': 0.8049627791563275, 'NX_0_CV': '0.40487', 'NX_0_CV_turn': '0.67654', 'NX_0_ctr': '0.87373', 'NX_0_len_tra': 19.91, 'NX_0_R_tra': 17.39589547897902, 'NX_0_ifeat_feat': 0.7860371672526368, 'NX_10_CV': '0.24376', 'NX_10_CV_turn': '0.81100', 'NX_10_ctr': '0.86746', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.674607607444221, 'NX_10_ifeat_feat': 0.805}]
+[I 261110 18:41:39 utils:141] Epoch: [8], Info: [{'num_test': 100, 'CV': '0.42320', 'CV_turn': '0.66635', 'ctr': '0.89912', 'len_tra': 21.13, 'R_tra': 18.998462522053572, 'ifeat_feat': 0.7870326549929011, 'NX_0_CV': '0.44124', 'NX_0_CV_turn': '0.68121', 'NX_0_ctr': '0.84022', 'NX_0_len_tra': 21.55, 'NX_0_R_tra': 18.106778928782685, 'NX_0_ifeat_feat': 0.7800464037122969, 'NX_10_CV': '0.24617', 'NX_10_CV_turn': '0.81900', 'NX_10_ctr': '0.86939', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.693858940268369, 'NX_10_ifeat_feat': 0.783}]
+[I 261110 18:41:49 utils:141] Epoch: [9], Info: [{'num_test': 100, 'CV': '0.42591', 'CV_turn': '0.64644', 'ctr': '0.86168', 'len_tra': 21.92, 'R_tra': 18.887921711054133, 'ifeat_feat': 0.7878649635036497, 'NX_0_CV': '0.40156', 'NX_0_CV_turn': '0.66867', 'NX_0_ctr': '0.90094', 'NX_0_len_tra': 19.98, 'NX_0_R_tra': 18.00086287085543, 'NX_0_ifeat_feat': 0.7757757757757757, 'NX_10_CV': '0.23865', 'NX_10_CV_turn': '0.79400', 'NX_10_ctr': '0.87173', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.71729431109549, 'NX_10_ifeat_feat': 0.77}]
+[I 261110 18:41:59 utils:141] Epoch: [10], Info: [{'num_test': 100, 'CV': '0.41389', 'CV_turn': '0.66554', 'ctr': '0.85305', 'len_tra': 20.69, 'R_tra': 17.649683774766707, 'ifeat_feat': 0.765103914934751, 'NX_0_CV': '0.40337', 'NX_0_CV_turn': '0.66567', 'NX_0_ctr': '0.87971', 'NX_0_len_tra': 20.16, 'NX_0_R_tra': 17.734887179693608, 'NX_0_ifeat_feat': 0.7881944444444444, 'NX_10_CV': '0.23745', 'NX_10_CV_turn': '0.79000', 'NX_10_ctr': '0.83477', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.34773852763437, 'NX_10_ifeat_feat': 0.796}]
+[I 261110 18:42:09 utils:141] Epoch: [11], Info: [{'num_test': 100, 'CV': '0.37541', 'CV_turn': '0.65806', 'ctr': '0.83750', 'len_tra': 18.98, 'R_tra': 15.895842764366302, 'ifeat_feat': 0.7824025289778714, 'NX_0_CV': '0.40337', 'NX_0_CV_turn': '0.65559', 'NX_0_ctr': '0.87266', 'NX_0_len_tra': 20.47, 'NX_0_R_tra': 17.863396958677836, 'NX_0_ifeat_feat': 0.7772349780166097, 'NX_10_CV': '0.23655', 'NX_10_CV_turn': '0.78700', 'NX_10_ctr': '0.91035', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 9.103475786055691, 'NX_10_ifeat_feat': 0.772}]
+[I 261110 18:42:19 utils:141] Epoch: [12], Info: [{'num_test': 100, 'CV': '0.39044', 'CV_turn': '0.64950', 'ctr': '0.88671', 'len_tra': 20.0, 'R_tra': 17.73416467349241, 'ifeat_feat': 0.7585, 'NX_0_CV': '0.42260', 'NX_0_CV_turn': '0.65609', 'NX_0_ctr': '0.88508', 'NX_0_len_tra': 21.43, 'NX_0_R_tra': 18.967335965919354, 'NX_0_ifeat_feat': 0.7708819412039197, 'NX_10_CV': '0.23805', 'NX_10_CV_turn': '0.79200', 'NX_10_ctr': '0.89913', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.991322209904148, 'NX_10_ifeat_feat': 0.77}]
+[I 261110 18:42:29 utils:141] Epoch: [13], Info: [{'num_test': 100, 'CV': '0.37631', 'CV_turn': '0.64403', 'ctr': '0.87353', 'len_tra': 19.44, 'R_tra': 16.98137941911333, 'ifeat_feat': 0.7597736625514403, 'NX_0_CV': '0.40397', 'NX_0_CV_turn': '0.62862', 'NX_0_ctr': '0.86580', 'NX_0_len_tra': 21.38, 'NX_0_R_tra': 18.51090484205456, 'NX_0_ifeat_feat': 0.7483629560336763, 'NX_10_CV': '0.23084', 'NX_10_CV_turn': '0.76800', 'NX_10_ctr': '0.94412', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 9.441240365938189, 'NX_10_ifeat_feat': 0.754}]
+[I 261110 18:42:38 utils:141] Epoch: [14], Info: [{'num_test': 100, 'CV': '0.39134', 'CV_turn': '0.62959', 'ctr': '0.86286', 'len_tra': 20.68, 'R_tra': 17.84385838112219, 'ifeat_feat': 0.754835589941973, 'NX_0_CV': '0.41088', 'NX_0_CV_turn': '0.64481', 'NX_0_ctr': '0.89561', 'NX_0_len_tra': 21.2, 'NX_0_R_tra': 18.986929615443604, 'NX_0_ifeat_feat': 0.7584905660377359, 'NX_10_CV': '0.22723', 'NX_10_CV_turn': '0.75600', 'NX_10_ctr': '0.90763', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 9.076271231427587, 'NX_10_ifeat_feat': 0.722}]
+[I 261110 18:42:48 utils:141] Epoch: [15], Info: [{'num_test': 100, 'CV': '0.37842', 'CV_turn': '0.62575', 'ctr': '0.95006', 'len_tra': 20.12, 'R_tra': 19.115278752425734, 'ifeat_feat': 0.7475149105367793, 'NX_0_CV': '0.36159', 'NX_0_CV_turn': '0.63550', 'NX_0_ctr': '0.85518', 'NX_0_len_tra': 18.93, 'NX_0_R_tra': 16.188526892516904, 'NX_0_ifeat_feat': 0.7437929212889594, 'NX_10_CV': '0.23414', 'NX_10_CV_turn': '0.77900', 'NX_10_ctr': '0.87004', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.700413246397673, 'NX_10_ifeat_feat': 0.751}]
+[I 261110 18:42:58 utils:141] Epoch: [16], Info: [{'num_test': 100, 'CV': '0.35467', 'CV_turn': '0.61203', 'ctr': '0.87203', 'len_tra': 19.28, 'R_tra': 16.812826781584945, 'ifeat_feat': 0.7437759336099585, 'NX_0_CV': '0.39525', 'NX_0_CV_turn': '0.62087', 'NX_0_ctr': '0.85477', 'NX_0_len_tra': 21.18, 'NX_0_R_tra': 18.10402245672969, 'NX_0_ifeat_feat': 0.7450424929178471, 'NX_10_CV': '0.22813', 'NX_10_CV_turn': '0.75900', 'NX_10_ctr': '0.85454', 'NX_10_len_tra': 10.0, 'NX_10_R_tra': 8.54541802386044, 'NX_10_ifeat_feat': 0.745}]
