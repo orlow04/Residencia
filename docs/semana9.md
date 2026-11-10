@@ -200,21 +200,203 @@ cada log. A política aleatória foi refeita com o mesmo N (`results/e3/aleatori
 
 **Interpretação.**
 
-1. **A afirmação principal depende do N.** DORL − MBPO em Length: +4,8 com N = 1 e +7,6 com N = 4, acima do dp;
-   +0,6 com N = 8, dentro do dp (2,3). Em R_tra, +2,3 com N = 8, dentro do dp (2,8). Com a janela maior, a
-   vantagem do DORL desaparece.
-2. **O Length não é monótono no N para o MBPO** (22,6 → 15,8 → 19,4), embora a regra fique mais restritiva.
-   Hipótese: o recorte da janela (A5) muda com o N; com N = 8, a janela encolhe nos passos 5 a 7. A aleatória
-   quase não muda de N = 4 para N = 8 (4,60 → 4,36).
+1. **Com o código original, a vantagem do DORL some com N = 8.** DORL − MBPO em Length: +4,8 com N = 1 e +7,6 com
+   N = 4, acima do dp; +0,6 com N = 8, dentro do dp (2,3). Em R_tra, +2,3 com N = 8, dentro do dp (2,8).
+   **A etapa 6 corrige esta leitura:** com a janela corrigida, a vantagem volta com N = 8.
+2. **O Length não é monótono no N para o MBPO** (22,6 → 15,8 → 19,4), embora a regra fique mais restritiva. A
+   hipótese do recorte da janela (A5) foi testada na etapa 6 e não explica essa forma. A aleatória quase não muda de
+   N = 4 para N = 8 (4,60 → 4,36).
 3. **R_each e NX_10 não mudam:** em todos os N, os métodos de RL ficam abaixo do acaso em R_each (0,69–0,79
    contra 0,87) e em R_tra no NX_10. A MCD fica entre 0,32 e 0,45, longe dos 0,83.
 4. **A bolha não aparece com nenhum N.** O V do MBPO acompanha o N (9,35 → 9,69 → 9,90, diferenças acima do dp),
    mas mesmo com N = 1 fica acima do consumo do usuário (8,02) e do acaso (8,88). O DORL fica no teto em todos os N.
-   A regra de saída explica só uma parte pequena da diversidade. Hipótese alternativa: a diversidade é o outro lado
-   da MCD baixa; evitar as 10 categorias dominantes empurra a política para a cauda de categorias e aumenta o V.
+   A regra de saída explica só uma parte pequena da diversidade. A hipótese alternativa (evitar as categorias
+   dominantes) foi testada na etapa 7.2 e também não explica o V.
 5. **O FB mantém a rotação:** o MBPO dura cerca de 25 passos com N = 1 e com N = 8 (27,6 com N = 4).
 
-**Limitações.** Dois valores de N; MOPO e DORL-const não foram repetidos; o recorte A5 está presente em todos os N.
+**Limitações.** Dois valores de N; MOPO e DORL-const não foram repetidos; o recorte A5 está presente em todos os N
+desta etapa (corrigido na etapa 6).
+
+## Etapa 6 — A5: a janela da regra de saída corrigida
+
+**Pergunta.** O resultado do E3 com N = 8 vem do recorte da janela no código (achado A5)?
+
+**O que foi feito.** Em `KuaiEnv._determine_whether_to_leave` (`environments/KuaiRec/env/KuaiEnv.py:348`), a lista
+`sequence_action` tem t itens no passo t; com t < N, o fatiamento `[t − N:t]` começa em 2t − N e compara menos itens
+que os N anteriores, nos passos N/2 < t < N (com N = 4: o passo 3 compara 1 item; com N = 8: os passos 5, 6 e 7
+comparam 3, 2 e 1). O `a5_janela.patch` (ativado por `A5_FIX`) compara os min(t, N) anteriores; sem a variável, a
+decisão é idêntica à original (`tests/test_a5.py`, 90 mil decisões). MBPO e DORL com N = 4 e N = 8 corrigidos, 5
+sementes cada (`roda_a5.sh`, mensagens `A5N{4,8}_{MBPO,DORL}_s*`); aleatória com `--janela_correta`
+(`results/e3/aleatoria_N{4,8}c.json`).
+
+**Resultado (verificado; `results/a5/e1_saida.txt`).** NX_0, média ± dp entre 5 sementes ("c" = janela corrigida).
+
+| N | Método | R_tra | R_each | Length | MCD |
+|---|---|---|---|---|---|
+| 4 | MBPO | 11,69 ± 2,32 | 0,736 ± 0,071 | 15,78 ± 1,83 | 0,323 |
+| 4c | MBPO | 12,20 ± 2,03 | 0,731 ± 0,061 | 16,65 ± 1,95 | 0,323 |
+| 4 | DORL | 18,27 ± 2,46 | 0,780 ± 0,086 | 23,42 ± 1,10 | 0,431 |
+| 4c | DORL | 18,62 ± 3,10 | 0,795 ± 0,089 | 23,39 ± 2,61 | 0,424 |
+| 8 | MBPO | 13,49 ± 2,83 | 0,690 ± 0,078 | 19,45 ± 2,28 | 0,316 |
+| 8c | MBPO | 13,31 ± 2,46 | 0,712 ± 0,091 | 18,64 ± 1,72 | 0,329 |
+| 8 | DORL | 15,79 ± 0,71 | 0,789 ± 0,033 | 20,08 ± 0,85 | 0,410 |
+| 8c | DORL | 17,39 ± 0,68 | 0,788 ± 0,043 | 22,10 ± 0,83 | 0,379 |
+| 4c | Aleatória | 3,72 ± 0,01 | — | 4,27 ± 0,01 | — |
+| 8c | Aleatória | 3,62 ± 0,01 | — | 4,16 ± 0,01 | — |
+
+**Interpretação.**
+
+1. **Com N = 4, o recorte não altera nada.** MBPO e DORL com a janela corrigida ficam dentro do dp dos originais nas
+   quatro métricas. Os números da Tabela 2 não são artefato do recorte.
+2. **Com N = 8, a conclusão do E3 se inverte.** Com a janela corrigida, DORL − MBPO em Length é +3,5 (dp 1,7) e em
+   R_tra +4,1 (dp 2,5), as duas acima do dp. O "desaparecimento" do E3 vinha do recorte: o DORL ganha 2,0 passos de
+   Length com a janela corrigida (acima do dp de 0,85), e o MBPO não muda.
+3. **A afirmação principal sobrevive aos três N, mas o seu tamanho depende do N:** +4,8 (N = 1), +6,7 (N = 4c) e
+   +3,5 (N = 8c) passos. O artigo reporta um único N.
+4. **O Length do MBPO continua não monótono** (22,6 → 16,6 → 18,6); a forma não vem do recorte e fica em aberto.
+5. **R_each, NX_10 e bolha não mudam:** os métodos de RL seguem abaixo do acaso em R_each e no NX_10, e o V fica em
+   9,7–10,0 (`results/bolha/bolha_saida.txt`).
+6. **Lição de método:** um detalhe de fatiamento, presente em todas as execuções dos autores, decidiu uma conclusão
+   (o resultado com N = 8) e seria facilmente reportado como achado.
+
+**Limitações.** Dois valores de N corrigidos; MOPO e DORL-const não repetidos.
+
+## Etapa 7 — De onde vem o comportamento das políticas
+
+### 7.1 Protocolo FB: o ciclo mínimo
+
+**Pergunta.** Como MBPO e MOPO sobrevivem cerca de 28 de 30 passos no FB, contra 4,6 da aleatória?
+
+**O que foi feito.** `fb_rotacao.py` mede, em cada trajetória FB, itens e categorias distintos, repetição, o período
+p (1 a 10) em que item[t] = item[t − p] com maior frequência e se a trajetória inteira é a repetição de um bloco de
+p itens distintos (ciclo puro). Teste em casos montados à mão (`tests/test_mecanismo.py`).
+
+**Resultado (verificado; `results/fb/fb_saida.txt`).**
+
+| Método | Length | Itens distintos | Repetição | Ciclo puro | Bloco mais frequente nos ciclos puros |
+|---|---|---|---|---|---|
+| MBPO (N = 4) | 27,6 ± 0,5 | 6,4 | 0,72 | 0,53 | 5 itens (80%; 6 itens em 20%) |
+| MOPO (N = 4) | 26,1 ± 3,6 | 5,8 | 0,70 | 0,60 | 5 itens (99%) |
+| MBPO-N4c | 28,0 ± 0,3 | 6,0 | 0,74 | 0,61 | 5 itens (99%) |
+| MBPO-N1 | 25,0 ± 3,8 | 5,6 | 0,69 | 0,38 | 2 itens (99%) |
+| MBPO-N8 | 24,9 ± 1,5 | 9,3 | 0,55 | 0,45 | 9 itens (59%; 10 itens em 20%) |
+| MBPO-N8c | 24,6 ± 1,0 | 10,8 | 0,48 | 0,14 | sem bloco dominante |
+| DORL (N = 4) | 16,2 ± 1,7 | 8,2 | 0,38 | 0,14 | 4 ou 5 itens |
+| DORL-const | 14,3 ± 2,2 | 8,6 | 0,31 | 0,05 | 1, 2 ou 4 itens |
+
+**Interpretação.**
+
+1. **Hipótese da semana 8 confirmada para N = 1 e N = 4:** MBPO e MOPO repetem um ciclo de N + 1 itens de categorias
+   distintas, o menor ciclo que nunca dispara a regra de saída. Com N = 8 e o código original, o bloco dominante é de
+   9 itens (N + 1); com a janela corrigida, o MBPO dura o mesmo, mas sem ciclo dominante.
+2. **DORL e DORL-const quase não ciclam** e por isso duram menos no FB. A causa não é a variação do P_E (o DORL-const
+   também não cicla) e fica em aberto.
+
+### 7.2 NX_10: regra de saída contrafactual e categorias dominantes
+
+**Pergunta.** A diversidade das trajetórias (etapa 3) vem da regra de saída ou de evitar as categorias dominantes?
+
+**O que foi feito.** `mecanismo_bolha.py`: (a) fração dos passos NX_10 que teriam disparado a regra com N = 4 se ela
+estivesse ativa; (b) V esperado dado o número k de itens de categorias dominantes na trajetória, por amostragem
+uniforme condicionada a k. Testes contra a cópia literal de `_determine_whether_to_leave` e contra uma
+reimplementação (`tests/test_mecanismo.py`).
+
+**Resultado (verificado; `results/mecanismo/mecanismo_saida.txt`).**
+
+| Método | Itens dominantes | V | V esperado dado k | Passos que disparariam a regra | Trajetórias sem disparo |
+|---|---|---|---|---|---|
+| MBPO | 0,30 | 9,69 | 8,67 | 0,030 | 0,76 |
+| DORL | 0,38 | 9,96 | 9,02 | 0,006 | 0,95 |
+| DORL-const | 0,36 | 10,12 | 8,96 | 0,007 | 0,94 |
+| MBPO-E5 | 0,51 | 9,31 | 9,28 | 0,075 | 0,50 |
+| MBPO-N1 | 0,36 | 9,35 | 8,91 | 0,062 | 0,57 |
+| Aleatória | 0,83 | 8,88 | 8,86 | 0,371 | 0,02 |
+
+Usuários reais (janelas de 10 itens do big_matrix): 0,79 de itens dominantes. O V esperado tem máximo de 9,38
+(k = 6).
+
+**Interpretação.**
+
+1. **A política evita repetir categoria mesmo onde a regra não vale:** só 0,6–3% dos passos dos métodos de RL a
+   disparariam, contra 37% da aleatória.
+2. **Evitar as categorias dominantes não explica o V:** o V observado fica cerca de 1 categoria acima do esperado
+   (e acima do máximo de 9,38 no DORL). A exceção é o MBPO-E5 (9,31 contra 9,28), o único com bônus por passo pequeno.
+3. Hipótese (coerente com E2, E5 e E3): quando o bônus por passo domina a recompensa, a política diversifica além do
+   que a regra exige; com N = 1 ela ainda evita repetições numa janela de 4. Com bônus pequeno, o V volta a ser
+   explicado pelas categorias escolhidas.
+
+## Etapa 8 — Critérios além dos do artigo
+
+**Pergunta.** A ordem dos métodos depende do critério de avaliação?
+
+**O que foi feito.** `alem_da_acuracia.py` aplica às mesmas trajetórias NX_10, por época: R_each e MCD (critérios do
+artigo); V (bolha); cobertura (itens distintos ÷ itens recomendados) e Gini da exposição dos 3.327 itens; novidade
+(−log₂ da popularidade no big_matrix; Kaminskas & Bridge, 2016); serendipidade (relevante = recompensa acima da média
+do usuário, e inesperado = fora dos 100 itens mais populares, seren_pop, ou sem categoria entre as 3 mais consumidas
+pelo usuário, seren_cat; Ge et al., 2010); personalização (1 − Jaccard médio entre listas da mesma época). Inversão
+robusta: cada método melhor em algum critério, com as duas diferenças acima do maior dp. Teste contra o cálculo item
+a item (`tests/test_alem.py`).
+
+**Resultado (verificado; `results/alem/alem_saida.txt`).** Média entre 5 sementes.
+
+| Método | R_each | MCD | V | Cobertura | Gini | Novidade | seren_pop | seren_cat | Personalização |
+|---|---|---|---|---|---|---|---|---|---|
+| MBPO | 0,708 | 0,295 | 9,69 | 0,120 | 0,989 | 12,24 | 0,320 | 0,285 | 0,516 |
+| MOPO | 0,739 | 0,356 | 9,63 | 0,112 | 0,990 | 12,41 | 0,326 | 0,295 | 0,524 |
+| DORL | 0,719 | 0,384 | 9,96 | 0,033 | 0,994 | 12,63 | 0,326 | 0,271 | 0,592 |
+| DORL-const | 0,734 | 0,364 | 10,12 | 0,034 | 0,994 | 12,23 | 0,323 | 0,263 | 0,633 |
+| MBPO-E5 | 1,049 | 0,510 | 9,31 | 0,120 | 0,989 | 12,12 | 0,497 | 0,347 | 0,491 |
+| Aleatória | 0,872 | 0,826 | 8,88 | 0,865 | 0,771 | 12,17 | 0,421 | 0,213 | 0,998 |
+
+**Interpretação.**
+
+1. **As duas medidas de concentração contam histórias opostas.** Pela MCD (categorias), os métodos de RL são muito
+   menos concentrados que o acaso. Pela cobertura de itens, são muito mais: numa época, o DORL recomenda 3,3% de
+   itens distintos (cerca de 33 itens em 1.000 posições), o MBPO 12%, a aleatória 86,5%. O efeito Mateus no nível
+   do item, que o artigo discute, não é medido pela MCD. Na terminologia de Anwar et al. (WWW 2024), o DORL tem alta
+   diversidade intra-usuário e homogeneização da exposição.
+2. **MBPO × DORL inverte:** o MBPO é melhor em cobertura e Gini, o DORL em V, novidade e personalização, todas as
+   diferenças acima do dp.
+3. **A serendipidade depende da definição:** por popularidade, nenhum método de RL supera o acaso (0,32–0,33 contra
+   0,42), exceto o MBPO-E5 (0,50); por categoria, todos superam (0,26–0,35 contra 0,21), mas com relevância menor
+   que a do acaso (0,32 contra 0,43): o "inesperado" vem de evitar as categorias dominantes.
+4. **O MBPO-E5 mostra o trade-off clássico:** 1º em R_each, serendipidade e relevância; último em V e quase último
+   em MCD e novidade. Ele só aparece quando o r̂ carrega sinal.
+
+**Limitações.** Cobertura e Gini por época (100 trajetórias); a política muda entre épocas. Os limiares K = 100 e
+C = 3 da serendipidade são escolhas; as duas versões são reportadas.
+
+## Etapa 9 — A regra de saída contra as sessões reais
+
+**Pergunta.** Usuários reais saem mais depois de um vídeo que repete categoria dos anteriores?
+
+**O que foi feito.** `sessoes_reais.py` reconstrói sessões do big_matrix (fim = mais de G minutos até o próximo
+vídeo). O big_matrix só tem os 10.728 vídeos do KuaiRec, não o feed completo: o intervalo mediano entre linhas
+consecutivas de um usuário é de 108 s, para 7 s assistidos. Por isso, o teste usa só cadeias contíguas, em que cada
+vídeo começa até 2 s (ou 5 s) depois do fim do anterior; nelas, os N anteriores dos dados são os N anteriores do
+feed. Compara-se P(fim | repete) com P(fim | não repete), no total e dentro de cada usuário. Teste contra o cálculo
+linha a linha (`tests/test_sessoes.py`).
+
+**Resultado (verificado; `results/sessoes/sessoes_saida.txt`).** Folga de 2 s, G = 30 min.
+
+| N | Linhas | Repetem categoria | P(fim \| repete) | P(fim \| não repete) | Diferença por usuário (média) | Usuários com diferença > 0 |
+|---|---|---|---|---|---|---|
+| 1 | 1.701.128 | 0,67 | 0,063 | 0,026 | +0,039 | 77% |
+| 4 | 25.751 | 0,78 | 0,008 | 0,001 | +0,021 | — |
+| 8 | 6.333 | 0,98 | 0,003 | 0,000 | +0,013 | — |
+
+As conclusões se mantêm com G = 10 e 60 min e folga de 5 s.
+
+**Interpretação.**
+
+1. **A direção da regra tem apoio:** repetir a categoria do vídeo anterior está associado a cerca de 2,4 vezes mais
+   saídas, dentro de cada usuário.
+2. **A intensidade não:** o simulador supõe saída certa (1 contra 0); nos dados, 6% contra 3%. Usuários reais
+   repetem categoria em 67–98% dos passos; com a regra determinística, quase toda sessão real terminaria no segundo
+   vídeo. É essa certeza que a política explora com o ciclo de N + 1 itens (etapa 7.1).
+
+**Limitações.** Associação, não causa. As cadeias longas (N = 4 e 8) são raras e vêm de sessões contínuas; o N = 1
+é o caso com dados suficientes.
 
 ## Reprodutibilidade e organização
 
@@ -224,9 +406,14 @@ cada log. A política aleatória foi refeita com o mesmo N (`results/e3/aleatori
 | Índice dos resultados, com os logs descartados e o motivo de cada um | `results/README.md` |
 | Resumo no formato da Tabela 2 de todas as execuções, nos três protocolos | `results/table2/` |
 | Figuras regeneradas a partir de `results/` | `figuras.py` → `docs/figuras/` |
+| Patches inertes sem a variável de ambiente, cada um com teste contra a cópia do código original | `traj_log.patch`, `e5_alvo.patch`, `a5_janela.patch`, `e6_saida_prob.patch`; `tests/README.md` |
+| Diff do DORL-codes na 4090 (prova de quais alterações estavam aplicadas) | `results/ambiente/dorl_codes_diff.patch` |
 
-## Pendências
+## Pendências (próxima semana)
 
-- Teste da hipótese alternativa da bolha: relação, por trajetória, entre V e a fração de itens de categorias
-  dominantes; e fração dos passos NX_10 que teriam disparado a regra de saída.
-- Investigação do FB com as trajetórias gravadas.
+- E6: usuário simulado com saída probabilística calibrada pela etapa 9 (`e6_saida_prob.patch`, `roda_e6.sh`; N = 1,
+  P = 0,063 se repete e 0,026 se não). Pergunta: a vantagem do DORL e a exploração da regra sobrevivem? A aleatória
+  já foi medida: Length 20,1 e R_tra 17,5 no NX_0 (`results/e6/aleatoria_E6.json`).
+- Se houver tempo: MOPO e DORL-const com N = 8 corrigido; mais sementes para os bandits.
+- Figuras e tabela de afirmação × sinal × evidência × força; congelamento dos experimentos.
+- Em aberto: a forma não monótona do Length do MBPO no N; por que DORL e DORL-const quase não ciclam no FB.

@@ -2,6 +2,12 @@
 
   grafico_E1_rtra.png   E1: posição de cada método em R_tra, NX_0 × NX_10 (results/e1/e1_resumo.csv)
   grafico_S2_top10.png  S2: recompensa de avaliação do top-10 por critério (results/analises/rhat_aval.json)
+  grafico_N_length.png  E3/A5: Length NX_0 de MBPO e DORL por N da regra de saída (results/{e1,e3,a5}/e1_resumo.csv)
+  grafico_FB_ciclo.png  FB: itens distintos por trajetória contra o ciclo mínimo N + 1 (results/fb/fb_resumo.csv)
+  grafico_concentracao.png  MCD (categorias) × cobertura de itens (results/alem/alem_resumo.csv)
+  grafico_bolha_V.png   bolha: categorias distintas em 10 itens contra o usuário e o acaso (results/bolha/bolha_resumo.csv)
+  grafico_sessoes.png   regra de saída: P(fim | repete) no simulador e nas sessões reais (results/sessoes/sessoes_resumo.csv)
+Figura cuja entrada não existe é pulada (com aviso).
 
 Uso (na raiz do repositório): python figuras.py [--out docs/figuras]
 Só precisa de pandas e matplotlib.
@@ -19,11 +25,18 @@ import pandas as pd  # noqa: E402
 p = argparse.ArgumentParser()
 p.add_argument("--resumo", default="results/e1/e1_resumo.csv")
 p.add_argument("--rhat", default="results/analises/rhat_aval.json")
+p.add_argument("--e3", default="results/e3/e1_resumo.csv")
+p.add_argument("--a5", default="results/a5/e1_resumo.csv")
+p.add_argument("--fb", default="results/fb/fb_resumo.csv")
+p.add_argument("--alem", default="results/alem/alem_resumo.csv")
+p.add_argument("--bolha", default="results/bolha/bolha_resumo.csv")
+p.add_argument("--sessoes", default="results/sessoes/sessoes_resumo.csv")
 p.add_argument("--out", default="docs/figuras")
 a = p.parse_args()
 os.makedirs(a.out, exist_ok=True)
 
-DESTAQUE = "#2a78d6"     # métodos de RL / o que a política vê
+DESTAQUE = "#2a78d6"     # métodos de RL / o que a política vê; MBPO nas figuras com dois métodos
+SEGUNDA = "#eb6834"      # DORL nas figuras com dois métodos
 CONTEXTO = "#c3c2b7"     # referências
 TEXTO, TEXTO2, GRADE = "#0b0b0b", "#52514e", "#e4e3df"
 RL = ["MBPO", "MOPO", "DORL", "DORL-const"]
@@ -132,4 +145,180 @@ titulo(fig, (rf"O $\hat{{r}}$ escolhe itens {'piores' if pior else 'melhores'} q
        f"(watch_ratio, {n_users:,} usuários)".replace(f"{n_users:,}", f"{n_users:,}".replace(",", ".")))
 fig.savefig(os.path.join(a.out, "grafico_S2_top10.png"))
 plt.close(fig)
-print(f"figuras gravadas em {a.out}: grafico_E1_rtra.png, grafico_S2_top10.png")
+gravadas = ["grafico_E1_rtra.png", "grafico_S2_top10.png"]
+
+
+def falta(*paths):
+    ausentes = [f for f in paths if not os.path.isfile(f)]
+    for f in ausentes:
+        print(f"aviso: {f} não existe; figura pulada")
+    return bool(ausentes)
+
+
+def eixo_limpo(ax, y=True):
+    for lado in ("top", "right"):
+        ax.spines[lado].set_visible(False)
+    for lado in ("left", "bottom"):
+        ax.spines[lado].set_color(GRADE)
+    ax.tick_params(colors=TEXTO2, length=0)
+    if y:
+        ax.grid(axis="y", color=GRADE, lw=0.8, zorder=0)
+
+
+def resumo_multi(path):
+    return pd.read_csv(path, header=[0, 1], index_col=0)
+
+
+# Configurações da regra de saída: (rótulo, sufixo do nome do método, arquivo); N = 4 original é a reprodução
+CONFIGS = [("N = 1", "-N1", a.e3), ("N = 4", "", a.resumo), ("N = 4\ncorrigida", "-N4c", a.a5),
+           ("N = 8", "-N8", a.e3), ("N = 8\ncorrigida", "-N8c", a.a5)]
+N_DE = {"-N1": 1, "": 4, "-N4c": 4, "-N8": 8, "-N8c": 8}
+DOIS = (("MBPO", DESTAQUE), ("DORL", SEGUNDA))
+
+
+def legenda_dois(ax):
+    ax.legend(handles=[plt.Line2D([], [], marker="o", ls="", color=c, markersize=8, label=m) for m, c in DOIS],
+              frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=10.5)
+
+
+# 3. E3/A5: Length NX_0 por N
+if not falta(a.resumo, a.e3, a.a5):
+    e = pd.concat([pd.read_csv(f) for f in {a.resumo, a.e3, a.a5}])
+    e = e[(e.protocolo == "NX_0") & (e.metrica == "Length")].drop_duplicates("metodo").set_index("metodo")
+    fig, ax = plt.subplots(figsize=(9.6, 5.0))
+    fig.subplots_adjust(left=0.08, right=0.97, top=0.72, bottom=0.14)
+    difs = []
+    for x, (rot, suf, _) in enumerate(CONFIGS):
+        ys = {}
+        for dx, (m, cor) in zip((-0.1, 0.1), DOIS):
+            linha = e.loc[m + suf]
+            ys[m] = linha.media
+            ax.errorbar(x + dx, linha.media, yerr=linha.dp, fmt="o", color=cor, markersize=8, elinewidth=2, capsize=0,
+                        markeredgecolor="white", markeredgewidth=1.5, zorder=3)
+        dif = ys["DORL"] - ys["MBPO"]
+        difs.append(dif)
+        topo = max(e.loc[m + suf, "media"] + e.loc[m + suf, "dp"] for m, _ in DOIS)
+        ax.text(x, topo + 0.6, f"{'+' if dif >= 0 else '−'}{br(abs(dif), 1)}", ha="center", fontsize=10.5, color=TEXTO)
+    ax.set_xticks(range(len(CONFIGS)), [c[0] for c in CONFIGS], fontsize=10.5)
+    ax.set_xlim(-0.5, len(CONFIGS) - 0.5)
+    ax.set_ylabel("Length (passos, NX_0)", color=TEXTO2)
+    eixo_limpo(ax)
+    legenda_dois(ax)
+    corr = [d for d, c in zip(difs, CONFIGS) if c[1] in ("-N1", "-N4c", "-N8c")]   # N ≤ 2 não tem recorte
+    ax.set_ylim(None, ax.get_ylim()[1] + 1)
+    titulo(fig, f"Sem o recorte da janela, o DORL dura mais em todos os N: +{br(min(corr), 1)} a +{br(max(corr), 1)} passos",
+           "Length NX_0, média ± dp entre 5 sementes · número acima de cada par: DORL − MBPO · "
+           "\"corrigida\": janela com os min(t, N) itens anteriores")
+    fig.savefig(os.path.join(a.out, "grafico_N_length.png"))
+    plt.close(fig)
+    gravadas.append("grafico_N_length.png")
+
+# 4. FB: itens distintos contra N + 1
+if not falta(a.fb):
+    f = resumo_multi(a.fb)
+    fig, ax = plt.subplots(figsize=(9.6, 5.0))
+    fig.subplots_adjust(left=0.08, right=0.97, top=0.72, bottom=0.14)
+    for x, (rot, suf, _) in enumerate(CONFIGS):
+        ax.plot((x - 0.3, x + 0.3), (N_DE[suf] + 1,) * 2, color=TEXTO2, lw=1.2, ls=(0, (3, 2)), zorder=2)
+        for dx, (m, cor) in zip((-0.1, 0.1), DOIS):
+            if m + suf not in f.index:
+                continue
+            v, d = f.loc[m + suf, ("media", "itens_distintos")], f.loc[m + suf, ("dp", "itens_distintos")]
+            ax.errorbar(x + dx, v, yerr=d, fmt="o", color=cor, markersize=8, elinewidth=2, capsize=0,
+                        markeredgecolor="white", markeredgewidth=1.5, zorder=3)
+    ax.text(len(CONFIGS) - 1 + 0.32, N_DE[CONFIGS[-1][1]] + 1, "N + 1", va="center", fontsize=10, color=TEXTO2)
+    ax.set_xticks(range(len(CONFIGS)), [c[0] for c in CONFIGS], fontsize=10.5)
+    ax.set_xlim(-0.5, len(CONFIGS) - 0.2)
+    ax.set_ylim(0, None)
+    ax.set_ylabel("Itens distintos por trajetória (FB)", color=TEXTO2)
+    eixo_limpo(ax)
+    legenda_dois(ax)
+    titulo(fig, "No FB, o MBPO recomenda cerca de N + 1 itens distintos: o menor ciclo que a regra não pega",
+           "Média ± dp entre 5 sementes · tracejado: N + 1 · itens podem se repetir; máximo de 30 passos")
+    fig.savefig(os.path.join(a.out, "grafico_FB_ciclo.png"))
+    plt.close(fig)
+    gravadas.append("grafico_FB_ciclo.png")
+
+# 5. MCD × cobertura de itens
+if not falta(a.alem):
+    r = resumo_multi(a.alem)
+    fig, ax = plt.subplots(figsize=(9.6, 5.4))
+    fig.subplots_adjust(left=0.10, right=0.95, top=0.78, bottom=0.12)
+    for m in r.index:
+        x, y = r.loc[m, ("media", "MCD")], r.loc[m, ("media", "cobertura")]
+        cor = CONTEXTO if m == "aleatória" else DESTAQUE
+        ax.scatter(x, y, s=70, color=cor, edgecolor="white", linewidth=2, zorder=3)
+        esq = m == "DORL-const"                                    # fica colado ao DORL: rótulo à esquerda
+        ax.text(x - 0.012 if esq else x + 0.012, y * 1.06, NOMES.get(m, m), fontsize=10, ha="right" if esq else "left",
+                color=TEXTO if cor == DESTAQUE else TEXTO2)
+    ax.set_yscale("log")
+    ax.set_yticks([0.02, 0.05, 0.1, 0.2, 0.5, 1], ["2%", "5%", "10%", "20%", "50%", "100%"])
+    ax.minorticks_off()
+    ax.set_xlim(0, 1)
+    ax.set_xlabel("MCD: fração dos itens em categorias dominantes (menor = menos concentrado)", color=TEXTO2)
+    ax.set_ylabel("Cobertura: itens distintos por época (escala log)", color=TEXTO2)
+    eixo_limpo(ax)
+    ax.grid(axis="x", color=GRADE, lw=0.8, zorder=0)
+    titulo(fig, "Pela MCD o RL concentra menos que o acaso; pela cobertura de itens, muito mais",
+           "Trajetórias NX_10, média entre 5 sementes · azul: métodos de RL · cinza: política aleatória")
+    fig.savefig(os.path.join(a.out, "grafico_concentracao.png"))
+    plt.close(fig)
+    gravadas.append("grafico_concentracao.png")
+
+# 6. Bolha: V por método contra o usuário e o acaso
+if not falta(a.bolha):
+    r = resumo_multi(a.bolha)
+    metodos = [m for m in r.index if m != "aleatória"]
+    vu = r[("media", "V_u")].mean()
+    va = r.loc["aleatória", ("media", "V")] if "aleatória" in r.index else None
+    fig, ax = plt.subplots(figsize=(9.6, 0.42 * len(metodos) + 1.9))
+    fig.subplots_adjust(left=0.17, right=0.95, top=1 - 1.0 / fig.get_figheight(), bottom=0.45 / fig.get_figheight())
+    ys = range(len(metodos))[::-1]
+    for y, m in zip(ys, metodos):
+        ax.errorbar(r.loc[m, ("media", "V")], y, xerr=r.loc[m, ("dp", "V")], fmt="o", color=DESTAQUE, markersize=8,
+                    elinewidth=2, capsize=0, markeredgecolor="white", markeredgewidth=1.5, zorder=3)
+    for v, rot in ((vu, "usuário"), (va, "aleatória")):
+        if v is not None:
+            ax.axvline(v, color=TEXTO2, lw=1, ls=(0, (3, 3)), zorder=2)
+            ax.text(v, len(metodos) - 0.4, f"{rot}: {br(v)}", ha="center", va="bottom", fontsize=10, color=TEXTO2)
+    ax.set_yticks(list(ys), metodos, fontsize=10.5)
+    ax.set_ylim(-0.6, len(metodos) - 0.1)
+    ax.set_xlabel("V: categorias distintas em 10 itens (NX_10)", color=TEXTO2)
+    eixo_limpo(ax, y=False)
+    ax.grid(axis="x", color=GRADE, lw=0.8, zorder=0)
+    titulo(fig, "Nenhum método de RL fecha o usuário: todos variam mais categorias que ele e que o acaso",
+           "Média ± dp entre 5 sementes · usuário: janelas de 10 itens do próprio usuário no big_matrix")
+    fig.savefig(os.path.join(a.out, "grafico_bolha_V.png"))
+    plt.close(fig)
+    gravadas.append("grafico_bolha_V.png")
+
+# 7. Regra de saída: simulador × sessões reais
+if not falta(a.sessoes):
+    r = pd.read_csv(a.sessoes)
+    lin = r[(r.folga_s == 2) & (r.N == 1) & (r.G_min == 30)].iloc[0]
+    grupos = [("Simulador (regra do DORL)", 1.0, 0.0), ("Sessões reais (big_matrix)", lin.P_fim_repete, lin.P_fim_nao_repete)]
+    fig, ax = plt.subplots(figsize=(9.6, 3.6))
+    fig.subplots_adjust(left=0.27, right=0.93, top=0.70, bottom=0.06)
+    for i, (rot, rep, nao) in enumerate(grupos):
+        y = len(grupos) - 1 - i
+        for dy, v, cor in ((0.17, rep, DESTAQUE), (-0.17, nao, SEGUNDA)):
+            ax.barh(y + dy, v, height=0.3, color=cor, zorder=2)
+            ax.text(v + 0.012, y + dy, f"{br(100 * v, 1)}%", va="center", fontsize=10.5)
+    ax.set_yticks(range(len(grupos))[::-1], [g[0] for g in grupos], fontsize=10.5)
+    ax.set_xlim(0, 1.1)
+    ax.set_xticks([])
+    eixo_limpo(ax, y=False)
+    ax.spines["bottom"].set_visible(False)
+    ax.legend(handles=[plt.Rectangle((0, 0), 1, 1, color=DESTAQUE, label="o item repete categoria do anterior"),
+                       plt.Rectangle((0, 0), 1, 1, color=SEGUNDA, label="não repete")],
+              frameon=False, loc="lower right", fontsize=10)
+    titulo(fig, f"Nos dados reais, repetir categoria aumenta a saída ({br(100 * lin.P_fim_repete, 1)}% contra "
+                f"{br(100 * lin.P_fim_nao_repete, 1)}%), mas não a torna certa",
+           f"P(sessão termina após o item), N = 1 · sessões reais: cadeias contíguas, fim = {lin.G_min:g} min sem "
+           f"atividade, {int(lin.linhas_elegiveis):,} itens".replace(f"{int(lin.linhas_elegiveis):,}",
+                                                                    f"{int(lin.linhas_elegiveis):,}".replace(",", ".")))
+    fig.savefig(os.path.join(a.out, "grafico_sessoes.png"))
+    plt.close(fig)
+    gravadas.append("grafico_sessoes.png")
+
+print(f"figuras gravadas em {a.out}: {', '.join(gravadas)}")
