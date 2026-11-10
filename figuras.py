@@ -3,7 +3,7 @@
   grafico_E1_rtra.png   E1: posição de cada método em R_tra, NX_0 × NX_10 (results/e1/e1_resumo.csv)
   grafico_S2_top10.png  S2: recompensa de avaliação do top-10 por critério (results/analises/rhat_aval.json)
   grafico_N_length.png  E3/A5: Length NX_0 de MBPO e DORL por N da regra de saída (results/{e1,e3,a5}/e1_resumo.csv)
-  grafico_FB_ciclo.png  FB: itens distintos por trajetória contra o ciclo mínimo N + 1 (results/fb/fb_resumo.csv)
+  grafico_FB_ciclo.png  FB: tamanho do bloco nos ciclos puros contra o ciclo mínimo N + 1 (results/fb/fb_resumo.csv, fb_saida.txt)
   grafico_concentracao.png  MCD (categorias) × cobertura de itens (results/alem/alem_resumo.csv)
   grafico_bolha_V.png   bolha: categorias distintas em 10 itens contra o usuário e o acaso (results/bolha/bolha_resumo.csv)
   grafico_sessoes.png   regra de saída: P(fim | repete) no simulador e nas sessões reais (results/sessoes/sessoes_resumo.csv)
@@ -28,6 +28,7 @@ p.add_argument("--rhat", default="results/analises/rhat_aval.json")
 p.add_argument("--e3", default="results/e3/e1_resumo.csv")
 p.add_argument("--a5", default="results/a5/e1_resumo.csv")
 p.add_argument("--fb", default="results/fb/fb_resumo.csv")
+p.add_argument("--fb_saida", default="results/fb/fb_saida.txt")
 p.add_argument("--alem", default="results/alem/alem_resumo.csv")
 p.add_argument("--bolha", default="results/bolha/bolha_resumo.csv")
 p.add_argument("--sessoes", default="results/sessoes/sessoes_resumo.csv")
@@ -213,28 +214,42 @@ if not falta(a.resumo, a.e3, a.a5):
     plt.close(fig)
     gravadas.append("grafico_N_length.png")
 
-# 4. FB: itens distintos contra N + 1
-if not falta(a.fb):
-    f = resumo_multi(a.fb)
-    fig, ax = plt.subplots(figsize=(9.6, 5.0))
-    fig.subplots_adjust(left=0.08, right=0.97, top=0.72, bottom=0.14)
-    for x, (rot, suf, _) in enumerate(CONFIGS):
-        ax.plot((x - 0.3, x + 0.3), (N_DE[suf] + 1,) * 2, color=TEXTO2, lw=1.2, ls=(0, (3, 2)), zorder=2)
-        for dx, (m, cor) in zip((-0.1, 0.1), DOIS):
-            if m + suf not in f.index:
-                continue
-            v, d = f.loc[m + suf, ("media", "itens_distintos")], f.loc[m + suf, ("dp", "itens_distintos")]
-            ax.errorbar(x + dx, v, yerr=d, fmt="o", color=cor, markersize=8, elinewidth=2, capsize=0,
-                        markeredgecolor="white", markeredgewidth=1.5, zorder=3)
-    ax.text(len(CONFIGS) - 1 + 0.32, N_DE[CONFIGS[-1][1]] + 1, "N + 1", va="center", fontsize=10, color=TEXTO2)
-    ax.set_xticks(range(len(CONFIGS)), [c[0] for c in CONFIGS], fontsize=10.5)
-    ax.set_xlim(-0.5, len(CONFIGS) - 0.2)
-    ax.set_ylim(0, None)
-    ax.set_ylabel("Itens distintos por trajetória (FB)", color=TEXTO2)
-    eixo_limpo(ax)
-    legenda_dois(ax)
-    titulo(fig, "No FB, o MBPO recomenda cerca de N + 1 itens distintos: o menor ciclo que a regra não pega",
-           "Média ± dp entre 5 sementes · tracejado: N + 1 · itens podem se repetir; máximo de 30 passos")
+def blocos_fb(path):
+    """Tabela "fração com cada tamanho de bloco" do fb_saida.txt (o fb_resumo.csv não a traz)."""
+    linhas = [l.split() for l in open(path).read().split("Entre as trajetórias em ciclo puro")[1].splitlines()[1:] if l.strip()]
+    return pd.DataFrame([list(map(float, l[1:])) for l in linhas[1:]], index=[l[0] for l in linhas[1:]],
+                        columns=list(map(int, linhas[0])))
+
+
+# 4. FB: tamanho do bloco nos ciclos puros contra N + 1
+if not falta(a.fb, a.fb_saida):
+    f, b = resumo_multi(a.fb), blocos_fb(a.fb_saida)
+    fig, axs = plt.subplots(2, len(CONFIGS), figsize=(9.6, 5.4), sharex=True, sharey=True)
+    fig.subplots_adjust(left=0.09, right=0.98, top=0.74, bottom=0.11, wspace=0.12, hspace=0.42)
+    domina = []
+    for lin, (m, cor) in enumerate(DOIS):
+        for col, (rot, suf, _) in enumerate(CONFIGS):
+            ax, alvo = axs[lin, col], N_DE[suf] + 1
+            fr = b.loc[m + suf]
+            ax.bar(fr.index, fr.values, width=0.72, color=[cor if p == alvo else CONTEXTO for p in fr.index], zorder=2)
+            topo = fr.reindex([alvo - 1, alvo, alvo + 1]).max()               # acima das barras vizinhas
+            ax.text(alvo, topo + 0.03, f"{100 * fr[alvo]:.0f}%", ha="center", fontsize=9.5, color=TEXTO)
+            puro, dp = f.loc[m + suf, ("media", "ciclo_puro")], f.loc[m + suf, ("dp", "ciclo_puro")]
+            ax.set_title(f"{puro * 100:.0f} ± {dp * 100:.0f}% em ciclo puro", fontsize=9.5, color=TEXTO2, pad=4)
+            if lin == 0:
+                ax.text(0.5, 1.22, rot.replace("\n", " "), transform=ax.transAxes, ha="center", fontsize=10.5)
+                domina.append(fr[alvo] > 0.5)
+            ax.set_xticks([1, alvo, 10] if alvo < 9 else [1, 5, alvo])
+            ax.set_ylim(0, 1.15)
+            ax.set_yticks([0, 0.5, 1], ["0", "50%", "100%"])
+            eixo_limpo(ax)
+            ax.tick_params(labelsize=9.5)
+        axs[lin, 0].set_ylabel(m, fontsize=11, color=TEXTO, fontweight="bold")
+    fig.text(0.535, 0.02, "Tamanho do bloco repetido (itens) · barra colorida: N + 1", ha="center", fontsize=10.5, color=TEXTO2)
+    onde = "em todas as configurações" if all(domina) else f"em {sum(domina)} das {len(domina)} configurações"
+    titulo(fig, f"Quando o MBPO entra em ciclo no FB, o bloco tem N + 1 itens {onde}",
+           "Fração dos ciclos puros por tamanho do bloco, média entre 5 sementes · acima de cada painel: "
+           "trajetórias FB em ciclo puro (± dp)")
     fig.savefig(os.path.join(a.out, "grafico_FB_ciclo.png"))
     plt.close(fig)
     gravadas.append("grafico_FB_ciclo.png")
@@ -244,23 +259,34 @@ if not falta(a.alem):
     r = resumo_multi(a.alem)
     fig, ax = plt.subplots(figsize=(9.6, 5.4))
     fig.subplots_adjust(left=0.10, right=0.95, top=0.78, bottom=0.12)
+    # rótulo de cada ponto de MBPO/MOPO: (alinhamento, dx, fator em y); a família do DORL fica num rótulo só
+    LADO = {"MBPO": ("center", 0, 1.13), "MBPO-N4c": ("right", -0.014, 0.97), "MBPO-N8c": ("right", -0.014, 0.97)}
+    dorl = [m for m in r.index if m.startswith("DORL")]
     for m in r.index:
         x, y = r.loc[m, ("media", "MCD")], r.loc[m, ("media", "cobertura")]
-        cor = CONTEXTO if m == "aleatória" else DESTAQUE
+        cor = CONTEXTO if m == "aleatória" else SEGUNDA if m in dorl else DESTAQUE
         ax.scatter(x, y, s=70, color=cor, edgecolor="white", linewidth=2, zorder=3)
-        esq = m == "DORL-const"                                    # fica colado ao DORL: rótulo à esquerda
-        ax.text(x - 0.012 if esq else x + 0.012, y * 1.06, NOMES.get(m, m), fontsize=10, ha="right" if esq else "left",
-                color=TEXTO if cor == DESTAQUE else TEXTO2)
+        if m not in dorl:
+            ha, dx, fy = LADO.get(m, ("left", 0.014, 0.97))
+            ax.text(x + dx, y * fy, NOMES.get(m, m), fontsize=10, ha=ha, color=TEXTO if cor == DESTAQUE else TEXTO2)
+    if dorl:
+        c = r.loc[dorl, ("media", "cobertura")]
+        ax.text(r.loc[dorl, ("media", "MCD")].max() + 0.02, c.mean() * 0.97,
+                f"DORL, DORL-const e variantes ({len(dorl)}): {br(100 * c.min(), 1)}% a {br(100 * c.max(), 1)}%",
+                fontsize=10, color=TEXTO)
     ax.set_yscale("log")
     ax.set_yticks([0.02, 0.05, 0.1, 0.2, 0.5, 1], ["2%", "5%", "10%", "20%", "50%", "100%"])
     ax.minorticks_off()
     ax.set_xlim(0, 1)
+    ax.set_ylim(0.017, 1.15)
+    ax.set_xticks([0.2, 0.4, 0.6, 0.8, 1], [br(v, 1) for v in (0.2, 0.4, 0.6, 0.8, 1)])
     ax.set_xlabel("MCD: fração dos itens em categorias dominantes (menor = menos concentrado)", color=TEXTO2)
     ax.set_ylabel("Cobertura: itens distintos por época (escala log)", color=TEXTO2)
     eixo_limpo(ax)
     ax.grid(axis="x", color=GRADE, lw=0.8, zorder=0)
     titulo(fig, "Pela MCD o RL concentra menos que o acaso; pela cobertura de itens, muito mais",
-           "Trajetórias NX_10, média entre 5 sementes · azul: métodos de RL · cinza: política aleatória")
+           "Trajetórias NX_10, média entre 5 sementes · azul: MBPO, MOPO e variantes · laranja: DORL e variantes · "
+           "cinza: aleatória")
     fig.savefig(os.path.join(a.out, "grafico_concentracao.png"))
     plt.close(fig)
     gravadas.append("grafico_concentracao.png")
@@ -280,7 +306,8 @@ if not falta(a.bolha):
     for v, rot in ((vu, "usuário"), (va, "aleatória")):
         if v is not None:
             ax.axvline(v, color=TEXTO2, lw=1, ls=(0, (3, 3)), zorder=2)
-            ax.text(v, len(metodos) - 0.4, f"{rot}: {br(v)}", ha="center", va="bottom", fontsize=10, color=TEXTO2)
+            ax.text(v, len(metodos) - 0.4, f"{rot}: {br(v)}", ha="center", va="bottom", fontsize=10, color=TEXTO2,
+                    bbox=dict(facecolor="white", edgecolor="none", pad=1.5), zorder=4)
     ax.set_yticks(list(ys), metodos, fontsize=10.5)
     ax.set_ylim(-0.6, len(metodos) - 0.1)
     ax.set_xlabel("V: categorias distintas em 10 itens (NX_10)", color=TEXTO2)
