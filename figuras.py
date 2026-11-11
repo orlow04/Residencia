@@ -260,7 +260,8 @@ if not falta(a.alem):
     fig, ax = plt.subplots(figsize=(9.6, 5.4))
     fig.subplots_adjust(left=0.10, right=0.95, top=0.78, bottom=0.12)
     # rótulo de cada ponto de MBPO/MOPO: (alinhamento, dx, fator em y); a família do DORL fica num rótulo só
-    LADO = {"MBPO": ("center", 0, 1.13), "MBPO-N4c": ("right", -0.014, 0.97), "MBPO-N8c": ("right", -0.014, 0.97)}
+    LADO = {"MBPO": ("center", 0, 1.13), "MBPO-N4c": ("right", -0.014, 0.97), "MBPO-N8c": ("right", -0.014, 0.97),
+            "MOPO-E6": ("right", -0.014, 0.93)}
     dorl = [m for m in r.index if m.startswith("DORL")]
     mcd_d = r.loc[dorl, ("media", "MCD")]
     fora = [m for m in dorl if mcd_d[m] > mcd_d.median() + 0.15]          # longe do grupo: rótulo próprio (DORL-E6)
