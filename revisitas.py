@@ -164,6 +164,9 @@ def main():
                    f"(sessões de 10 a 30: {ua['repeticao_na_sessao_media_tam_10_30']:.3f}); top 10% nas revisitas "
                    f"{ua['top10_frac_revisitas']:.3f}, nas visualizações {ua['top10_frac_visualizacoes']:.3f}",
                    f"{'Método':14s} {'n':>2s}" + "".join(f" {c:>24s}" for c in cols)]
+        itens_aval = set(pd.read_csv(os.path.join(a.data, "small_matrix.csv"), usecols=["video_id"])["video_id"])
+        linhas.insert(-1, f"Taxa de base (política uniforme sobre os {len(itens_aval):,} itens do small_matrix): "
+                          f"top 10% {len(itens_aval & top) / len(itens_aval):.3f}")
         n = sem.groupby("metodo").size()
         for m in ordem(resumo.index):
             linhas.append(f"{m:14s} {n[m]:>2d}" + "".join(

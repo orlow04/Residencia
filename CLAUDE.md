@@ -85,6 +85,12 @@ avaliação; limitações das medidas → a política explora a regra do simulad
 Afsar et al.: dependência de simuladores → referência sem sinal). Não usar referenciais que o Gabriel não estudou.
 Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
 
+## Semana 10 — registro em `docs/semana10.md`; síntese em `docs/sintese.md`
+
+- Revisitas (feito): as políticas repetem 6,7–74,3% dos passos FB contra 3,4% nas sessões reais; a cobertura sem
+  repetições é 1,1–2,6× maior; a repetição real segue a popularidade (top 10%: 20,3% contra 10,6%), a das políticas não.
+- Em execução desde 11/11 18:38: janela corrigida para MOPO e DORL-const; sementes 1–4 dos bandits.
+
 ## Próxima semana (planejada; última de experimentos)
 
 1. Feito em 11/11: DORL-const e MOPO sob o E6 (etapa 10, itens 7 e 8). Experimentos da semana 9 fechados para a apresentação.
@@ -103,8 +109,9 @@ Em aberto: Length do MBPO não monótono no N; por que DORL/DORL-const quase nã
 - `pe_log.patch`: sem `PE_LOG`/`PE_CONST`, a recompensa é idêntica à original (testado). `PE_CONST` só nas execuções `DORLconst_s*`.
 - Matrizes do modelo de usuário: `find saved_models -name "*_mat*.pickle"`; forma 1411 × 3327, mesma ordem (LabelEncoder) do ambiente de avaliação.
 - O ± da Tabela 2 é entre épocas de uma execução; comparar métodos pelo desvio **entre sementes**.
-- Pares usuário–vídeo repetidos no big_matrix (11,8% das linhas dos usuários de avaliação): 62% das segundas ocorrências
-  são duplicatas (mesmo timestamp e watch_ratio). Não tratar como revisitas sem filtrar.
+- Pares usuário–vídeo repetidos no big_matrix (11,8% das linhas dos usuários de avaliação): 56% das repetições
+  são duplicatas exatas (mesmo timestamp e watch_ratio). Sem elas, 5,5% das visualizações repetem um par, 70% em
+  outra sessão (`revisitas.py`). Não tratar como revisitas sem filtrar.
 - FB: o bloco de N + 1 itens vale só entre as trajetórias em ciclo puro, não para a média de itens distintos.
 - Erros já cometidos e corrigidos: (1) "a semente 2 é a mais próxima do artigo nas quatro métricas" é falso — ela é a única a menos de um desvio do artigo nas quatro; (2) a MCD do KuaiRec usa 10 categorias dominantes, não 12 (a Justificativa de Replicação ainda diz 12).
 
@@ -127,6 +134,8 @@ Em aberto: Length do MBPO não monótono no N; por que DORL/DORL-const quase nã
 | `mecanismo_bolha.py`, `fb_rotacao.py` | Origem da diversidade (regra de saída contrafactual; V esperado dado o nº de itens dominantes) e estrutura das trajetórias FB |
 | `sessoes_reais.py` | Regra de saída × sessões reais do big_matrix (só cadeias contíguas): P(fim de sessão | repete categoria) → `results/sessoes/` |
 | `e6_saida_prob.patch`, `roda_e6.sh` | E6: saída probabilística calibrada nas sessões reais (`E6_P_REP=0.063 E6_P_BASE=0.026`, N = 1); MBPO/MOPO/DORL/DORL-const `E6_*`; aleatória com `--p_saida` em `results/e6/aleatoria_E6.json` |
+| `revisitas.py` | Revisualização: revisitas reais no big_matrix (sem duplicatas), loop no small_matrix e repetição das políticas no FB (`--traj`) → `results/revisitas/` |
+| `roda_bandits.sh` | Sementes adicionais de UCB e ε-greedy (`UCB_s{n}`, `epsilon-greedy_s{n}`) |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |

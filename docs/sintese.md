@@ -9,7 +9,8 @@ diferença conta quando supera o maior dp entre sementes dos dois métodos.
 M = métrica ou protocolo de avaliação.
 
 **Controle** que produziu a evidência: (a) desvio entre sementes; (b) referência sem sinal (política aleatória);
-(c) ablação por constante; (d) variação da regra de saída ou do protocolo; (e) concentração medida em vários níveis.
+(c) ablação por constante; (d) variação da regra de saída ou do protocolo; (e) concentração medida em vários níveis;
+(f) referência empírica (comportamento real no big_matrix).
 
 **Força**: *Reproduzida* (diferença acima do dp, na direção do artigo); *Condicional* (reproduzida só sob uma
 condição do simulador); *Dentro do ruído* (diferença menor que o dp); *Não sustentada* (o efeito aparece sem o
@@ -34,12 +35,13 @@ mecanismo alegado); *Invertida* (outro nível ou protocolo dá a ordem oposta); 
 | B1 | O sinal de treino (r̂) não ordena os itens como a avaliação | T, M | b | Top-10 do r̂: 0,40, contra 0,87 do acaso e 2,33 da média do vídeo (S2). Com o alvo da avaliação, o MBPO muda (R_each 0,736 → 1,034) e o DORL não (E5) | Verificada (estática e com treino) |
 | B2 | O P_E funciona como bônus fixo por passo | T | c | O P_E responde por ~99% da variação de r̃ nas políticas de referência (S1); 1,96 de 2 na política treinada (P); E2 | Verificada |
 | B3 | A política explora a regra de saída | S | d | No FB, o MBPO cicla com bloco de N + 1 itens em 80–99% dos ciclos puros (N = 1, 4). A vantagem varia com N e com a janela; o N = 8 original era artefato do recorte (+0,6) | Verificada |
-| B4 | A regra de saída não corresponde ao usuário real | S | d | P(fim \| repete categoria) = 6,3% contra 2,6% nas sessões reais; o simulador supõe 100% contra 0% (etapa 9) | Verificada (associação, não efeito causal) |
+| B4 | A regra de saída não corresponde ao usuário real | S | d, f | P(fim \| repete categoria) = 6,3% contra 2,6% nas sessões reais; o simulador supõe 100% contra 0% (etapa 9) | Verificada (associação, não efeito causal) |
 | B5 | O comportamento é decidido pela razão entre o bônus por passo e a variação do r̂ | T, S | c, d | Bônus implícito do MBPO 0,45 → 0,04 no E5, e o MBPO passa a escolher itens. Saída calibrada, um termo por vez: só o bônus fixo derruba a cobertura (50,2% → 2,5%); P_U e variação do P_E, nada (E6) | Hipótese apoiada (tamanho do bônus não variado) |
 | B6 | A concentração depende do nível medido | M | b, e | MCD (categorias) × cobertura (itens) dão ordens opostas; nenhum método forma bolha individual: V 9,2–11,4 contra 8,02 do usuário e 8,88 do acaso (bolha, etapa 8) | Verificada |
+| B7 | A repetição permitida no FB infla a concentração e não segue a popularidade, ao contrário da revisita real | S, M | e, f | As 18 variantes repetem 6,7–74,3% dos passos FB, contra 3,4% nas sessões reais de 10–30 itens. Cobertura com e sem repetições: MBPO 3,9% / 6,6%, MBPO-N1 6,5% / 16,9%, DORL-E6 0,9% / 2,3%. Revisitas reais vão ao top 10% de popularidade 2× mais que as visualizações (20,3% contra 10,6%); nas políticas, passos repetidos ≈ passos em geral (MBPO 17,3% contra 17,8%), abaixo dos 30,6% do acaso (semana 10, revisitas) | Verificada (dp de popularidade grande) |
 
 ## Notas
 
-- Pendente na semana 10: janela corrigida para MOPO e DORL-const (A1, B3); sementes 1–4 dos bandits (A5);
-  revisualização como métrica (B6). Atualizar as linhas correspondentes quando os resultados chegarem.
+- Pendente na semana 10: janela corrigida para MOPO e DORL-const (A1, B3); sementes 1–4 dos bandits (A5).
+  Atualizar as linhas correspondentes quando os resultados chegarem. Revisitas: B7 (feito em 11/11).
 - Uma calibração da saída probabilística, um conjunto de dados (KuaiRec), λ₁ e λ₂ fixos nos valores do artigo.

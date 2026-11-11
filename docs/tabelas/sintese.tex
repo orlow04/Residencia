@@ -43,7 +43,7 @@ B1 & O $\hat r$ não ordena os itens como a avaliação & T, M & b &
 B2 & O P\_E funciona como bônus fixo por passo & T & c & $\approx$99\% da variação de $\tilde r$; 1,96 de 2; ablação & Verificada \\
 B3 & A política explora a regra de saída & S & d &
   FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; $N = 8$ original é artefato do recorte & Verificada \\
-B4 & A regra de saída não corresponde ao usuário real & S & d &
+B4 & A regra de saída não corresponde ao usuário real & S & d, f &
   $P(\text{fim}\mid\text{repete categoria}) = 6{,}3\%$ contra 2,6\%; o simulador supõe 100\% contra 0\% &
   Verificada (associação) \\
 B5 & Decide a razão entre bônus por passo e variação do $\hat r$ & T, S & c, d &
@@ -52,12 +52,16 @@ B5 & Decide a razão entre bônus por passo e variação do $\hat r$ & T, S & c,
   Hipótese apoiada \\
 B6 & A concentração depende do nível medido & M & b, e &
   MCD e cobertura em ordens opostas; sem bolha individual (V 9,2--11,4 contra 8,02 do usuário) & Verificada \\
+B7 & A repetição do FB infla a concentração e não segue a popularidade & S, M & e, f &
+  Repetição 6,7--74,3\% dos passos contra 3,4\% real; cobertura com/sem repetição: MBPO 3,9/6,6\%, DORL-E6 0,9/2,3\%;
+  top 10\% nos repetidos $\approx$ nos passos (MBPO 17,3 contra 17,8\%), real 20,3 contra 10,6\% & Verificada \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}\footnotesize
 \item Sinal: T = treino ($\hat r$, P\_U, P\_E); S = regra do simulador; M = métrica ou protocolo.
   Controle: (a) desvio entre sementes; (b) referência sem sinal; (c) ablação por constante;
-  (d) variação da regra ou do protocolo; (e) concentração em vários níveis.
+  (d) variação da regra ou do protocolo; (e) concentração em vários níveis;
+  (f) referência empírica (big\_matrix).
 \item[a] Bandits com uma semente; sementes adicionais em andamento.
 \end{tablenotes}
 \end{threeparttable}
