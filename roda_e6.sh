@@ -8,6 +8,7 @@
 #   nohup bash roda_e6.sh MBPO > e6_fila1.out 2>&1 &
 #   nohup bash roda_e6.sh DORL > e6_fila2.out 2>&1 &          (em paralelo; ~3 h cada fila)
 #   nohup bash roda_e6.sh DORLconst > e6_fila3.out 2>&1 &     (DORL com P_E constante, como no E2; exige pe_log.patch)
+#   nohup bash roda_e6.sh MOPO > e6_fila5.out 2>&1 &          (só P_U: separa o bônus fixo do P_U na concentração do DORL-E6)
 # Variáveis: SEEDS="0 1 2 3 4", N=1, P_REP=0.063, P_BASE=0.026. Retomável: execuções com .ok são puladas.
 set -euo pipefail
 N="${N:-1}"
@@ -19,7 +20,7 @@ LOGS="$W/saved_models/KuaiEnv-v0/A2C_with_emb/logs"
 DEST="$W/trajetorias"
 SEEDS="${SEEDS:-0 1 2 3 4}"
 METODOS="$*"
-[ -n "$METODOS" ] || { echo "informe os métodos: MBPO, DORL e/ou DORLconst"; exit 1; }
+[ -n "$METODOS" ] || { echo "informe os métodos: MBPO, MOPO, DORL e/ou DORLconst"; exit 1; }
 ARGS="--env KuaiEnv-v0 --cuda 0 --num_leave_compute $N --leave_threshold 0 --which_tracker avg \
   --reward_handle cat --window_size 3 --read_message pointneg"
 mkdir -p "$DEST"
@@ -31,10 +32,11 @@ grep -q _E6_P environments/KuaiRec/env/KuaiEnv.py || { echo "e6_saida_prob.patch
 for meth in $METODOS; do
   case "$meth" in
     MBPO)      LV=0;    LE=0; CONST="" ;;
+    MOPO)      LV=0.05; LE=0; CONST="" ;;
     DORL)      LV=0.05; LE=5; CONST="" ;;
     DORLconst) LV=0.05; LE=5; CONST=1.9609      # a mesma constante do E2 (results/pe/pe_log_resumo.txt)
                grep -q _PE_CONST src/core/worldModel/simulated_env.py || { echo "pe_log.patch não aplicado"; exit 1; } ;;
-    *) echo "método desconhecido: $meth (MBPO, DORL ou DORLconst)"; exit 1 ;;
+    *) echo "método desconhecido: $meth (MBPO, MOPO, DORL ou DORLconst)"; exit 1 ;;
   esac
   for s in $SEEDS; do
     msg="E6_${meth}_s$s"

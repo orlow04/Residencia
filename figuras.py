@@ -269,9 +269,14 @@ if not falta(a.alem):
         x, y = r.loc[m, ("media", "MCD")], r.loc[m, ("media", "cobertura")]
         cor = CONTEXTO if m == "aleatória" else SEGUNDA if m in dorl else DESTAQUE
         ax.scatter(x, y, s=70, color=cor, edgecolor="white", linewidth=2, zorder=3)
-        if m not in dorl or m in fora:
+        if m not in dorl or (m in fora and len(fora) == 1):
             ha, dx, fy = LADO.get(m, ("left", 0.014, 0.97))
             ax.text(x + dx, y * fy, NOMES.get(m, m), fontsize=10, ha=ha, color=TEXTO2 if cor == CONTEXTO else TEXTO)
+    if len(fora) > 1:                                  # DORL-E6 e DORL-const-E6 quase no mesmo ponto: um rótulo só
+        c = r.loc[fora, ("media", "cobertura")]
+        ax.text(r.loc[fora, ("media", "MCD")].min() - 0.014, c.mean() * 0.97,
+                f"{' e '.join(NOMES.get(m, m) for m in fora)}: {br(100 * c.min(), 1)}% a {br(100 * c.max(), 1)}%",
+                fontsize=10, ha="right", color=TEXTO)
     grupo = [m for m in dorl if m not in fora]
     if grupo:
         c = r.loc[grupo, ("media", "cobertura")]

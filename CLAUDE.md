@@ -76,7 +76,7 @@ Resultados principais (NX_0, média ± dp entre 5 sementes; detalhes em `docs/ex
 | FB | MBPO cicla; nos ciclos puros (38–61% das trajetórias) o bloco tem N + 1 itens em 80–99% (N = 1, 4) | Feito |
 | Além | Cobertura de itens: DORL 3,3%, MBPO 12%, aleatória 86,5% — inverte a leitura da MCD | Feito |
 | Sessões | P(fim | repete categoria) 6,3% contra 2,6% nas sessões reais; o simulador supõe 100% contra 0% | Feito |
-| E6 | Saída probabilística calibrada (N = 1, 0,063/0,026): vantagem do DORL some (Length +0,3), RL ≈ acaso; cobertura MBPO-E6 52,8% × DORL-E6 2,7% (personalização 0,15) | Feito |
+| E6 | Saída probabilística calibrada (N = 1, 0,063/0,026): vantagem do DORL some (Length +0,3), RL ≈ acaso; cobertura MBPO-E6 52,8% × DORL-E6 2,7% (personalização 0,15); DORL-const-E6 = DORL-E6 (2,5%, 0,16) → a concentração não vem da variação do P_E | Feito |
 
 **Enquadramento adotado (10/11):** o protocolo de avaliação é estruturado pelo capítulo de avaliação de Aggarwal
 (objetivos do desenho de avaliação → concentração em vários níveis; desenho da avaliação offline → sinal de treino ×
@@ -87,7 +87,7 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
 
 ## Próxima semana (planejada; última de experimentos)
 
-1. Se houver tempo: DORL-const sob o E6 (a concentração do DORL-E6 vem da variação do P_E?).
+1. Se houver tempo: MOPO sob o E6 (a concentração do DORL-E6 vem do bônus fixo por passo ou do P_U? DORL-const-E6 já descartou a variação do P_E).
 2. Se houver tempo: revisitas reais ao mesmo vídeo (no FB a recompensa de um item repetido é a mesma,
    `KuaiEnv.py:317`), excluindo registros duplicados.
 3. Tabela de síntese (afirmação × sinal × evidência × força) na estrutura acima; congelar os experimentos.

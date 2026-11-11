@@ -431,8 +431,8 @@ da regra sobrevivem?
 **O que foi feito.** O `e6_saida_prob.patch` (ativado por `E6_P_REP`/`E6_P_BASE`) troca a saída certa por uma
 saída com probabilidade 0,063 quando o item repete a categoria do anterior e 0,026 quando não repete (N = 1, valores
 da etapa 9). Sem as variáveis, a decisão é idêntica à original e não consome números aleatórios (`tests/test_e6.py`).
-Vale no treino e na avaliação. MBPO e DORL com 5 sementes cada (`roda_e6.sh`, mensagens `E6_{MBPO,DORL}_s*`, com
-trajetórias gravadas); aleatória com `--p_saida` (`results/e6/aleatoria_E6.json`). A comparação justa é com a regra
+Vale no treino e na avaliação. MBPO, DORL e DORL-const (`PE_CONST=1.9609`, como no E2) com 5 sementes cada
+(`roda_e6.sh`, mensagens `E6_{MBPO,DORL,DORLconst}_s*`, com trajetórias gravadas); aleatória com `--p_saida` (`results/e6/aleatoria_E6.json`). A comparação justa é com a regra
 determinística de mesmo N (N = 1, etapa 5): só a intensidade muda.
 
 **Resultado (verificado; `results/e6/e1_saida.txt`).** NX_0, média ± dp entre 5 sementes.
@@ -443,10 +443,11 @@ determinística de mesmo N (N = 1, etapa 5): só a intensidade muda.
 | N = 1 determinística | DORL | 21,40 ± 2,30 | 0,780 ± 0,076 | 27,40 ± 0,46 | 0,448 |
 | E6 | MBPO | 17,33 ± 0,49 | 0,838 ± 0,027 | 20,69 ± 0,10 | 0,684 |
 | E6 | DORL | 18,25 ± 1,51 | 0,870 ± 0,070 | 20,98 ± 0,16 | 0,770 |
+| E6 | DORL-const | 18,06 ± 0,62 | 0,864 ± 0,032 | 20,91 ± 0,23 | 0,806 |
 | E6 | Aleatória | 17,53 ± 0,07 | 0,872 ± 0,002 | 20,10 ± 0,06 | 0,827 |
 
-No NX_10, R_tra de 8,28 ± 0,37 (MBPO), 8,85 ± 0,86 (DORL) e 8,72 (aleatória). No FB, Length de 20,7 (MBPO),
-19,9 (DORL) e 20,1 (aleatória).
+No NX_10, R_tra de 8,28 ± 0,37 (MBPO), 8,85 ± 0,86 (DORL), 8,87 ± 0,59 (DORL-const) e 8,72 (aleatória). No FB,
+Length de 20,7 (MBPO), 19,9 (DORL e DORL-const) e 20,1 (aleatória).
 
 Critérios nas trajetórias NX_10 (`results/alem/alem_saida.txt`, `results/bolha/bolha_saida.txt`) e estrutura do FB
 (`results/fb/fb_saida.txt`):
@@ -455,6 +456,7 @@ Critérios nas trajetórias NX_10 (`results/alem/alem_saida.txt`, `results/bolha
 |---|---|---|---|---|---|---|---|
 | MBPO-E6 | 0,528 ± 0,077 | 0,903 | 0,949 | 9,15 ± 0,19 | 0,220 | 18,7 / 20,7 | 0,08 |
 | DORL-E6 | 0,027 ± 0,008 | 0,996 | 0,151 | 10,83 ± 0,82 | 0,003 | 5,9 / 19,9 | 0,62 |
+| DORL-const-E6 | 0,025 ± 0,005 | 0,996 | 0,164 | 11,35 ± 0,71 | 0,004 | 6,0 / 19,9 | 0,62 |
 | Aleatória | 0,865 | 0,771 | 0,998 | 8,88 | 0,295 | — | — |
 
 **Interpretação.**
@@ -474,18 +476,29 @@ Critérios nas trajetórias NX_10 (`results/alem/alem_saida.txt`, `results/bolha
    cobertura entre os métodos de RL até aqui (o MBPO original: 12%). O DORL-E6 cobre 2,7% e tem personalização de
    0,15: as listas de usuários diferentes são quase as mesmas (Jaccard médio de 0,85). No FB, o DORL-E6 usa 5,9 itens
    distintos em 19,9 passos. O método proposto para reduzir o efeito Mateus é o que mais concentra a exposição.
-7. **Hipótese (não testada):** quando o comprimento deixa de depender da política, decide a variação da recompensa
-   entre itens. No DORL, essa variação é dominada pelo termo de entropia de k = 1, que favorece itens raros e é a
-   mesma para todos os usuários (S1). O teste é o DORL-const sob o E6 (não rodado).
+7. **A concentração do DORL-E6 não vem da variação do P_E (hipótese testada e descartada).** A hipótese era que, sem
+   controle do comprimento, decidiria a variação da recompensa entre itens, dominada pelo termo de entropia de k = 1
+   (favorece itens raros e é o mesmo para todos os usuários, S1). O DORL-const-E6, com o P_E constante, repete o
+   DORL-E6 em tudo, dentro do dp entre sementes: cobertura 2,5% contra 2,7%, personalização 0,16 contra 0,15, Gini
+   0,996 nos dois, 6,0 contra 5,9 itens distintos no FB, R_tra, R_each, Length e MCD. A única diferença acima do dp é
+   a novidade (12,48 ± 0,17 no DORL-E6 contra 12,20 ± 0,25), por 0,28, pouco acima do maior dp: a variação do P_E
+   empurra levemente para itens menos populares, sem mudar a concentração. Como no E2 (regra determinística), a
+   variação do termo é inerte também sob a regra calibrada. O que separa os dois DORL do MBPO-E6 é o que eles têm e o
+   MBPO não tem: o bônus fixo por passo (≈ 8,35, contra um dp de r̂ de 0,02) e a penalidade de incerteza
+   (λ₁·P_U). **Hipótese (não testada):** o bônus fixo, centenas de vezes maior que a variação de r̂, apaga o sinal
+   que distingue itens e usuários, e a política converge para poucos itens comuns a todos. O MOPO-E6 (só P_U, sem
+   bônus) separaria as duas causas.
 8. **A bolha continua ausente,** mas o MBPO-E6 é o método de RL mais próximo do consumo do usuário até aqui: V de 9,15
    (8,02 do usuário), com 22% das trajetórias mais estreitas que ele (aleatória: 30%).
 
 **Leitura.** A afirmação principal do artigo (o DORL prolonga a sessão) depende de a regra de saída ser determinística.
 Com a intensidade medida nos dados, o simulador quase não deixa a política influir no comprimento, a vantagem
 desaparece, os métodos de RL ficam no nível do acaso e a leitura da concentração muda de novo.
+Sob as duas regras, a variação do termo de entropia, que o artigo motiva como diversidade, não muda a concentração:
+o que distingue o DORL é o nível dos termos da recompensa, não o sinal de diversidade.
 
 **Limitações.** Uma única calibração (N = 1, folga de 2 s, fim após 30 min); probabilidades de uma associação, não de
-um efeito causal; MOPO e DORL-const não repetidos sob o E6.
+um efeito causal; MOPO não repetido sob o E6, então o bônus fixo e o P_U não foram separados.
 
 ## Reprodutibilidade e organização
 
@@ -500,7 +513,7 @@ um efeito causal; MOPO e DORL-const não repetidos sob o E6.
 
 ## Pendências (próxima semana)
 
-- Se houver tempo: DORL-const sob o E6 (testa a hipótese da etapa 10, item 7); MOPO e DORL-const com N = 8
-  corrigido; revisitas reais ao mesmo vídeo, sem registros duplicados.
+- Se houver tempo: MOPO sob o E6 (separa o bônus fixo do P_U na concentração do DORL-E6, etapa 10, item 7);
+  MOPO e DORL-const com N = 8 corrigido; revisitas reais ao mesmo vídeo, sem registros duplicados.
 - Tabela de afirmação × sinal × evidência × força; congelamento dos experimentos.
 - Em aberto: a forma não monótona do Length do MBPO no N; por que DORL e DORL-const quase não ciclam no FB.
