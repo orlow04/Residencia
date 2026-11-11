@@ -423,6 +423,70 @@ As conclusões se mantêm com G = 10 e 60 min e folga de 5 s.
 **Limitações.** Associação, não causa. As cadeias longas (N = 4 e 8) são raras e vêm de sessões contínuas; o N = 1
 é o caso com dados suficientes.
 
+## Etapa 10 — E6: saída probabilística calibrada nas sessões reais
+
+**Pergunta.** Com a intensidade da regra de saída medida nos dados reais (etapa 9), a vantagem do DORL e a exploração
+da regra sobrevivem?
+
+**O que foi feito.** O `e6_saida_prob.patch` (ativado por `E6_P_REP`/`E6_P_BASE`) troca a saída certa por uma
+saída com probabilidade 0,063 quando o item repete a categoria do anterior e 0,026 quando não repete (N = 1, valores
+da etapa 9). Sem as variáveis, a decisão é idêntica à original e não consome números aleatórios (`tests/test_e6.py`).
+Vale no treino e na avaliação. MBPO e DORL com 5 sementes cada (`roda_e6.sh`, mensagens `E6_{MBPO,DORL}_s*`, com
+trajetórias gravadas); aleatória com `--p_saida` (`results/e6/aleatoria_E6.json`). A comparação justa é com a regra
+determinística de mesmo N (N = 1, etapa 5): só a intensidade muda.
+
+**Resultado (verificado; `results/e6/e1_saida.txt`).** NX_0, média ± dp entre 5 sementes.
+
+| Regra | Método | R_tra | R_each | Length | MCD |
+|---|---|---|---|---|---|
+| N = 1 determinística | MBPO | 16,69 ± 1,90 | 0,740 ± 0,067 | 22,62 ± 2,01 | 0,375 |
+| N = 1 determinística | DORL | 21,40 ± 2,30 | 0,780 ± 0,076 | 27,40 ± 0,46 | 0,448 |
+| E6 | MBPO | 17,33 ± 0,49 | 0,838 ± 0,027 | 20,69 ± 0,10 | 0,684 |
+| E6 | DORL | 18,25 ± 1,51 | 0,870 ± 0,070 | 20,98 ± 0,16 | 0,770 |
+| E6 | Aleatória | 17,53 ± 0,07 | 0,872 ± 0,002 | 20,10 ± 0,06 | 0,827 |
+
+No NX_10, R_tra de 8,28 ± 0,37 (MBPO), 8,85 ± 0,86 (DORL) e 8,72 (aleatória). No FB, Length de 20,7 (MBPO),
+19,9 (DORL) e 20,1 (aleatória).
+
+Critérios nas trajetórias NX_10 (`results/alem/alem_saida.txt`, `results/bolha/bolha_saida.txt`) e estrutura do FB
+(`results/fb/fb_saida.txt`):
+
+| Método | Cobertura | Gini | Personalização | V (bolha) | Trajetórias mais estreitas que o usuário | FB: itens distintos / Length | FB: repetição |
+|---|---|---|---|---|---|---|---|
+| MBPO-E6 | 0,528 ± 0,077 | 0,903 | 0,949 | 9,15 ± 0,19 | 0,220 | 18,7 / 20,7 | 0,08 |
+| DORL-E6 | 0,027 ± 0,008 | 0,996 | 0,151 | 10,83 ± 0,82 | 0,003 | 5,9 / 19,9 | 0,62 |
+| Aleatória | 0,865 | 0,771 | 0,998 | 8,88 | 0,295 | — | — |
+
+**Interpretação.**
+
+1. **A vantagem do DORL desaparece.** Com a regra determinística de N = 1, o DORL dura 4,8 passos a mais que o MBPO;
+   com a saída calibrada, 0,3 (acima do dp de 0,16, mas 1,4% do comprimento). Em R_tra, +0,9, dentro do dp (1,5).
+2. **Os métodos de RL não superam o acaso.** Em R_tra, MBPO-E6 e DORL-E6 ficam dentro do dp da aleatória no NX_0 e no
+   NX_10. Em R_each, o DORL-E6 iguala o acaso (0,870 contra 0,872) e o MBPO-E6 fica abaixo, por mais que o dp.
+3. **A política quase não controla o comprimento** (cálculo derivado da regra, não saída de script): sem nunca repetir
+   categoria, o Length esperado é 21,0; repetindo sempre, 13,6. A aleatória já faz 20,1. O DORL fica no máximo
+   (21,0) e o MBPO a 0,3 dele.
+4. **Os ciclos do FB desaparecem:** o Length cai para o nível do acaso (de 25,0 com N = 1 determinística para 20,7 no
+   MBPO).
+5. **A MCD sobe para perto da taxa de base** (0,68 e 0,77 contra 0,83). A baixa concentração de categorias dos métodos
+   de RL nas etapas anteriores vinha da regra determinística.
+6. **No nível do item, MBPO e DORL se separam ao extremo.** O MBPO-E6 cobre 52,8% dos itens por época, a maior
+   cobertura entre os métodos de RL até aqui (o MBPO original: 12%). O DORL-E6 cobre 2,7% e tem personalização de
+   0,15: as listas de usuários diferentes são quase as mesmas (Jaccard médio de 0,85). No FB, o DORL-E6 usa 5,9 itens
+   distintos em 19,9 passos. O método proposto para reduzir o efeito Mateus é o que mais concentra a exposição.
+7. **Hipótese (não testada):** quando o comprimento deixa de depender da política, decide a variação da recompensa
+   entre itens. No DORL, essa variação é dominada pelo termo de entropia de k = 1, que favorece itens raros e é a
+   mesma para todos os usuários (S1). O teste é o DORL-const sob o E6 (não rodado).
+8. **A bolha continua ausente,** mas o MBPO-E6 é o método de RL mais próximo do consumo do usuário até aqui: V de 9,15
+   (8,02 do usuário), com 22% das trajetórias mais estreitas que ele (aleatória: 30%).
+
+**Leitura.** A afirmação principal do artigo (o DORL prolonga a sessão) depende de a regra de saída ser determinística.
+Com a intensidade medida nos dados, o simulador quase não deixa a política influir no comprimento, a vantagem
+desaparece, os métodos de RL ficam no nível do acaso e a leitura da concentração muda de novo.
+
+**Limitações.** Uma única calibração (N = 1, folga de 2 s, fim após 30 min); probabilidades de uma associação, não de
+um efeito causal; MOPO e DORL-const não repetidos sob o E6.
+
 ## Reprodutibilidade e organização
 
 | Item | Arquivo |
@@ -436,9 +500,7 @@ As conclusões se mantêm com G = 10 e 60 min e folga de 5 s.
 
 ## Pendências (próxima semana)
 
-- E6 (em execução desde 10/11): usuário simulado com saída probabilística calibrada pela etapa 9 (`e6_saida_prob.patch`, `roda_e6.sh`; N = 1,
-  P = 0,063 se repete e 0,026 se não). Pergunta: a vantagem do DORL e a exploração da regra sobrevivem? A aleatória
-  já foi medida: Length 20,1 e R_tra 17,5 no NX_0 (`results/e6/aleatoria_E6.json`).
-- Se houver tempo: MOPO e DORL-const com N = 8 corrigido; mais sementes para os bandits.
+- Se houver tempo: DORL-const sob o E6 (testa a hipótese da etapa 10, item 7); MOPO e DORL-const com N = 8
+  corrigido; revisitas reais ao mesmo vídeo, sem registros duplicados.
 - Tabela de afirmação × sinal × evidência × força; congelamento dos experimentos.
 - Em aberto: a forma não monótona do Length do MBPO no N; por que DORL e DORL-const quase não ciclam no FB.

@@ -262,17 +262,21 @@ if not falta(a.alem):
     # rótulo de cada ponto de MBPO/MOPO: (alinhamento, dx, fator em y); a família do DORL fica num rótulo só
     LADO = {"MBPO": ("center", 0, 1.13), "MBPO-N4c": ("right", -0.014, 0.97), "MBPO-N8c": ("right", -0.014, 0.97)}
     dorl = [m for m in r.index if m.startswith("DORL")]
+    mcd_d = r.loc[dorl, ("media", "MCD")]
+    fora = [m for m in dorl if mcd_d[m] > mcd_d.median() + 0.15]          # longe do grupo: rótulo próprio (DORL-E6)
+    LADO.update({m: ("right", -0.014, 0.97) for m in fora})
     for m in r.index:
         x, y = r.loc[m, ("media", "MCD")], r.loc[m, ("media", "cobertura")]
         cor = CONTEXTO if m == "aleatória" else SEGUNDA if m in dorl else DESTAQUE
         ax.scatter(x, y, s=70, color=cor, edgecolor="white", linewidth=2, zorder=3)
-        if m not in dorl:
+        if m not in dorl or m in fora:
             ha, dx, fy = LADO.get(m, ("left", 0.014, 0.97))
-            ax.text(x + dx, y * fy, NOMES.get(m, m), fontsize=10, ha=ha, color=TEXTO if cor == DESTAQUE else TEXTO2)
-    if dorl:
-        c = r.loc[dorl, ("media", "cobertura")]
-        ax.text(r.loc[dorl, ("media", "MCD")].max() + 0.02, c.mean() * 0.97,
-                f"DORL, DORL-const e variantes ({len(dorl)}): {br(100 * c.min(), 1)}% a {br(100 * c.max(), 1)}%",
+            ax.text(x + dx, y * fy, NOMES.get(m, m), fontsize=10, ha=ha, color=TEXTO2 if cor == CONTEXTO else TEXTO)
+    grupo = [m for m in dorl if m not in fora]
+    if grupo:
+        c = r.loc[grupo, ("media", "cobertura")]
+        ax.text(r.loc[grupo, ("media", "MCD")].max() + 0.02, c.mean() * 0.97,
+                f"DORL, DORL-const e variantes ({len(grupo)}): {br(100 * c.min(), 1)}% a {br(100 * c.max(), 1)}%",
                 fontsize=10, color=TEXTO)
     ax.set_yscale("log")
     ax.set_yticks([0.02, 0.05, 0.1, 0.2, 0.5, 1], ["2%", "5%", "10%", "20%", "50%", "100%"])
