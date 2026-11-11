@@ -38,8 +38,8 @@ def nome(orig):
     E3N<N>_<M>: regra de saída com outro N (MBPO-N1); A5N<N>_<M>: idem com a janela corrigida (MBPO-N4c)."""
     if orig in NOMES:
         return NOMES[orig]
-    m = re.fullmatch(r"(E3|A5)N(\d+)_(MBPO|DORL)", orig)
-    return f"{m.group(3)}-N{m.group(2)}{'c' if m.group(1) == 'A5' else ''}" if m else None
+    m = re.fullmatch(r"(E3|A5)N(\d+)_(MBPO|MOPO|DORL|DORLconst)", orig)
+    return f"{NOMES[m.group(3)]}-N{m.group(2)}{'c' if m.group(1) == 'A5' else ''}" if m else None
 
 
 def ordem(metodos):
@@ -50,7 +50,8 @@ def ordem(metodos):
         if m == "aleatória":
             return (2, 0, 0, m)
         n = re.search(r"-N(\d+)", m)
-        return (1, int(n.group(1)) if n else 0, m.endswith("c"), not m.startswith("MBPO"))
+        fam = m[:n.start()] if n else m
+        return (1, int(n.group(1)) if n else 0, m.endswith("c"), ORDEM.index(fam) if fam in ORDEM else 9)
     return sorted(metodos, key=chave)
 
 

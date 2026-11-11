@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# A5: MBPO e DORL com a janela da regra de saída corrigida (a5_janela.patch, ativado por A5_FIX=1), 5 sementes, com as
+# A5: MBPO e DORL (e MOPO e DORL-const) com a janela da regra de saída corrigida (a5_janela.patch, ativado por A5_FIX=1), 5 sementes, com as
 # trajetórias gravadas (TRAJ_LOG). Única mudança em relação ao R (N = 4) e ao E3 (N = 8): a janela compara os min(t, N)
 # itens anteriores, sem o recorte do índice negativo (no original, N/2 < t < N comparam menos itens). Como no E3, a
 # regra vale no treino e na avaliação (o ambiente simulado usa o done do KuaiEnv). Com N ≤ 2 não há recorte: o
@@ -8,7 +8,9 @@
 # Uso (na raiz do repositório, na 4090, venv ativo, com traj_log.patch e a5_janela.patch aplicados; sem E5_RAW_WR):
 #   nohup bash roda_a5.sh 4 > a5_fila1.out 2>&1 &
 #   nohup bash roda_a5.sh 8 > a5_fila2.out 2>&1 &          (em paralelo; ~5,5 h cada fila)
-# Sementes: SEEDS="0 1 2 3 4" (padrão). Métodos: METODOS="MBPO DORL" (padrão). Retomável: execuções com .ok são puladas.
+#   METODOS="MOPO DORLconst" nohup bash roda_a5.sh 4 > a5_fila3.out 2>&1 &   (DORLconst exige pe_log.patch;
+#   METODOS="MOPO DORLconst" nohup bash roda_a5.sh 8 > a5_fila4.out 2>&1 &    PE_CONST = 1,9609, como no E2)
+# Sementes: SEEDS="0 1 2 3 4" (padrão). Métodos: METODOS="MBPO DORL" (padrão; também MOPO e DORLconst). Retomável: execuções com .ok são puladas.
 set -euo pipefail
 N="${1:?informe o N da regra de saída (ex.: 4 ou 8)}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -21,15 +23,18 @@ ARGS="--env KuaiEnv-v0 --cuda 0 --num_leave_compute $N --leave_threshold 0 --whi
   --reward_handle cat --window_size 3 --read_message pointneg"
 mkdir -p "$DEST"
 cd "$W"
-unset PE_LOG PE_CONST TRAJ_LOG E5_RAW_WR A5_FIX
+unset PE_LOG PE_CONST TRAJ_LOG E5_RAW_WR A5_FIX E6_P_REP E6_P_BASE
 grep -q TRAJ_LOG src/core/evaluation/evaluator.py || { echo "traj_log.patch não aplicado"; exit 1; }
 grep -q _A5_FIX environments/KuaiRec/env/KuaiEnv.py || { echo "a5_janela.patch não aplicado"; exit 1; }
 
 for meth in $METODOS; do
   case "$meth" in
-    MBPO) LV=0;    LE=0 ;;
-    DORL) LV=0.05; LE=5 ;;
-    *) echo "método desconhecido: $meth (MBPO ou DORL)"; exit 1 ;;
+    MBPO)      LV=0;    LE=0; CONST="" ;;
+    MOPO)      LV=0.05; LE=0; CONST="" ;;
+    DORL)      LV=0.05; LE=5; CONST="" ;;
+    DORLconst) LV=0.05; LE=5; CONST=1.9609      # a mesma constante do E2 (results/pe/pe_log_resumo.txt)
+               grep -q _PE_CONST src/core/worldModel/simulated_env.py || { echo "pe_log.patch não aplicado"; exit 1; } ;;
+    *) echo "método desconhecido: $meth (MBPO, MOPO, DORL ou DORLconst)"; exit 1 ;;
   esac
   for s in $SEEDS; do
     msg="A5N${N}_${meth}_s$s"
@@ -37,8 +42,10 @@ for meth in $METODOS; do
     if [ -f "$csv.ok" ]; then echo "== $msg: já feito, pulando"; continue; fi
     [ -f "$csv" ] && mv "$csv" "$csv.incompleto.$(date +%s)"
     echo "== $msg: início $(date '+%d/%m %H:%M')"
+    if [ -n "$CONST" ]; then export PE_CONST="$CONST"; else unset PE_CONST; fi
     A5_FIX=1 TRAJ_LOG="$csv" python run_Policy_Main.py $ARGS --lambda_variance $LV --lambda_entropy $LE \
       --seed "$s" --message "$msg" > "$DEST/$msg.out" 2>&1
+    unset PE_CONST
     if python - "$LOGS" "$msg" "$HERE" "$N" <<'PY'
 import glob, re, sys
 logs, msg, here, n = sys.argv[1:5]
