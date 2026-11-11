@@ -19,6 +19,11 @@
   usado: DORL-E6      [E6_DORL_s2]_2026_11_10-17_34_26.log (200 épocas)
   usado: DORL-E6      [E6_DORL_s3]_2026_11_10-18_06_56.log (200 épocas)
   usado: DORL-E6      [E6_DORL_s4]_2026_11_10-18_39_41.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s0]_2026_11_10-21_51_33.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s1]_2026_11_10-22_24_25.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s2]_2026_11_10-22_57_27.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s3]_2026_11_10-21_51_38.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s4]_2026_11_10-22_24_43.log (200 épocas)
 
 == Média entre sementes ± dp entre sementes (n = número de sementes). MCD: menor é melhor.
 
@@ -28,6 +33,7 @@ FB
   DORL-N1       5    14.376 ± 0.667     0.670 ± 0.058    21.820 ± 1.455     0.305 ± 0.110
   MBPO-E6       5    16.695 ± 1.164     0.807 ± 0.059    20.707 ± 0.099     0.676 ± 0.049
   DORL-E6       5    16.973 ± 2.101     0.854 ± 0.106    19.876 ± 0.123     0.666 ± 0.060
+  DORL-const-E6  5    17.274 ± 1.421     0.868 ± 0.074    19.905 ± 0.116     0.770 ± 0.111
   aleatória     5    17.569 ± 0.096     0.872 ± 0.002    20.147 ± 0.100     0.827 ± 0.000
 
 NX_0
@@ -36,6 +42,7 @@ NX_0
   DORL-N1       5    21.396 ± 2.299     0.780 ± 0.076    27.399 ± 0.458     0.448 ± 0.034
   MBPO-E6       5    17.331 ± 0.490     0.838 ± 0.027    20.690 ± 0.097     0.684 ± 0.028
   DORL-E6       5    18.251 ± 1.508     0.870 ± 0.070    20.975 ± 0.157     0.770 ± 0.032
+  DORL-const-E6  5    18.062 ± 0.615     0.864 ± 0.032    20.912 ± 0.230     0.806 ± 0.059
   aleatória     5    17.530 ± 0.068     0.872 ± 0.002    20.099 ± 0.055     0.827 ± 0.001
 
 NX_10
@@ -44,15 +51,17 @@ NX_10
   DORL-N1       5     7.027 ± 0.857     0.703 ± 0.086    10.000 ± 0.000     0.386 ± 0.010
   MBPO-E6       5     8.275 ± 0.371     0.827 ± 0.037    10.000 ± 0.000     0.668 ± 0.034
   DORL-E6       5     8.852 ± 0.860     0.885 ± 0.086    10.000 ± 0.000     0.709 ± 0.040
+  DORL-const-E6  5     8.866 ± 0.593     0.887 ± 0.059    10.000 ± 0.000     0.764 ± 0.112
   aleatória     5     8.715 ± 0.017     0.871 ± 0.002    10.000 ± 0.000     0.827 ± 0.001
 
 == Posição de cada método (1 = melhor)
-           FB:R_tra  FB:R_each  FB:Length  FB:MCD  NX_0:R_tra  NX_0:R_each  NX_0:Length  NX_0:MCD  NX_10:R_tra  NX_10:R_each  NX_10:MCD
-MBPO-N1           2          5          1       2           5            5            2         1            5             5          1
-DORL-N1           5          4          2       1           1            4            1         2            4             4          2
-MBPO-E6           4          3          3       4           4            3            4         3            3             3          3
-DORL-E6           3          2          5       3           2            2            3         4            1             1          4
-aleatória         1          1          4       5           3            1            5         5            2             2          5
+               FB:R_tra  FB:R_each  FB:Length  FB:MCD  NX_0:R_tra  NX_0:R_each  NX_0:Length  NX_0:MCD  NX_10:R_tra  NX_10:R_each  NX_10:MCD
+MBPO-N1               3          6          1       2           6            6            2         1            6             6          1
+DORL-N1               6          5          2       1           1            5            1         2            5             5          2
+MBPO-E6               5          4          3       4           5            4            5         3            4             4          3
+DORL-E6               4          3          6       3           2            2            3         4            2             2          4
+DORL-const-E6         2          2          5       5           3            3            4         5            1             1          5
+aleatória             1          1          4       6           4            1            6         6            3             3          6
 
 == Inversões entre métricas (mesmo protocolo)
   FB    MBPO-N1 × DORL-N1: MBPO-N1 melhor em R_tra, Length; DORL-N1 melhor em R_each, MCD [dentro da variação entre sementes]
@@ -64,6 +73,9 @@ aleatória         1          1          4       5           3            1     
   FB    MBPO-N1 × DORL-E6: MBPO-N1 melhor em R_tra, Length, MCD; DORL-E6 melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N1 × DORL-E6: MBPO-N1 melhor em Length, MCD; DORL-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_10 MBPO-N1 × DORL-E6: MBPO-N1 melhor em MCD; DORL-E6 melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    MBPO-N1 × DORL-const-E6: MBPO-N1 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MBPO-N1 × DORL-const-E6: MBPO-N1 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 MBPO-N1 × DORL-const-E6: MBPO-N1 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [supera o dp entre sementes]
   FB    MBPO-N1 × aleatória: MBPO-N1 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_0  MBPO-N1 × aleatória: MBPO-N1 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_10 MBPO-N1 × aleatória: MBPO-N1 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
@@ -73,17 +85,27 @@ aleatória         1          1          4       5           3            1     
   FB    DORL-N1 × DORL-E6: DORL-N1 melhor em Length, MCD; DORL-E6 melhor em R_tra, R_each [supera o dp entre sementes]
   NX_0  DORL-N1 × DORL-E6: DORL-N1 melhor em R_tra, Length, MCD; DORL-E6 melhor em R_each [supera o dp entre sementes]
   NX_10 DORL-N1 × DORL-E6: DORL-N1 melhor em MCD; DORL-E6 melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    DORL-N1 × DORL-const-E6: DORL-N1 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_0  DORL-N1 × DORL-const-E6: DORL-N1 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [supera o dp entre sementes]
+  NX_10 DORL-N1 × DORL-const-E6: DORL-N1 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [supera o dp entre sementes]
   FB    DORL-N1 × aleatória: DORL-N1 melhor em Length, MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   NX_0  DORL-N1 × aleatória: DORL-N1 melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 DORL-N1 × aleatória: DORL-N1 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   FB    MBPO-E6 × DORL-E6: MBPO-E6 melhor em Length; DORL-E6 melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
   NX_0  MBPO-E6 × DORL-E6: MBPO-E6 melhor em MCD; DORL-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO-E6 × DORL-E6: MBPO-E6 melhor em MCD; DORL-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MBPO-E6 × DORL-const-E6: MBPO-E6 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MBPO-E6 × DORL-const-E6: MBPO-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MBPO-E6 × DORL-const-E6: MBPO-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO-E6 × aleatória: MBPO-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_0  MBPO-E6 × aleatória: MBPO-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_10 MBPO-E6 × aleatória: MBPO-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    DORL-E6 × DORL-const-E6: DORL-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 DORL-E6 × DORL-const-E6: DORL-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    DORL-E6 × aleatória: DORL-E6 melhor em MCD; aleatória melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_0  DORL-E6 × aleatória: DORL-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  FB    DORL-const-E6 × aleatória: DORL-const-E6 melhor em MCD; aleatória melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_0  DORL-const-E6 × aleatória: DORL-const-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
 
 == Inversões entre protocolos (mesma métrica)
   R_tra  MBPO-N1 × DORL-N1: MBPO-N1 melhor em FB; DORL-N1 melhor em NX_0, NX_10 [dentro da variação entre sementes]
@@ -93,11 +115,19 @@ aleatória         1          1          4       5           3            1     
   R_tra  MBPO-N1 × DORL-E6: MBPO-N1 melhor em FB; DORL-E6 melhor em NX_0, NX_10 [dentro da variação entre sementes]
   R_tra  DORL-N1 × MBPO-E6: DORL-N1 melhor em NX_0; MBPO-E6 melhor em FB, NX_10 [supera o dp entre sementes]
   R_tra  DORL-N1 × DORL-E6: DORL-N1 melhor em NX_0; DORL-E6 melhor em FB, NX_10 [supera o dp entre sementes]
+  R_tra  DORL-N1 × DORL-const-E6: DORL-N1 melhor em NX_0; DORL-const-E6 melhor em FB, NX_10 [supera o dp entre sementes]
   R_tra  DORL-N1 × aleatória: DORL-N1 melhor em NX_0; aleatória melhor em FB, NX_10 [supera o dp entre sementes]
   Length MBPO-E6 × DORL-E6: MBPO-E6 melhor em FB; DORL-E6 melhor em NX_0 [supera o dp entre sementes]
   MCD    MBPO-E6 × DORL-E6: MBPO-E6 melhor em NX_0, NX_10; DORL-E6 melhor em FB [dentro da variação entre sementes]
+  Length MBPO-E6 × DORL-const-E6: MBPO-E6 melhor em FB; DORL-const-E6 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  DORL-E6 × DORL-const-E6: DORL-E6 melhor em NX_0; DORL-const-E6 melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_each DORL-E6 × DORL-const-E6: DORL-E6 melhor em NX_0; DORL-const-E6 melhor em FB, NX_10 [dentro da variação entre sementes]
+  Length DORL-E6 × DORL-const-E6: DORL-E6 melhor em NX_0; DORL-const-E6 melhor em FB [dentro da variação entre sementes]
   R_tra  DORL-E6 × aleatória: DORL-E6 melhor em NX_0, NX_10; aleatória melhor em FB [dentro da variação entre sementes]
   R_each DORL-E6 × aleatória: DORL-E6 melhor em NX_10; aleatória melhor em FB, NX_0 [dentro da variação entre sementes]
   Length DORL-E6 × aleatória: DORL-E6 melhor em NX_0; aleatória melhor em FB [supera o dp entre sementes]
+  R_tra  DORL-const-E6 × aleatória: DORL-const-E6 melhor em NX_0, NX_10; aleatória melhor em FB [dentro da variação entre sementes]
+  R_each DORL-const-E6 × aleatória: DORL-const-E6 melhor em NX_10; aleatória melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length DORL-const-E6 × aleatória: DORL-const-E6 melhor em NX_0; aleatória melhor em FB [supera o dp entre sementes]
 
 Arquivos: ../../results/e6/e1_por_semente.csv, ../../results/e6/e1_resumo.csv, ../../results/e6/e1_posicoes.csv
