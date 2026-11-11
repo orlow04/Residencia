@@ -1,0 +1,65 @@
+% Tabela de síntese (gerada à mão a partir de docs/sintese.md; manter os dois iguais).
+% Requer: \usepackage{booktabs,tabularx,threeparttable,pdflscape}
+\begin{landscape}
+\begin{table}[p]
+\centering
+\small
+\caption{Afirmações do DORL e achados deste trabalho: sinal examinado, controle de avaliação, evidência e força.
+Média $\pm$ dp entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes.}
+\label{tab:sintese}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}p{4.6cm}cc>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.0cm}@{}}
+\toprule
+\# & Afirmação & Sinal & Controle & Evidência & Força \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Afirmações do artigo}} \\
+A1 & O DORL prolonga a sessão (Length e $R_{tra}$ acima do MBPO) & S, M & a, d &
+  NX\_0: $+7{,}6$ em Length, $+6{,}6$ em $R_{tra}$. NX\_10: RL abaixo do acaso em $R_{tra}$ (7,08--7,39 contra 8,72).
+  $N = 1/4c/8c$: $+4{,}8/+6{,}7/+3{,}5$. Saída calibrada: $+0{,}3$, RL $\approx$ acaso &
+  Condicional (regra determinística) \\
+A2 & C1: a penalidade de incerteza produz efeito Mateus & T, M & a, e &
+  MCD $+0{,}043$ com dp de $0{,}085$. Saída calibrada: MOPO = MBPO em cobertura (50,2\% contra 52,8\%) e MCD &
+  Dentro do ruído \\
+A3 & C4: o termo de entropia reintroduz exploração & T & c &
+  P\_E constante = DORL nas quatro métricas e, sob a saída calibrada, na cobertura (2,5\% contra 2,7\%);
+  P\_E $= 1{,}96$ de 2 na política treinada &
+  Não sustentada (bônus fixo por passo) \\
+A4 & O DORL reduz a concentração & M & b, e &
+  RL abaixo da taxa de base do acaso na MCD (0,83). Cobertura: DORL 3,3\%, MBPO 12\%, acaso 86,5\%;
+  saída calibrada: 2,7\% contra 52,8\% &
+  Invertida no nível do item \\
+A5 & O RL supera os bandits & M & b, d &
+  $R_{each}$ do RL abaixo do acaso nos três protocolos (0,69--0,78 contra 0,87); bandits abaixo do acaso\tnote{a} &
+  Condicional ($R_{tra}$ em NX\_0) \\
+A6 & A Tabela 2 representa cada método & M & a &
+  ``$\pm$'' entre épocas de uma execução; dp da MCD entre sementes $= 3{,}6\times$ a diferença DORL $-$ MBPO &
+  Não sustentada com uma semente \\
+A7 & C2 e C3 & --- & --- & Correlacional (C2) e teórica (C3); fora do alcance do simulador & Não testada \\
+\midrule
+\multicolumn{6}{@{}l}{\textit{Achados deste trabalho}} \\
+B1 & O $\hat r$ não ordena os itens como a avaliação & T, M & b &
+  Top-10 do $\hat r$: 0,40 contra 0,87 do acaso. Com o alvo da avaliação, MBPO muda ($R_{each}$ 0,736 $\to$ 1,034), DORL não &
+  Verificada \\
+B2 & O P\_E funciona como bônus fixo por passo & T & c & $\approx$99\% da variação de $\tilde r$; 1,96 de 2; ablação & Verificada \\
+B3 & A política explora a regra de saída & S & d &
+  FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; $N = 8$ original é artefato do recorte & Verificada \\
+B4 & A regra de saída não corresponde ao usuário real & S & d &
+  $P(\text{fim}\mid\text{repete categoria}) = 6{,}3\%$ contra 2,6\%; o simulador supõe 100\% contra 0\% &
+  Verificada (associação) \\
+B5 & Decide a razão entre bônus por passo e variação do $\hat r$ & T, S & c, d &
+  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Saída calibrada: só o bônus fixo
+  derruba a cobertura (50,2\% $\to$ 2,5\%) &
+  Hipótese apoiada \\
+B6 & A concentração depende do nível medido & M & b, e &
+  MCD e cobertura em ordens opostas; sem bolha individual (V 9,2--11,4 contra 8,02 do usuário) & Verificada \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}\footnotesize
+\item Sinal: T = treino ($\hat r$, P\_U, P\_E); S = regra do simulador; M = métrica ou protocolo.
+  Controle: (a) desvio entre sementes; (b) referência sem sinal; (c) ablação por constante;
+  (d) variação da regra ou do protocolo; (e) concentração em vários níveis.
+\item[a] Bandits com uma semente; sementes adicionais em andamento.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{landscape}

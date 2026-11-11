@@ -1,0 +1,26 @@
+Duplicatas exatas removidas do big_matrix: 968,004 (7.7%)
+
+A. Revisitas no big_matrix (sem duplicatas)
+medida                                             aval.      todos
+visualizacoes                                    533,090 11,562,802
+usuarios                                           1,411      7,176
+frac_repeticoes                                    0.055      0.109
+frac_revisitas                                     0.039      0.080
+frac_usuarios_com_revisita                         0.995      0.998
+top10_frac_visualizacoes                           0.106      0.402
+top10_frac_revisitas                               0.203      0.656
+gini_visualizacoes_por_item                        0.753      0.670
+gini_revisitas_por_item                            0.958      0.877
+razao_wr_revisita_mediana                          1.000      0.997
+frac_revisitas_wr_maior                            0.500      0.480
+sessoes_tam_ge_2                                 120,780    668,222
+repeticao_na_sessao_media                          0.015      0.026
+frac_sessoes_com_repeticao                         0.038      0.121
+repeticao_na_sessao_media_tam_10_30                0.034      0.027
+sessoes_tam_10_30                                  3,813    149,718
+repetições: imediata                               0.281      0.237
+repetições: mesma_sessao                           0.019      0.026
+repetições: outra_sessao                           0.699      0.736
+
+B. Loop dentro da visualização (small_matrix, células observadas)
+  watch_ratio > 1: 0.324; > 5: 0.005; parte da recompensa de avaliação acima de 1: 0.205
