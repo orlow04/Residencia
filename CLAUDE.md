@@ -65,14 +65,34 @@ Resultados principais (NX_0, média ± dp entre 5 sementes; detalhes em `docs/ex
 - E1: em NX_10 os quatro métodos de RL ficam abaixo do acaso e dos bandits em R_tra; em R_each, abaixo do acaso nos três protocolos; no FB, DORL e DORL-const duram ~15 passos contra ~27 de MBPO/MOPO.
 - Logs do DORL: havia repetições e execuções incompletas; o `e1_protocolos.py` usa só o log completo mais recente de cada semente.
 
-## Próxima semana (planejada)
+## Semana 9 (gate em 10/11/2026) — registro em `docs/semana9.md`
 
-1. Registrar as trajetórias de avaliação (itens e categorias por passo): patch novo no coletor/avaliador.
-2. Investigar o FB: o MBPO dura ~28 passos; hipótese de rotação de 5+ categorias que nunca dispara a saída.
-3. "Bolha": definição operacional + métrica por trajetória sob NX_10, relativa a uma referência.
-4. E5: modelo de usuário treinado com `watch_ratio` bruto limitado a 5 (o carregador `KuaiEnv.get_df_kuairec` só lê `watch_ratio_normed`; precisa de alteração) e repetir MBPO e DORL.
-5. Esqueleto do relatório e apêndice técnico.
-Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
+| Id | Experimento | Status |
+|---|---|---|
+| Traj | Registro das trajetórias de avaliação (`traj_log.patch`); 20 políticas reexecutadas, idênticas aos logs | Feito |
+| Bolha | Variedade de categorias em 10 itens (NX_10) contra o usuário (8,02) e o acaso (8,88): RL 9,3–10,2, sem bolha | Feito |
+| E5 | Modelo de usuário com watch_ratio bruto ≤ 5: MBPO muda (R_each 0,736 → 1,034), DORL não | Feito |
+| E3/A5 | N = 1, 4, 8, janela corrigida: DORL − MBPO em Length +4,8 / +6,7 / +3,5 (N = 8 original: +0,6, artefato do recorte) | Feito |
+| FB | MBPO cicla; nos ciclos puros (38–61% das trajetórias) o bloco tem N + 1 itens em 80–99% (N = 1, 4) | Feito |
+| Além | Cobertura de itens: DORL 3,3%, MBPO 12%, aleatória 86,5% — inverte a leitura da MCD | Feito |
+| Sessões | P(fim | repete categoria) 6,3% contra 2,6% nas sessões reais; o simulador supõe 100% contra 0% | Feito |
+| E6 | Saída probabilística calibrada (N = 1, 0,063/0,026), MBPO e DORL | Em execução na 4090 desde 10/11 |
+
+**Enquadramento adotado (10/11):** o protocolo de avaliação é estruturado pelo capítulo de avaliação de Aggarwal
+(objetivos do desenho de avaliação → concentração em vários níveis; desenho da avaliação offline → sinal de treino ×
+avaliação; limitações das medidas → a política explora a regra do simulador), complementado por controles de RL
+(Sutton & Barto: média de várias execuções → desvio entre sementes; papel da recompensa → ablação por constante;
+Afsar et al.: dependência de simuladores → referência sem sinal). Não usar referenciais que o Gabriel não estudou.
+Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
+
+## Próxima semana (planejada; última de experimentos)
+
+1. Analisar o E6: `e1_protocolos.py` e `bolha.py` com os `E6_*`; acrescentar a etapa ao `semana9.md`.
+2. Se houver tempo: revisitas reais ao mesmo vídeo (no FB a recompensa de um item repetido é a mesma,
+   `KuaiEnv.py:317`), excluindo registros duplicados.
+3. Tabela de síntese (afirmação × sinal × evidência × força) na estrutura acima; congelar os experimentos.
+4. Esqueleto do relatório e apêndice técnico único (semanas 8 e 9).
+Em aberto: Length do MBPO não monótono no N; por que DORL/DORL-const quase não ciclam no FB.
 
 ## Armadilhas conhecidas
 
@@ -83,6 +103,9 @@ Adiados: E3 (variar N da regra de saída), KuaiRand, mais sementes dos bandits.
 - `pe_log.patch`: sem `PE_LOG`/`PE_CONST`, a recompensa é idêntica à original (testado). `PE_CONST` só nas execuções `DORLconst_s*`.
 - Matrizes do modelo de usuário: `find saved_models -name "*_mat*.pickle"`; forma 1411 × 3327, mesma ordem (LabelEncoder) do ambiente de avaliação.
 - O ± da Tabela 2 é entre épocas de uma execução; comparar métodos pelo desvio **entre sementes**.
+- Pares usuário–vídeo repetidos no big_matrix (11,8% das linhas dos usuários de avaliação): 62% das segundas ocorrências
+  são duplicatas (mesmo timestamp e watch_ratio). Não tratar como revisitas sem filtrar.
+- FB: o bloco de N + 1 itens vale só entre as trajetórias em ciclo puro, não para a média de itens distintos.
 - Erros já cometidos e corrigidos: (1) "a semente 2 é a mais próxima do artigo nas quatro métricas" é falso — ela é a única a menos de um desvio do artigo nas quatro; (2) a MCD do KuaiRec usa 10 categorias dominantes, não 12 (a Justificativa de Replicação ainda diz 12).
 
 ## Arquivos deste repositório
