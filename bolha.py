@@ -29,8 +29,8 @@ import pandas as pd
 
 NOMES = {"MBPO": "MBPO", "MOPO": "MOPO", "DORL": "DORL", "DORLconst": "DORL-const",
          "E5_MBPO": "MBPO-E5", "E5_DORL": "DORL-E5",            # E5: modelo de usuário com watch_ratio bruto
-         "E6_MBPO": "MBPO-E6", "E6_DORL": "DORL-E6"}            # E6: saída probabilística calibrada
-ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5", "MBPO-E6", "DORL-E6"]
+         "E6_MBPO": "MBPO-E6", "E6_DORL": "DORL-E6", "E6_DORLconst": "DORL-const-E6"}            # E6: saída probabilística calibrada
+ORDEM = ["MBPO", "MOPO", "DORL", "DORL-const", "MBPO-E5", "DORL-E5", "MBPO-E6", "DORL-E6", "DORL-const-E6"]
 
 
 def nome(orig):
