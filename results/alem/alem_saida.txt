@@ -9,6 +9,8 @@ DORL         5    0.719 ± 0.126    0.384 ± 0.062      9.96 ± 0.09    0.033 ±
 DORL-const   5    0.734 ± 0.111    0.364 ± 0.047     10.12 ± 0.30    0.034 ± 0.004    0.994 ± 0.001     12.23 ± 0.10    0.323 ± 0.074    0.263 ± 0.046  0.6327 ± 0.0830    0.327 ± 0.074
 MBPO-E5      5    1.049 ± 0.197    0.510 ± 0.054      9.31 ± 0.24    0.120 ± 0.041    0.989 ± 0.005     12.12 ± 0.17    0.497 ± 0.106    0.347 ± 0.102  0.4908 ± 0.0682    0.503 ± 0.103
 DORL-E5      5    0.717 ± 0.094    0.370 ± 0.041     10.03 ± 0.14    0.034 ± 0.002    0.994 ± 0.001     12.46 ± 0.27    0.325 ± 0.049    0.271 ± 0.053  0.5871 ± 0.1273    0.327 ± 0.049
+MBPO-E6      5    0.827 ± 0.037    0.668 ± 0.034      9.15 ± 0.19    0.528 ± 0.077    0.903 ± 0.023     12.21 ± 0.06    0.396 ± 0.024    0.261 ± 0.014  0.9491 ± 0.0298    0.404 ± 0.024
+DORL-E6      5    0.885 ± 0.086    0.709 ± 0.040     10.83 ± 0.82    0.027 ± 0.008    0.996 ± 0.000     12.48 ± 0.17    0.454 ± 0.086    0.311 ± 0.071  0.1513 ± 0.0269    0.454 ± 0.086
 MBPO-N1      5    0.695 ± 0.102    0.356 ± 0.037      9.35 ± 0.24    0.224 ± 0.053    0.976 ± 0.008     12.23 ± 0.07    0.311 ± 0.068    0.254 ± 0.063  0.7335 ± 0.0788    0.314 ± 0.069
 DORL-N1      5    0.703 ± 0.086    0.386 ± 0.010     10.23 ± 0.37    0.031 ± 0.001    0.995 ± 0.001     12.38 ± 0.19    0.332 ± 0.047    0.277 ± 0.040  0.6138 ± 0.0759    0.333 ± 0.048
 MBPO-N4c     5    0.704 ± 0.061    0.255 ± 0.045      9.70 ± 0.12    0.105 ± 0.021    0.991 ± 0.001     12.26 ± 0.09    0.314 ± 0.050    0.279 ± 0.032  0.4792 ± 0.0758    0.315 ± 0.050
@@ -22,27 +24,31 @@ aleatória    5    0.872 ± 0.002    0.826 ± 0.000      8.88 ± 0.00    0.865 �
 Posição de cada método (1 = melhor)
             R_each  MCD   V  cobertura  Gini  novidade  seren_pop  seren_cat  personalizacao
 metodo                                                                                      
-MBPO            10    4  11          3     4        10         11          6              11
-MOPO             4    7  12          5     5         6          8          3              10
-DORL             7   12   6         13    13         2          7          9               5
-DORL-const       5    9   2         11     9        11         10         12               3
-MBPO-E5          1   14  14          4     3        15          1          1              12
-DORL-E5          8   10   4         12    12         5          9         10               6
-MBPO-N1         13    8  13          2     2        12         13         14               2
-DORL-N1         12   13   1         15    14         7          6          8               4
-MBPO-N4c        11    1  10          6     6         9         12          7              13
-DORL-N4c         3    5   5         14    15         3          3          2               9
-MBPO-N8         15    3   8          8     8         8         14         13              15
-DORL-N8          6   11   3         10    11         4          5          4               7
-MBPO-N8c        14    2   9          7     7        13         15         11              14
-DORL-N8c         9    6   7          9    10         1          4          5               8
-aleatória        2   15  15          1     1        14          2         15               1
+MBPO            12    4  12          4     5        11         13          7              12
+MOPO             6    7  13          6     6         7         10          4              11
+DORL             9   12   7         14    14         2          9         10               6
+DORL-const       7    9   3         12    10        12         12         13               4
+MBPO-E5          1   14  15          5     4        17          1          1              13
+DORL-E5         10   10   5         13    13         6         11         11               7
+MBPO-E6          4   15  16          2     2        15          4         15               2
+DORL-E6          2   16   1         17    17         4          2          2              17
+MBPO-N1         15    8  14          3     3        13         15         16               3
+DORL-N1         14   13   2         16    15         8          8          9               5
+MBPO-N4c        13    1  11          7     7        10         14          8              14
+DORL-N4c         5    5   6         15    16         3          5          3              10
+MBPO-N8         17    3   9          9     9         9         16         14              16
+DORL-N8          8   11   4         11    12         5          7          5               8
+MBPO-N8c        16    2  10          8     8        14         17         12              15
+DORL-N8c        11    6   8         10    11         1          6          6               9
+aleatória        3   17  17          1     1        16          3         17               1
 
 Inversões entre critérios (as duas diferenças superam o maior dp entre sementes)
   MBPO × DORL: MBPO melhor em cobertura, Gini; DORL melhor em V, novidade, personalizacao
   MBPO × DORL-const: MBPO melhor em cobertura, Gini; DORL-const melhor em V, personalizacao
   MBPO × MBPO-E5: MBPO melhor em MCD, V; MBPO-E5 melhor em R_each, seren_pop
   MBPO × DORL-E5: MBPO melhor em cobertura, Gini; DORL-E5 melhor em V
+  MBPO × MBPO-E6: MBPO melhor em MCD, V; MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao
+  MBPO × DORL-E6: MBPO melhor em MCD, cobertura, Gini, personalizacao; DORL-E6 melhor em R_each, V, novidade, seren_pop
   MBPO × MBPO-N1: MBPO melhor em V; MBPO-N1 melhor em cobertura, Gini, personalizacao
   MBPO × DORL-N1: MBPO melhor em cobertura, Gini; DORL-N1 melhor em V, personalizacao
   MBPO × DORL-N4c: MBPO melhor em cobertura, Gini; DORL-N4c melhor em V, novidade
@@ -55,6 +61,8 @@ Inversões entre critérios (as duas diferenças superam o maior dp entre sement
   MOPO × DORL-const: MOPO melhor em cobertura, Gini; DORL-const melhor em V, personalizacao
   MOPO × MBPO-E5: MOPO melhor em MCD, V; MBPO-E5 melhor em R_each, seren_pop
   MOPO × DORL-E5: MOPO melhor em cobertura, Gini; DORL-E5 melhor em V
+  MOPO × MBPO-E6: MOPO melhor em MCD, V, seren_cat; MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao
+  MOPO × DORL-E6: MOPO melhor em MCD, cobertura, Gini, personalizacao; DORL-E6 melhor em R_each, V, seren_pop
   MOPO × MBPO-N1: MOPO melhor em V; MBPO-N1 melhor em cobertura, Gini, personalizacao
   MOPO × DORL-N1: MOPO melhor em cobertura, Gini; DORL-N1 melhor em V, personalizacao
   MOPO × DORL-N4c: MOPO melhor em cobertura, Gini; DORL-N4c melhor em V
@@ -64,12 +72,16 @@ Inversões entre critérios (as duas diferenças superam o maior dp entre sement
   MOPO × DORL-N8c: MOPO melhor em cobertura, Gini; DORL-N8c melhor em V
   MOPO × aleatória: MOPO melhor em MCD, V, seren_cat; aleatória melhor em R_each, cobertura, Gini, seren_pop, personalizacao
   DORL × MBPO-E5: DORL melhor em MCD, V, novidade, personalizacao; MBPO-E5 melhor em R_each, cobertura, Gini, seren_pop
+  DORL × MBPO-E6: DORL melhor em MCD, V, novidade; MBPO-E6 melhor em cobertura, Gini, personalizacao
+  DORL × DORL-E6: DORL melhor em MCD, Gini, personalizacao; DORL-E6 melhor em R_each, V, seren_pop
   DORL × MBPO-N1: DORL melhor em V, novidade; MBPO-N1 melhor em cobertura, Gini, personalizacao
   DORL × MBPO-N4c: DORL melhor em V, personalizacao; MBPO-N4c melhor em MCD, cobertura, Gini
   DORL × MBPO-N8: DORL melhor em personalizacao; MBPO-N8 melhor em cobertura, Gini
   DORL × MBPO-N8c: DORL melhor em novidade, personalizacao; MBPO-N8c melhor em MCD, cobertura, Gini
   DORL × aleatória: DORL melhor em MCD, V, novidade; aleatória melhor em R_each, cobertura, Gini, seren_pop, personalizacao
   DORL-const × MBPO-E5: DORL-const melhor em MCD, V, personalizacao; MBPO-E5 melhor em R_each, cobertura, Gini, seren_pop
+  DORL-const × MBPO-E6: DORL-const melhor em MCD, V; MBPO-E6 melhor em cobertura, Gini, personalizacao
+  DORL-const × DORL-E6: DORL-const melhor em MCD, Gini, personalizacao; DORL-E6 melhor em R_each, novidade, seren_pop
   DORL-const × MBPO-N1: DORL-const melhor em V; MBPO-N1 melhor em cobertura, Gini, personalizacao
   DORL-const × MBPO-N4c: DORL-const melhor em V, personalizacao; MBPO-N4c melhor em MCD, cobertura, Gini
   DORL-const × DORL-N4c: DORL-const melhor em personalizacao; DORL-N4c melhor em novidade
@@ -78,6 +90,8 @@ Inversões entre critérios (as duas diferenças superam o maior dp entre sement
   DORL-const × DORL-N8c: DORL-const melhor em personalizacao; DORL-N8c melhor em novidade
   DORL-const × aleatória: DORL-const melhor em MCD, V, seren_cat; aleatória melhor em R_each, cobertura, Gini, seren_pop, personalizacao
   MBPO-E5 × DORL-E5: MBPO-E5 melhor em R_each, cobertura, Gini, seren_pop; DORL-E5 melhor em MCD, V, novidade
+  MBPO-E5 × MBPO-E6: MBPO-E5 melhor em R_each, MCD; MBPO-E6 melhor em cobertura, Gini, personalizacao
+  MBPO-E5 × DORL-E6: MBPO-E5 melhor em MCD, cobertura, Gini, personalizacao; DORL-E6 melhor em V, novidade
   MBPO-E5 × MBPO-N1: MBPO-E5 melhor em R_each, seren_pop; MBPO-N1 melhor em MCD, cobertura, Gini, personalizacao
   MBPO-E5 × DORL-N1: MBPO-E5 melhor em R_each, cobertura, Gini, seren_pop; DORL-N1 melhor em MCD, V, novidade, personalizacao
   MBPO-E5 × MBPO-N4c: MBPO-E5 melhor em R_each, seren_pop; MBPO-N4c melhor em MCD, V
@@ -87,11 +101,32 @@ Inversões entre critérios (as duas diferenças superam o maior dp entre sement
   MBPO-E5 × MBPO-N8c: MBPO-E5 melhor em R_each, cobertura, seren_pop, personalizacao; MBPO-N8c melhor em MCD, V
   MBPO-E5 × DORL-N8c: MBPO-E5 melhor em R_each, cobertura, Gini, seren_pop; DORL-N8c melhor em MCD, V, novidade
   MBPO-E5 × aleatória: MBPO-E5 melhor em MCD, V, seren_cat; aleatória melhor em cobertura, Gini, personalizacao
+  DORL-E5 × MBPO-E6: DORL-E5 melhor em MCD, V; MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao
+  DORL-E5 × DORL-E6: DORL-E5 melhor em MCD, Gini, personalizacao; DORL-E6 melhor em R_each, seren_pop
   DORL-E5 × MBPO-N1: DORL-E5 melhor em V; MBPO-N1 melhor em cobertura, Gini, personalizacao
   DORL-E5 × MBPO-N4c: DORL-E5 melhor em V; MBPO-N4c melhor em MCD, cobertura, Gini
   DORL-E5 × MBPO-N8: DORL-E5 melhor em personalizacao; MBPO-N8 melhor em cobertura, Gini
   DORL-E5 × MBPO-N8c: DORL-E5 melhor em personalizacao; MBPO-N8c melhor em MCD, cobertura, Gini
   DORL-E5 × aleatória: DORL-E5 melhor em MCD, V, novidade, seren_cat; aleatória melhor em R_each, cobertura, Gini, seren_pop, personalizacao
+  MBPO-E6 × DORL-E6: MBPO-E6 melhor em MCD, cobertura, Gini, personalizacao; DORL-E6 melhor em V, novidade
+  MBPO-E6 × MBPO-N1: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; MBPO-N1 melhor em MCD
+  MBPO-E6 × DORL-N1: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; DORL-N1 melhor em MCD, V
+  MBPO-E6 × MBPO-N4c: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; MBPO-N4c melhor em MCD, V
+  MBPO-E6 × DORL-N4c: MBPO-E6 melhor em cobertura, Gini, personalizacao; DORL-N4c melhor em MCD, V, novidade
+  MBPO-E6 × MBPO-N8: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; MBPO-N8 melhor em MCD, V
+  MBPO-E6 × DORL-N8: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; DORL-N8 melhor em MCD, V, seren_cat
+  MBPO-E6 × MBPO-N8c: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; MBPO-N8c melhor em MCD, V
+  MBPO-E6 × DORL-N8c: MBPO-E6 melhor em R_each, cobertura, Gini, seren_pop, personalizacao; DORL-N8c melhor em MCD, V, novidade
+  MBPO-E6 × aleatória: MBPO-E6 melhor em MCD, V, seren_cat; aleatória melhor em R_each, cobertura, Gini, seren_pop, personalizacao
+  DORL-E6 × MBPO-N1: DORL-E6 melhor em R_each, V, novidade, seren_pop; MBPO-N1 melhor em MCD, cobertura, Gini, personalizacao
+  DORL-E6 × DORL-N1: DORL-E6 melhor em R_each, seren_pop; DORL-N1 melhor em MCD, Gini, personalizacao
+  DORL-E6 × MBPO-N4c: DORL-E6 melhor em R_each, V, novidade, seren_pop; MBPO-N4c melhor em MCD, cobertura, Gini, personalizacao
+  DORL-E6 × DORL-N4c: DORL-E6 melhor em V, seren_pop; DORL-N4c melhor em MCD, Gini, personalizacao
+  DORL-E6 × MBPO-N8: DORL-E6 melhor em R_each, V, seren_pop; MBPO-N8 melhor em MCD, cobertura, Gini, personalizacao
+  DORL-E6 × DORL-N8: DORL-E6 melhor em R_each, seren_pop; DORL-N8 melhor em MCD, cobertura, Gini, personalizacao
+  DORL-E6 × MBPO-N8c: DORL-E6 melhor em R_each, V, novidade, seren_pop; MBPO-N8c melhor em MCD, cobertura, Gini, personalizacao
+  DORL-E6 × DORL-N8c: DORL-E6 melhor em R_each, V, seren_pop; DORL-N8c melhor em MCD, cobertura, Gini, personalizacao
+  DORL-E6 × aleatória: DORL-E6 melhor em MCD, V, novidade, seren_cat; aleatória melhor em cobertura, Gini, personalizacao
   MBPO-N1 × DORL-N1: MBPO-N1 melhor em cobertura, Gini, personalizacao; DORL-N1 melhor em V
   MBPO-N1 × MBPO-N4c: MBPO-N1 melhor em cobertura, Gini, personalizacao; MBPO-N4c melhor em MCD, V
   MBPO-N1 × DORL-N4c: MBPO-N1 melhor em cobertura, Gini, personalizacao; DORL-N4c melhor em V, novidade
