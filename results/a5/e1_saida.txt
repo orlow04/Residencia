@@ -4,6 +4,11 @@
   usado: MBPO         [MBPO_s2]_2026_10_20-16_39_26.log (200 épocas)
   usado: MBPO         [MBPO_s3]_2026_10_20-19_45_32.log (200 épocas)
   usado: MBPO         [MBPO_s4]_2026_10_20-20_27_28.log (200 épocas)
+  usado: MOPO         [MOPO_s0]_2026_10_29-03_16_53.log (200 épocas)
+  usado: MOPO         [MOPO_s1]_2026_10_29-03_48_12.log (200 épocas)
+  usado: MOPO         [MOPO_s2]_2026_10_29-04_18_57.log (200 épocas)
+  usado: MOPO         [MOPO_s3]_2026_10_29-04_50_19.log (200 épocas)
+  usado: MOPO         [MOPO_s4]_2026_10_29-05_22_20.log (200 épocas)
   descartado (incompleto, 95 épocas): [DORL_s0]_2026_10_29-01_31_01.log
   descartado (incompleto, 68 épocas): [DORL_s0]_2026_10_29-01_47_08.log
   descartado (repetido; ficou o mais recente): [DORL_s0]_2026_10_22-12_34_16.log
@@ -13,6 +18,11 @@
   usado: DORL         [DORL_s2]_2026_10_22-13_59_54.log (200 épocas)
   usado: DORL         [DORL_s3]_2026_10_22-14_31_05.log (200 épocas)
   usado: DORL         [DORL_s4]_2026_10_22-15_03_00.log (200 épocas)
+  usado: DORL-const   [DORLconst_s0]_2026_10_29-04_25_24.log (200 épocas)
+  usado: DORL-const   [DORLconst_s1]_2026_10_29-05_00_05.log (200 épocas)
+  usado: DORL-const   [DORLconst_s2]_2026_10_29-05_35_21.log (200 épocas)
+  usado: DORL-const   [DORLconst_s3]_2026_10_29-06_10_13.log (200 épocas)
+  usado: DORL-const   [DORLconst_s4]_2026_10_29-06_42_06.log (200 épocas)
   usado: MBPO-N8      [E3N8_MBPO_s0]_2026_11_09-10_49_26.log (200 épocas)
   usado: MBPO-N8      [E3N8_MBPO_s1]_2026_11_09-11_21_42.log (200 épocas)
   usado: MBPO-N8      [E3N8_MBPO_s2]_2026_11_09-11_53_51.log (200 épocas)
@@ -28,76 +38,124 @@
   usado: MBPO-N4c     [A5N4_MBPO_s2]_2026_11_09-21_31_04.log (200 épocas)
   usado: MBPO-N4c     [A5N4_MBPO_s3]_2026_11_09-22_09_32.log (200 épocas)
   usado: MBPO-N4c     [A5N4_MBPO_s4]_2026_11_09-22_46_02.log (200 épocas)
+  usado: MOPO-N4c     [A5N4_MOPO_s0]_2026_11_11-18_38_05.log (200 épocas)
+  usado: MOPO-N4c     [A5N4_MOPO_s1]_2026_11_11-19_34_32.log (200 épocas)
+  usado: MOPO-N4c     [A5N4_MOPO_s2]_2026_11_11-20_32_53.log (200 épocas)
+  usado: MOPO-N4c     [A5N4_MOPO_s3]_2026_11_11-21_30_20.log (200 épocas)
+  usado: MOPO-N4c     [A5N4_MOPO_s4]_2026_11_11-22_28_04.log (200 épocas)
   usado: DORL-N4c     [A5N4_DORL_s0]_2026_11_09-23_17_47.log (200 épocas)
   usado: DORL-N4c     [A5N4_DORL_s1]_2026_11_09-23_52_32.log (200 épocas)
   usado: DORL-N4c     [A5N4_DORL_s2]_2026_11_10-00_26_18.log (200 épocas)
   usado: DORL-N4c     [A5N4_DORL_s3]_2026_11_10-01_00_06.log (200 épocas)
   usado: DORL-N4c     [A5N4_DORL_s4]_2026_11_10-01_33_41.log (200 épocas)
+  usado: DORL-const-N4c [A5N4_DORLconst_s0]_2026_11_11-23_25_35.log (200 épocas)
+  usado: DORL-const-N4c [A5N4_DORLconst_s1]_2026_11_12-00_33_48.log (200 épocas)
+  usado: DORL-const-N4c [A5N4_DORLconst_s2]_2026_11_12-01_44_53.log (200 épocas)
+  usado: DORL-const-N4c [A5N4_DORLconst_s3]_2026_11_12-02_56_50.log (200 épocas)
+  usado: DORL-const-N4c [A5N4_DORLconst_s4]_2026_11_12-04_06_14.log (200 épocas)
   usado: MBPO-N8c     [A5N8_MBPO_s0]_2026_11_09-20_17_52.log (200 épocas)
   usado: MBPO-N8c     [A5N8_MBPO_s1]_2026_11_09-20_53_25.log (200 épocas)
   usado: MBPO-N8c     [A5N8_MBPO_s2]_2026_11_09-21_32_34.log (200 épocas)
   usado: MBPO-N8c     [A5N8_MBPO_s3]_2026_11_09-22_11_22.log (200 épocas)
   usado: MBPO-N8c     [A5N8_MBPO_s4]_2026_11_09-22_47_41.log (200 épocas)
+  usado: MOPO-N8c     [A5N8_MOPO_s0]_2026_11_11-18_38_11.log (200 épocas)
+  usado: MOPO-N8c     [A5N8_MOPO_s1]_2026_11_11-19_37_21.log (200 épocas)
+  usado: MOPO-N8c     [A5N8_MOPO_s2]_2026_11_11-20_36_40.log (200 épocas)
+  usado: MOPO-N8c     [A5N8_MOPO_s3]_2026_11_11-21_35_17.log (200 épocas)
+  usado: MOPO-N8c     [A5N8_MOPO_s4]_2026_11_11-22_34_40.log (200 épocas)
   usado: DORL-N8c     [A5N8_DORL_s0]_2026_11_09-23_19_55.log (200 épocas)
   usado: DORL-N8c     [A5N8_DORL_s1]_2026_11_09-23_54_33.log (200 épocas)
   usado: DORL-N8c     [A5N8_DORL_s2]_2026_11_10-00_28_50.log (200 épocas)
   usado: DORL-N8c     [A5N8_DORL_s3]_2026_11_10-01_02_56.log (200 épocas)
   usado: DORL-N8c     [A5N8_DORL_s4]_2026_11_10-01_37_21.log (200 épocas)
+  usado: DORL-const-N8c [A5N8_DORLconst_s0]_2026_11_11-23_34_07.log (200 épocas)
+  usado: DORL-const-N8c [A5N8_DORLconst_s1]_2026_11_12-00_47_09.log (200 épocas)
+  usado: DORL-const-N8c [A5N8_DORLconst_s2]_2026_11_12-02_00_54.log (200 épocas)
+  usado: DORL-const-N8c [A5N8_DORLconst_s3]_2026_11_12-03_15_58.log (200 épocas)
+  usado: DORL-const-N8c [A5N8_DORLconst_s4]_2026_11_12-04_22_08.log (200 épocas)
 
 == Média entre sementes ± dp entre sementes (n = número de sementes). MCD: menor é melhor.
 
 FB
   método        n             R_tra            R_each            Length               MCD
   MBPO          5    19.699 ± 5.920     0.711 ± 0.193    27.643 ± 0.517     0.310 ± 0.157
+  MOPO          5    17.850 ± 4.331     0.690 ± 0.141    26.130 ± 3.634     0.382 ± 0.118
   DORL          5    11.555 ± 2.209     0.712 ± 0.078    16.183 ± 1.746     0.398 ± 0.096
+  DORL-const    5     9.857 ± 2.249     0.691 ± 0.059    14.308 ± 2.231     0.322 ± 0.016
   MBPO-N8       5    16.300 ± 1.483     0.658 ± 0.057    24.941 ± 1.518     0.298 ± 0.128
   DORL-N8       5     9.141 ± 1.750     0.730 ± 0.041    12.464 ± 1.565     0.389 ± 0.041
   MBPO-N4c      5    18.737 ± 2.578     0.672 ± 0.089    28.033 ± 0.274     0.251 ± 0.114
+  MOPO-N4c      5    16.792 ± 1.882     0.627 ± 0.059    27.034 ± 0.938     0.274 ± 0.104
   DORL-N4c      5    11.273 ± 3.737     0.716 ± 0.095    15.292 ± 3.641     0.253 ± 0.027
+  DORL-const-N4c  5    10.975 ± 4.455     0.709 ± 0.139    15.154 ± 2.704     0.315 ± 0.068
   MBPO-N8c      5    17.003 ± 3.320     0.692 ± 0.129    24.624 ± 0.959     0.330 ± 0.036
+  MOPO-N8c      5    14.785 ± 1.754     0.617 ± 0.061    24.310 ± 1.891     0.236 ± 0.117
   DORL-N8c      5     8.412 ± 1.611     0.722 ± 0.052    11.642 ± 1.717     0.339 ± 0.065
+  DORL-const-N8c  5     7.075 ± 2.067     0.674 ± 0.095    10.555 ± 2.085     0.340 ± 0.020
   aleatória     5     4.005 ± 0.011     0.873 ± 0.004     4.588 ± 0.009     0.827 ± 0.002
 
 NX_0
   método        n             R_tra            R_each            Length               MCD
   MBPO          5    11.687 ± 2.317     0.736 ± 0.071    15.781 ± 1.831     0.323 ± 0.061
+  MOPO          5    12.001 ± 2.613     0.763 ± 0.061    15.595 ± 2.339     0.366 ± 0.085
   DORL          5    18.273 ± 2.455     0.780 ± 0.086    23.415 ± 1.100     0.431 ± 0.027
+  DORL-const    5    18.528 ± 0.294     0.781 ± 0.095    23.998 ± 2.658     0.406 ± 0.026
   MBPO-N8       5    13.494 ± 2.834     0.690 ± 0.078    19.446 ± 2.284     0.316 ± 0.071
   DORL-N8       5    15.793 ± 0.714     0.789 ± 0.033    20.075 ± 0.852     0.410 ± 0.020
   MBPO-N4c      5    12.195 ± 2.031     0.731 ± 0.061    16.648 ± 1.952     0.323 ± 0.018
+  MOPO-N4c      5    12.885 ± 0.754     0.766 ± 0.043    16.844 ± 1.257     0.345 ± 0.088
   DORL-N4c      5    18.616 ± 3.104     0.795 ± 0.089    23.390 ± 2.611     0.424 ± 0.022
+  DORL-const-N4c  5    18.651 ± 3.630     0.815 ± 0.099    22.569 ± 2.456     0.411 ± 0.054
   MBPO-N8c      5    13.308 ± 2.463     0.712 ± 0.091    18.643 ± 1.718     0.329 ± 0.031
+  MOPO-N8c      5    12.356 ± 1.314     0.688 ± 0.089    18.120 ± 1.442     0.313 ± 0.051
   DORL-N8c      5    17.390 ± 0.681     0.788 ± 0.043    22.096 ± 0.834     0.379 ± 0.017
+  DORL-const-N8c  5    15.742 ± 2.010     0.747 ± 0.084    21.152 ± 1.174     0.390 ± 0.012
   aleatória     5     4.007 ± 0.017     0.872 ± 0.001     4.598 ± 0.016     0.827 ± 0.001
 
 NX_10
   método        n             R_tra            R_each            Length               MCD
   MBPO          5     7.077 ± 1.037     0.708 ± 0.104    10.000 ± 0.000     0.295 ± 0.095
+  MOPO          5     7.388 ± 0.810     0.739 ± 0.081    10.000 ± 0.000     0.356 ± 0.103
   DORL          5     7.187 ± 1.258     0.719 ± 0.126    10.000 ± 0.000     0.384 ± 0.062
+  DORL-const    5     7.342 ± 1.108     0.734 ± 0.111    10.000 ± 0.000     0.364 ± 0.047
   MBPO-N8       5     6.464 ± 0.474     0.646 ± 0.047    10.000 ± 0.000     0.294 ± 0.132
   DORL-N8       5     7.315 ± 0.419     0.731 ± 0.042    10.000 ± 0.000     0.371 ± 0.019
   MBPO-N4c      5     7.038 ± 0.612     0.704 ± 0.061    10.000 ± 0.000     0.255 ± 0.045
+  MOPO-N4c      5     6.987 ± 0.648     0.699 ± 0.065    10.000 ± 0.000     0.313 ± 0.078
   DORL-N4c      5     7.549 ± 1.349     0.755 ± 0.135    10.000 ± 0.000     0.336 ± 0.030
+  DORL-const-N4c  5     7.774 ± 1.309     0.777 ± 0.131    10.000 ± 0.000     0.347 ± 0.060
   MBPO-N8c      5     6.475 ± 1.192     0.648 ± 0.119    10.000 ± 0.000     0.282 ± 0.060
+  MOPO-N8c      5     6.210 ± 0.738     0.621 ± 0.074    10.000 ± 0.000     0.236 ± 0.120
   DORL-N8c      5     7.173 ± 0.455     0.717 ± 0.045    10.000 ± 0.000     0.337 ± 0.063
+  DORL-const-N8c  5     6.684 ± 0.976     0.668 ± 0.098    10.000 ± 0.000     0.352 ± 0.015
   aleatória     5     8.723 ± 0.027     0.872 ± 0.003    10.000 ± 0.000     0.827 ± 0.001
 
 == Posição de cada método (1 = melhor)
-           FB:R_tra  FB:R_each  FB:Length  FB:MCD  NX_0:R_tra  NX_0:R_each  NX_0:Length  NX_0:MCD  NX_10:R_tra  NX_10:R_each  NX_10:MCD
-MBPO              1          6          2       4           8            6            8         3            6             6          4
-DORL              5          5          5       8           2            5            1         8            4             4          8
-MBPO-N8           4          9          3       3           5            9            5         1            9             9          3
-DORL-N8           7          2          7       7           4            3            4         6            3             3          7
-MBPO-N4c          2          8          1       1           7            7            7         2            7             7          1
-DORL-N4c          6          4          6       2           1            2            2         7            2             2          5
-MBPO-N8c          3          7          4       5           6            8            6         4            8             8          2
-DORL-N8c          8          3          8       6           3            4            3         5            5             5          6
-aleatória         9          1          9       9           9            1            9         9            1             1          9
+                FB:R_tra  FB:R_each  FB:Length  FB:MCD  NX_0:R_tra  NX_0:R_each  NX_0:Length  NX_0:MCD  NX_10:R_tra  NX_10:R_each  NX_10:MCD
+MBPO                   1          6          2       6          14           11           13         4            9             9          5
+MOPO                   3         10          4      12          13            9           14         7            4             4         11
+DORL                   8          5          8      14           4            7            2        14            7             7         14
+DORL-const            11          9         11       8           3            6            1        10            5             5         12
+MBPO-N8                6         13          5       5           8           14            8         2           14            14          4
+DORL-N8               12          2         12      13           6            4            7        11            6             6         13
+MBPO-N4c               2         12          1       2          12           12           12         3           10            10          2
+MOPO-N4c               5         14          3       4          10            8           11         6           11            11          6
+DORL-N4c               9          4          9       3           2            3            3        13            3             3          7
+DORL-const-N4c        10          7         10       7           1            2            4        12            2             2          9
+MBPO-N8c               4          8          6       9           9           13            9         5           13            13          3
+MOPO-N8c               7         15          7       1          11           15           10         1           15            15          1
+DORL-N8c              13          3         13      10           5            5            5         8            8             8          8
+DORL-const-N8c        14         11         14      11           7           10            6         9           12            12         10
+aleatória             15          1         15      15          15            1           15        15            1             1         15
 
 == Inversões entre métricas (mesmo protocolo)
+  NX_0  MBPO × MOPO: MBPO melhor em Length, MCD; MOPO melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 MBPO × MOPO: MBPO melhor em MCD; MOPO melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO × DORL: MBPO melhor em R_tra, Length, MCD; DORL melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO × DORL: MBPO melhor em MCD; DORL melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO × DORL: MBPO melhor em MCD; DORL melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MBPO × DORL-const: MBPO melhor em MCD; DORL-const melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MBPO × DORL-const: MBPO melhor em MCD; DORL-const melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO × MBPO-N8: MBPO melhor em R_tra, R_each, Length; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
   NX_0  MBPO × MBPO-N8: MBPO melhor em R_each; MBPO-N8 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_10 MBPO × MBPO-N8: MBPO melhor em R_tra, R_each; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
@@ -107,17 +165,59 @@ aleatória         9          1          9       9           9            1     
   FB    MBPO × MBPO-N4c: MBPO melhor em R_tra, R_each; MBPO-N4c melhor em Length, MCD [dentro da variação entre sementes]
   NX_0  MBPO × MBPO-N4c: MBPO melhor em R_each; MBPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_10 MBPO × MBPO-N4c: MBPO melhor em R_tra, R_each; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
+  FB    MBPO × MOPO-N4c: MBPO melhor em R_tra, R_each, Length; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MBPO × MOPO-N4c: MBPO melhor em MCD; MOPO-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   FB    MBPO × DORL-N4c: MBPO melhor em R_tra, Length; DORL-N4c melhor em R_each, MCD [dentro da variação entre sementes]
   NX_0  MBPO × DORL-N4c: MBPO melhor em MCD; DORL-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO × DORL-N4c: MBPO melhor em MCD; DORL-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MBPO × DORL-const-N4c: MBPO melhor em MCD; DORL-const-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MBPO × DORL-const-N4c: MBPO melhor em MCD; DORL-const-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_0  MBPO × MBPO-N8c: MBPO melhor em R_each, MCD; MBPO-N8c melhor em R_tra, Length [dentro da variação entre sementes]
   NX_10 MBPO × MBPO-N8c: MBPO melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MBPO × MOPO-N8c: MBPO melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MBPO × MOPO-N8c: MBPO melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MBPO × MOPO-N8c: MBPO melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
   FB    MBPO × DORL-N8c: MBPO melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO × DORL-N8c: MBPO melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO × DORL-N8c: MBPO melhor em MCD; DORL-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MBPO × DORL-const-N8c: MBPO melhor em MCD; DORL-const-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   FB    MBPO × aleatória: MBPO melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO × aleatória: MBPO melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 MBPO × aleatória: MBPO melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    MOPO × DORL: MOPO melhor em R_tra, Length, MCD; DORL melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO × DORL: MOPO melhor em MCD; DORL melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  FB    MOPO × DORL-const: MOPO melhor em R_tra, Length; DORL-const melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_0  MOPO × DORL-const: MOPO melhor em MCD; DORL-const melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  FB    MOPO × MBPO-N8: MOPO melhor em R_tra, R_each, Length; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
+  NX_0  MOPO × MBPO-N8: MOPO melhor em R_each; MBPO-N8 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO × MBPO-N8: MOPO melhor em R_tra, R_each; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × DORL-N8: MOPO melhor em R_tra, Length, MCD; DORL-N8 melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO × DORL-N8: MOPO melhor em MCD; DORL-N8 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  FB    MOPO × MBPO-N4c: MOPO melhor em R_each; MBPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  MOPO × MBPO-N4c: MOPO melhor em R_each; MBPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO × MBPO-N4c: MOPO melhor em R_tra, R_each; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × MOPO-N4c: MOPO melhor em R_tra, R_each; MOPO-N4c melhor em Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO × MOPO-N4c: MOPO melhor em R_tra, R_each; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × DORL-N4c: MOPO melhor em R_tra, Length; DORL-N4c melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_0  MOPO × DORL-N4c: MOPO melhor em MCD; DORL-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  FB    MOPO × DORL-const-N4c: MOPO melhor em R_tra, Length; DORL-const-N4c melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_0  MOPO × DORL-const-N4c: MOPO melhor em MCD; DORL-const-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  FB    MOPO × MBPO-N8c: MOPO melhor em R_tra, Length; MBPO-N8c melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_0  MOPO × MBPO-N8c: MOPO melhor em R_each; MBPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO × MBPO-N8c: MOPO melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × MOPO-N8c: MOPO melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MOPO × MOPO-N8c: MOPO melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO × MOPO-N8c: MOPO melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × DORL-N8c: MOPO melhor em R_tra, Length; DORL-N8c melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_0  MOPO × DORL-N8c: MOPO melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MOPO × DORL-N8c: MOPO melhor em R_tra, R_each; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × DORL-const-N8c: MOPO melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MOPO × DORL-const-N8c: MOPO melhor em R_each, MCD; DORL-const-N8c melhor em R_tra, Length [dentro da variação entre sementes]
+  NX_10 MOPO × DORL-const-N8c: MOPO melhor em R_tra, R_each; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO × aleatória: MOPO melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_0  MOPO × aleatória: MOPO melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_10 MOPO × aleatória: MOPO melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    DORL × DORL-const: DORL melhor em R_tra, R_each, Length; DORL-const melhor em MCD [dentro da variação entre sementes]
   FB    DORL × MBPO-N8: DORL melhor em R_each; MBPO-N8 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_0  DORL × MBPO-N8: DORL melhor em R_tra, R_each, Length; MBPO-N8 melhor em MCD [supera o dp entre sementes]
   NX_10 DORL × MBPO-N8: DORL melhor em R_tra, R_each; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
@@ -126,141 +226,413 @@ aleatória         9          1          9       9           9            1     
   FB    DORL × MBPO-N4c: DORL melhor em R_each; MBPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_0  DORL × MBPO-N4c: DORL melhor em R_tra, R_each, Length; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
   NX_10 DORL × MBPO-N4c: DORL melhor em R_tra, R_each; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL × MOPO-N4c: DORL melhor em R_each; MOPO-N4c melhor em R_tra, Length, MCD [supera o dp entre sementes]
+  NX_0  DORL × MOPO-N4c: DORL melhor em R_tra, R_each, Length; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL × MOPO-N4c: DORL melhor em R_tra, R_each; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
   FB    DORL × DORL-N4c: DORL melhor em R_tra, Length; DORL-N4c melhor em R_each, MCD [dentro da variação entre sementes]
   NX_0  DORL × DORL-N4c: DORL melhor em Length; DORL-N4c melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
+  FB    DORL × DORL-const-N4c: DORL melhor em R_tra, R_each, Length; DORL-const-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL × DORL-const-N4c: DORL melhor em Length; DORL-const-N4c melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
   FB    DORL × MBPO-N8c: DORL melhor em R_each; MBPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_0  DORL × MBPO-N8c: DORL melhor em R_tra, R_each, Length; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
   NX_10 DORL × MBPO-N8c: DORL melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL × MOPO-N8c: DORL melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [supera o dp entre sementes]
+  NX_0  DORL × MOPO-N8c: DORL melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [supera o dp entre sementes]
+  NX_10 DORL × MOPO-N8c: DORL melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
   FB    DORL × DORL-N8c: DORL melhor em R_tra, Length; DORL-N8c melhor em R_each, MCD [dentro da variação entre sementes]
   NX_0  DORL × DORL-N8c: DORL melhor em R_tra, Length; DORL-N8c melhor em R_each, MCD [dentro da variação entre sementes]
   NX_10 DORL × DORL-N8c: DORL melhor em R_tra, R_each; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL × DORL-const-N8c: DORL melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL × DORL-const-N8c: DORL melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL × DORL-const-N8c: DORL melhor em R_tra, R_each; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
   FB    DORL × aleatória: DORL melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  DORL × aleatória: DORL melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 DORL × aleatória: DORL melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    DORL-const × MBPO-N8: DORL-const melhor em R_each; MBPO-N8 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-const × MBPO-N8: DORL-const melhor em R_tra, R_each, Length; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × MBPO-N8: DORL-const melhor em R_tra, R_each; MBPO-N8 melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const × DORL-N8: DORL-const melhor em R_tra, Length, MCD; DORL-N8 melhor em R_each [dentro da variação entre sementes]
+  NX_0  DORL-const × DORL-N8: DORL-const melhor em R_tra, Length, MCD; DORL-N8 melhor em R_each [dentro da variação entre sementes]
+  FB    DORL-const × MBPO-N4c: DORL-const melhor em R_each; MBPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-const × MBPO-N4c: DORL-const melhor em R_tra, R_each, Length; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × MBPO-N4c: DORL-const melhor em R_tra, R_each; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const × MOPO-N4c: DORL-const melhor em R_each; MOPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-const × MOPO-N4c: DORL-const melhor em R_tra, R_each, Length; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × MOPO-N4c: DORL-const melhor em R_tra, R_each; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL-const × DORL-N4c: DORL-const melhor em Length, MCD; DORL-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  DORL-const × DORL-const-N4c: DORL-const melhor em Length, MCD; DORL-const-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    DORL-const × MBPO-N8c: DORL-const melhor em MCD; MBPO-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_0  DORL-const × MBPO-N8c: DORL-const melhor em R_tra, R_each, Length; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × MBPO-N8c: DORL-const melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const × MOPO-N8c: DORL-const melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-const × MOPO-N8c: DORL-const melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × MOPO-N8c: DORL-const melhor em R_tra, R_each; MOPO-N8c melhor em MCD [supera o dp entre sementes]
+  FB    DORL-const × DORL-N8c: DORL-const melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  DORL-const × DORL-N8c: DORL-const melhor em R_tra, Length; DORL-N8c melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × DORL-N8c: DORL-const melhor em R_tra, R_each; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL-const × DORL-const-N8c: DORL-const melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const × DORL-const-N8c: DORL-const melhor em R_tra, R_each; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const × aleatória: DORL-const melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_0  DORL-const × aleatória: DORL-const melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 DORL-const × aleatória: DORL-const melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   FB    MBPO-N8 × DORL-N8: MBPO-N8 melhor em R_tra, Length, MCD; DORL-N8 melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N8 × DORL-N8: MBPO-N8 melhor em MCD; DORL-N8 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO-N8 × DORL-N8: MBPO-N8 melhor em MCD; DORL-N8 melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_0  MBPO-N8 × MBPO-N4c: MBPO-N8 melhor em R_tra, Length, MCD; MBPO-N4c melhor em R_each [dentro da variação entre sementes]
+  FB    MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em R_each; MOPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em R_tra, Length, MCD; MOPO-N4c melhor em R_each [dentro da variação entre sementes]
+  NX_10 MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em MCD; MOPO-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO-N8 × DORL-N4c: MBPO-N8 melhor em R_tra, Length; DORL-N4c melhor em R_each, MCD [dentro da variação entre sementes]
   NX_0  MBPO-N8 × DORL-N4c: MBPO-N8 melhor em MCD; DORL-N4c melhor em R_tra, R_each, Length [supera o dp entre sementes]
   NX_10 MBPO-N8 × DORL-N4c: MBPO-N8 melhor em MCD; DORL-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MBPO-N8 × DORL-const-N4c: MBPO-N8 melhor em R_tra, Length, MCD; DORL-const-N4c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MBPO-N8 × DORL-const-N4c: MBPO-N8 melhor em MCD; DORL-const-N4c melhor em R_tra, R_each, Length [supera o dp entre sementes]
+  NX_10 MBPO-N8 × DORL-const-N4c: MBPO-N8 melhor em MCD; DORL-const-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO-N8 × MBPO-N8c: MBPO-N8 melhor em Length, MCD; MBPO-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
   NX_0  MBPO-N8 × MBPO-N8c: MBPO-N8 melhor em R_tra, Length, MCD; MBPO-N8c melhor em R_each [dentro da variação entre sementes]
+  FB    MBPO-N8 × MOPO-N8c: MBPO-N8 melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MBPO-N8 × MOPO-N8c: MBPO-N8 melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 MBPO-N8 × MOPO-N8c: MBPO-N8 melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
   FB    MBPO-N8 × DORL-N8c: MBPO-N8 melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N8 × DORL-N8c: MBPO-N8 melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO-N8 × DORL-N8c: MBPO-N8 melhor em MCD; DORL-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MBPO-N8 × DORL-const-N8c: MBPO-N8 melhor em R_tra, Length, MCD; DORL-const-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MBPO-N8 × DORL-const-N8c: MBPO-N8 melhor em MCD; DORL-const-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MBPO-N8 × DORL-const-N8c: MBPO-N8 melhor em MCD; DORL-const-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO-N8 × aleatória: MBPO-N8 melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  MBPO-N8 × aleatória: MBPO-N8 melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 MBPO-N8 × aleatória: MBPO-N8 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   FB    DORL-N8 × MBPO-N4c: DORL-N8 melhor em R_each; MBPO-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_0  DORL-N8 × MBPO-N4c: DORL-N8 melhor em R_tra, R_each, Length; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
   NX_10 DORL-N8 × MBPO-N4c: DORL-N8 melhor em R_tra, R_each; MBPO-N4c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-N8 × MOPO-N4c: DORL-N8 melhor em R_each; MOPO-N4c melhor em R_tra, Length, MCD [supera o dp entre sementes]
+  NX_0  DORL-N8 × MOPO-N4c: DORL-N8 melhor em R_tra, R_each, Length; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-N8 × MOPO-N4c: DORL-N8 melhor em R_tra, R_each; MOPO-N4c melhor em MCD [dentro da variação entre sementes]
   FB    DORL-N8 × DORL-N4c: DORL-N8 melhor em R_each; DORL-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_0  DORL-N8 × DORL-N4c: DORL-N8 melhor em MCD; DORL-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  FB    DORL-N8 × DORL-const-N4c: DORL-N8 melhor em R_each; DORL-const-N4c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-N8 × DORL-const-N4c: DORL-N8 melhor em MCD; DORL-const-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   FB    DORL-N8 × MBPO-N8c: DORL-N8 melhor em R_each; MBPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_0  DORL-N8 × MBPO-N8c: DORL-N8 melhor em R_tra, R_each, Length; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
   NX_10 DORL-N8 × MBPO-N8c: DORL-N8 melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-N8 × MOPO-N8c: DORL-N8 melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [supera o dp entre sementes]
+  NX_0  DORL-N8 × MOPO-N8c: DORL-N8 melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [supera o dp entre sementes]
+  NX_10 DORL-N8 × MOPO-N8c: DORL-N8 melhor em R_tra, R_each; MOPO-N8c melhor em MCD [supera o dp entre sementes]
   FB    DORL-N8 × DORL-N8c: DORL-N8 melhor em R_tra, R_each, Length; DORL-N8c melhor em MCD [dentro da variação entre sementes]
   NX_0  DORL-N8 × DORL-N8c: DORL-N8 melhor em R_each; DORL-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
   NX_10 DORL-N8 × DORL-N8c: DORL-N8 melhor em R_tra, R_each; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-N8 × DORL-const-N8c: DORL-N8 melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL-N8 × DORL-const-N8c: DORL-N8 melhor em R_tra, R_each; DORL-const-N8c melhor em Length, MCD [dentro da variação entre sementes]
+  NX_10 DORL-N8 × DORL-const-N8c: DORL-N8 melhor em R_tra, R_each; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
   FB    DORL-N8 × aleatória: DORL-N8 melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  DORL-N8 × aleatória: DORL-N8 melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 DORL-N8 × aleatória: DORL-N8 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_0  MBPO-N4c × MOPO-N4c: MBPO-N4c melhor em MCD; MOPO-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   FB    MBPO-N4c × DORL-N4c: MBPO-N4c melhor em R_tra, Length, MCD; DORL-N4c melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N4c × DORL-N4c: MBPO-N4c melhor em MCD; DORL-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO-N4c × DORL-N4c: MBPO-N4c melhor em MCD; DORL-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MBPO-N4c × DORL-const-N4c: MBPO-N4c melhor em R_tra, Length, MCD; DORL-const-N4c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MBPO-N4c × DORL-const-N4c: MBPO-N4c melhor em MCD; DORL-const-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MBPO-N4c × DORL-const-N4c: MBPO-N4c melhor em MCD; DORL-const-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO-N4c × MBPO-N8c: MBPO-N4c melhor em R_tra, Length, MCD; MBPO-N8c melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N4c × MBPO-N8c: MBPO-N4c melhor em R_each, MCD; MBPO-N8c melhor em R_tra, Length [dentro da variação entre sementes]
+  FB    MBPO-N4c × MOPO-N8c: MBPO-N4c melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MBPO-N4c × MOPO-N8c: MBPO-N4c melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MBPO-N4c × MOPO-N8c: MBPO-N4c melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
   FB    MBPO-N4c × DORL-N8c: MBPO-N4c melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N4c × DORL-N8c: MBPO-N4c melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO-N4c × DORL-N8c: MBPO-N4c melhor em MCD; DORL-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MBPO-N4c × DORL-const-N8c: MBPO-N4c melhor em R_tra, Length, MCD; DORL-const-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MBPO-N4c × DORL-const-N8c: MBPO-N4c melhor em MCD; DORL-const-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   FB    MBPO-N4c × aleatória: MBPO-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  MBPO-N4c × aleatória: MBPO-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 MBPO-N4c × aleatória: MBPO-N4c melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    MOPO-N4c × DORL-N4c: MOPO-N4c melhor em R_tra, Length; DORL-N4c melhor em R_each, MCD [dentro da variação entre sementes]
+  NX_0  MOPO-N4c × DORL-N4c: MOPO-N4c melhor em MCD; DORL-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MOPO-N4c × DORL-N4c: MOPO-N4c melhor em MCD; DORL-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-N4c × DORL-const-N4c: MOPO-N4c melhor em R_tra, Length, MCD; DORL-const-N4c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO-N4c × DORL-const-N4c: MOPO-N4c melhor em MCD; DORL-const-N4c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MOPO-N4c × DORL-const-N4c: MOPO-N4c melhor em MCD; DORL-const-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em Length, MCD; MBPO-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em R_each; MBPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO-N4c × MOPO-N8c: MOPO-N4c melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MOPO-N4c × MOPO-N8c: MOPO-N4c melhor em R_tra, R_each; MOPO-N8c melhor em Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO-N4c × MOPO-N8c: MOPO-N4c melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO-N4c × DORL-N8c: MOPO-N4c melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO-N4c × DORL-N8c: MOPO-N4c melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MOPO-N4c × DORL-N8c: MOPO-N4c melhor em MCD; DORL-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-N4c × DORL-const-N8c: MOPO-N4c melhor em R_tra, Length, MCD; DORL-const-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO-N4c × DORL-const-N8c: MOPO-N4c melhor em R_each, MCD; DORL-const-N8c melhor em R_tra, Length [dentro da variação entre sementes]
+  FB    MOPO-N4c × aleatória: MOPO-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_0  MOPO-N4c × aleatória: MOPO-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_10 MOPO-N4c × aleatória: MOPO-N4c melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_0  DORL-N4c × DORL-const-N4c: DORL-N4c melhor em Length; DORL-const-N4c melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
+  NX_10 DORL-N4c × DORL-const-N4c: DORL-N4c melhor em MCD; DORL-const-N4c melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    DORL-N4c × MBPO-N8c: DORL-N4c melhor em R_each, MCD; MBPO-N8c melhor em R_tra, Length [dentro da variação entre sementes]
   NX_0  DORL-N4c × MBPO-N8c: DORL-N4c melhor em R_tra, R_each, Length; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
   NX_10 DORL-N4c × MBPO-N8c: DORL-N4c melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-N4c × MOPO-N8c: DORL-N4c melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-N4c × MOPO-N8c: DORL-N4c melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [supera o dp entre sementes]
+  NX_10 DORL-N4c × MOPO-N8c: DORL-N4c melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
   FB    DORL-N4c × DORL-N8c: DORL-N4c melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
   NX_0  DORL-N4c × DORL-N8c: DORL-N4c melhor em R_tra, R_each, Length; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL-N4c × DORL-const-N8c: DORL-N4c melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
   FB    DORL-N4c × aleatória: DORL-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  DORL-N4c × aleatória: DORL-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
   NX_10 DORL-N4c × aleatória: DORL-N4c melhor em MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    DORL-const-N4c × MBPO-N8c: DORL-const-N4c melhor em R_each, MCD; MBPO-N8c melhor em R_tra, Length [dentro da variação entre sementes]
+  NX_0  DORL-const-N4c × MBPO-N8c: DORL-const-N4c melhor em R_tra, R_each, Length; MBPO-N8c melhor em MCD [supera o dp entre sementes]
+  NX_10 DORL-const-N4c × MBPO-N8c: DORL-const-N4c melhor em R_tra, R_each; MBPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const-N4c × MOPO-N8c: DORL-const-N4c melhor em R_each; MOPO-N8c melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_0  DORL-const-N4c × MOPO-N8c: DORL-const-N4c melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [supera o dp entre sementes]
+  NX_10 DORL-const-N4c × MOPO-N8c: DORL-const-N4c melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const-N4c × DORL-N8c: DORL-const-N4c melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  DORL-const-N4c × DORL-N8c: DORL-const-N4c melhor em R_tra, R_each, Length; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 DORL-const-N4c × DORL-N8c: DORL-const-N4c melhor em R_tra, R_each; DORL-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  DORL-const-N4c × DORL-const-N8c: DORL-const-N4c melhor em R_tra, R_each, Length; DORL-const-N8c melhor em MCD [dentro da variação entre sementes]
+  FB    DORL-const-N4c × aleatória: DORL-const-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_0  DORL-const-N4c × aleatória: DORL-const-N4c melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 DORL-const-N4c × aleatória: DORL-const-N4c melhor em MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MBPO-N8c × MOPO-N8c: MBPO-N8c melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_0  MBPO-N8c × MOPO-N8c: MBPO-N8c melhor em R_tra, R_each, Length; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
+  NX_10 MBPO-N8c × MOPO-N8c: MBPO-N8c melhor em R_tra, R_each; MOPO-N8c melhor em MCD [dentro da variação entre sementes]
   FB    MBPO-N8c × DORL-N8c: MBPO-N8c melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
   NX_0  MBPO-N8c × DORL-N8c: MBPO-N8c melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 MBPO-N8c × DORL-N8c: MBPO-N8c melhor em MCD; DORL-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MBPO-N8c × DORL-const-N8c: MBPO-N8c melhor em MCD; DORL-const-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MBPO-N8c × DORL-const-N8c: MBPO-N8c melhor em MCD; DORL-const-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    MBPO-N8c × aleatória: MBPO-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  MBPO-N8c × aleatória: MBPO-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 MBPO-N8c × aleatória: MBPO-N8c melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    MOPO-N8c × DORL-N8c: MOPO-N8c melhor em R_tra, Length, MCD; DORL-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO-N8c × DORL-N8c: MOPO-N8c melhor em MCD; DORL-N8c melhor em R_tra, R_each, Length [supera o dp entre sementes]
+  NX_10 MOPO-N8c × DORL-N8c: MOPO-N8c melhor em MCD; DORL-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-N8c × DORL-const-N8c: MOPO-N8c melhor em R_tra, Length, MCD; DORL-const-N8c melhor em R_each [dentro da variação entre sementes]
+  NX_0  MOPO-N8c × DORL-const-N8c: MOPO-N8c melhor em MCD; DORL-const-N8c melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MOPO-N8c × DORL-const-N8c: MOPO-N8c melhor em MCD; DORL-const-N8c melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-N8c × aleatória: MOPO-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_0  MOPO-N8c × aleatória: MOPO-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_10 MOPO-N8c × aleatória: MOPO-N8c melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   FB    DORL-N8c × aleatória: DORL-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  DORL-N8c × aleatória: DORL-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_10 DORL-N8c × aleatória: DORL-N8c melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    DORL-const-N8c × aleatória: DORL-const-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_0  DORL-const-N8c × aleatória: DORL-const-N8c melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
+  NX_10 DORL-const-N8c × aleatória: DORL-const-N8c melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
 
 == Inversões entre protocolos (mesma métrica)
+  R_tra  MBPO × MOPO: MBPO melhor em FB; MOPO melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each MBPO × MOPO: MBPO melhor em FB; MOPO melhor em NX_0, NX_10 [dentro da variação entre sementes]
   R_tra  MBPO × DORL: MBPO melhor em FB; DORL melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO × DORL: MBPO melhor em FB; DORL melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO × DORL-const: MBPO melhor em FB; DORL-const melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each MBPO × DORL-const: MBPO melhor em FB; DORL-const melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MBPO × DORL-const: MBPO melhor em FB; DORL-const melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO × MBPO-N8: MBPO melhor em FB, NX_10; MBPO-N8 melhor em NX_0 [dentro da variação entre sementes]
   Length MBPO × MBPO-N8: MBPO melhor em FB; MBPO-N8 melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO × DORL-N8: MBPO melhor em FB; DORL-N8 melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO × DORL-N8: MBPO melhor em FB; DORL-N8 melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO × MBPO-N4c: MBPO melhor em FB, NX_10; MBPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  MBPO × MOPO-N4c: MBPO melhor em FB, NX_10; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MBPO × MOPO-N4c: MBPO melhor em FB, NX_10; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  Length MBPO × MOPO-N4c: MBPO melhor em FB; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  MCD    MBPO × MOPO-N4c: MBPO melhor em NX_0, NX_10; MOPO-N4c melhor em FB [dentro da variação entre sementes]
   R_tra  MBPO × DORL-N4c: MBPO melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO × DORL-N4c: MBPO melhor em FB; DORL-N4c melhor em NX_0 [supera o dp entre sementes]
   MCD    MBPO × DORL-N4c: MBPO melhor em NX_0, NX_10; DORL-N4c melhor em FB [dentro da variação entre sementes]
+  R_tra  MBPO × DORL-const-N4c: MBPO melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each MBPO × DORL-const-N4c: MBPO melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MBPO × DORL-const-N4c: MBPO melhor em FB; DORL-const-N4c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO × MBPO-N8c: MBPO melhor em FB, NX_10; MBPO-N8c melhor em NX_0 [dentro da variação entre sementes]
   Length MBPO × MBPO-N8c: MBPO melhor em FB; MBPO-N8c melhor em NX_0 [supera o dp entre sementes]
   MCD    MBPO × MBPO-N8c: MBPO melhor em FB, NX_0; MBPO-N8c melhor em NX_10 [dentro da variação entre sementes]
+  R_tra  MBPO × MOPO-N8c: MBPO melhor em FB, NX_10; MOPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  Length MBPO × MOPO-N8c: MBPO melhor em FB; MOPO-N8c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO × DORL-N8c: MBPO melhor em FB; DORL-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO × DORL-N8c: MBPO melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO × DORL-const-N8c: MBPO melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MBPO × DORL-const-N8c: MBPO melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
+  Length MBPO × DORL-const-N8c: MBPO melhor em FB; DORL-const-N8c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO × aleatória: MBPO melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  MOPO × DORL: MOPO melhor em FB, NX_10; DORL melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO × DORL: MOPO melhor em NX_10; DORL melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length MOPO × DORL: MOPO melhor em FB; DORL melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO × DORL-const: MOPO melhor em FB, NX_10; DORL-const melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO × DORL-const: MOPO melhor em NX_10; DORL-const melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length MOPO × DORL-const: MOPO melhor em FB; DORL-const melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO × DORL-const: MOPO melhor em NX_0, NX_10; DORL-const melhor em FB [dentro da variação entre sementes]
+  R_tra  MOPO × MBPO-N8: MOPO melhor em FB, NX_10; MBPO-N8 melhor em NX_0 [dentro da variação entre sementes]
+  Length MOPO × MBPO-N8: MOPO melhor em FB; MBPO-N8 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  MOPO × DORL-N8: MOPO melhor em FB, NX_10; DORL-N8 melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO × DORL-N8: MOPO melhor em NX_10; DORL-N8 melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length MOPO × DORL-N8: MOPO melhor em FB; DORL-N8 melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO × MBPO-N4c: MOPO melhor em NX_10; MBPO-N4c melhor em FB, NX_0 [dentro da variação entre sementes]
+  R_tra  MOPO × MOPO-N4c: MOPO melhor em FB, NX_10; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO × MOPO-N4c: MOPO melhor em FB, NX_10; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  MOPO × DORL-N4c: MOPO melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO × DORL-N4c: MOPO melhor em FB; DORL-N4c melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO × DORL-N4c: MOPO melhor em NX_0; DORL-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO × DORL-const-N4c: MOPO melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO × DORL-const-N4c: MOPO melhor em FB; DORL-const-N4c melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO × DORL-const-N4c: MOPO melhor em NX_0; DORL-const-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO × MBPO-N8c: MOPO melhor em FB, NX_10; MBPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO × MBPO-N8c: MOPO melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length MOPO × MBPO-N8c: MOPO melhor em FB; MBPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  MOPO × MOPO-N8c: MOPO melhor em FB, NX_10; MOPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  Length MOPO × MOPO-N8c: MOPO melhor em FB; MOPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  MOPO × DORL-N8c: MOPO melhor em FB, NX_10; DORL-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO × DORL-N8c: MOPO melhor em NX_10; DORL-N8c melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length MOPO × DORL-N8c: MOPO melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO × DORL-N8c: MOPO melhor em NX_0; DORL-N8c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO × DORL-const-N8c: MOPO melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
+  Length MOPO × DORL-const-N8c: MOPO melhor em FB; DORL-const-N8c melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO × DORL-const-N8c: MOPO melhor em NX_0; DORL-const-N8c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO × aleatória: MOPO melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  DORL × DORL-const: DORL melhor em FB; DORL-const melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each DORL × DORL-const: DORL melhor em FB; DORL-const melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length DORL × DORL-const: DORL melhor em FB; DORL-const melhor em NX_0 [dentro da variação entre sementes]
   R_tra  DORL × MBPO-N8: DORL melhor em NX_0, NX_10; MBPO-N8 melhor em FB [dentro da variação entre sementes]
   Length DORL × MBPO-N8: DORL melhor em NX_0; MBPO-N8 melhor em FB [supera o dp entre sementes]
   R_tra  DORL × DORL-N8: DORL melhor em FB, NX_0; DORL-N8 melhor em NX_10 [dentro da variação entre sementes]
   R_tra  DORL × MBPO-N4c: DORL melhor em NX_0, NX_10; MBPO-N4c melhor em FB [dentro da variação entre sementes]
   Length DORL × MBPO-N4c: DORL melhor em NX_0; MBPO-N4c melhor em FB [supera o dp entre sementes]
+  R_tra  DORL × MOPO-N4c: DORL melhor em NX_0, NX_10; MOPO-N4c melhor em FB [dentro da variação entre sementes]
+  Length DORL × MOPO-N4c: DORL melhor em NX_0; MOPO-N4c melhor em FB [supera o dp entre sementes]
   R_tra  DORL × DORL-N4c: DORL melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL × DORL-const-N4c: DORL melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each DORL × DORL-const-N4c: DORL melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   R_tra  DORL × MBPO-N8c: DORL melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
   Length DORL × MBPO-N8c: DORL melhor em NX_0; MBPO-N8c melhor em FB [supera o dp entre sementes]
+  R_tra  DORL × MOPO-N8c: DORL melhor em NX_0, NX_10; MOPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length DORL × MOPO-N8c: DORL melhor em NX_0; MOPO-N8c melhor em FB [supera o dp entre sementes]
   R_each DORL × DORL-N8c: DORL melhor em NX_10; DORL-N8c melhor em FB, NX_0 [dentro da variação entre sementes]
   R_tra  DORL × aleatória: DORL melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  DORL-const × MBPO-N8: DORL-const melhor em NX_0, NX_10; MBPO-N8 melhor em FB [dentro da variação entre sementes]
+  Length DORL-const × MBPO-N8: DORL-const melhor em NX_0; MBPO-N8 melhor em FB [supera o dp entre sementes]
+  R_each DORL-const × DORL-N8: DORL-const melhor em NX_10; DORL-N8 melhor em FB, NX_0 [dentro da variação entre sementes]
+  R_tra  DORL-const × MBPO-N4c: DORL-const melhor em NX_0, NX_10; MBPO-N4c melhor em FB [dentro da variação entre sementes]
+  Length DORL-const × MBPO-N4c: DORL-const melhor em NX_0; MBPO-N4c melhor em FB [supera o dp entre sementes]
+  R_tra  DORL-const × MOPO-N4c: DORL-const melhor em NX_0, NX_10; MOPO-N4c melhor em FB [dentro da variação entre sementes]
+  Length DORL-const × MOPO-N4c: DORL-const melhor em NX_0; MOPO-N4c melhor em FB [supera o dp entre sementes]
+  Length DORL-const × DORL-N4c: DORL-const melhor em NX_0; DORL-N4c melhor em FB [dentro da variação entre sementes]
+  MCD    DORL-const × DORL-N4c: DORL-const melhor em NX_0; DORL-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  Length DORL-const × DORL-const-N4c: DORL-const melhor em NX_0; DORL-const-N4c melhor em FB [dentro da variação entre sementes]
+  MCD    DORL-const × DORL-const-N4c: DORL-const melhor em NX_0; DORL-const-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-const × MBPO-N8c: DORL-const melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
+  R_each DORL-const × MBPO-N8c: DORL-const melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length DORL-const × MBPO-N8c: DORL-const melhor em NX_0; MBPO-N8c melhor em FB [supera o dp entre sementes]
+  MCD    DORL-const × MBPO-N8c: DORL-const melhor em FB; MBPO-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-const × MOPO-N8c: DORL-const melhor em NX_0, NX_10; MOPO-N8c melhor em FB [supera o dp entre sementes]
+  Length DORL-const × MOPO-N8c: DORL-const melhor em NX_0; MOPO-N8c melhor em FB [supera o dp entre sementes]
+  R_each DORL-const × DORL-N8c: DORL-const melhor em NX_10; DORL-N8c melhor em FB, NX_0 [dentro da variação entre sementes]
+  MCD    DORL-const × DORL-N8c: DORL-const melhor em FB; DORL-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  MCD    DORL-const × DORL-const-N8c: DORL-const melhor em FB; DORL-const-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-const × aleatória: DORL-const melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
   R_tra  MBPO-N8 × DORL-N8: MBPO-N8 melhor em FB; DORL-N8 melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO-N8 × DORL-N8: MBPO-N8 melhor em FB; DORL-N8 melhor em NX_0 [dentro da variação entre sementes]
   R_tra  MBPO-N8 × MBPO-N4c: MBPO-N8 melhor em NX_0; MBPO-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
   Length MBPO-N8 × MBPO-N4c: MBPO-N8 melhor em NX_0; MBPO-N4c melhor em FB [supera o dp entre sementes]
   MCD    MBPO-N8 × MBPO-N4c: MBPO-N8 melhor em NX_0; MBPO-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em NX_0; MOPO-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_each MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em FB; MOPO-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em NX_0; MOPO-N4c melhor em FB [supera o dp entre sementes]
+  MCD    MBPO-N8 × MOPO-N4c: MBPO-N8 melhor em NX_0, NX_10; MOPO-N4c melhor em FB [dentro da variação entre sementes]
   R_tra  MBPO-N8 × DORL-N4c: MBPO-N8 melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO-N8 × DORL-N4c: MBPO-N8 melhor em FB; DORL-N4c melhor em NX_0 [supera o dp entre sementes]
   MCD    MBPO-N8 × DORL-N4c: MBPO-N8 melhor em NX_0, NX_10; DORL-N4c melhor em FB [dentro da variação entre sementes]
+  R_tra  MBPO-N8 × DORL-const-N4c: MBPO-N8 melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [supera o dp entre sementes]
+  Length MBPO-N8 × DORL-const-N4c: MBPO-N8 melhor em FB; DORL-const-N4c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO-N8 × MBPO-N8c: MBPO-N8 melhor em NX_0; MBPO-N8c melhor em FB, NX_10 [dentro da variação entre sementes]
   MCD    MBPO-N8 × MBPO-N8c: MBPO-N8 melhor em FB, NX_0; MBPO-N8c melhor em NX_10 [dentro da variação entre sementes]
   R_tra  MBPO-N8 × DORL-N8c: MBPO-N8 melhor em FB; DORL-N8c melhor em NX_0, NX_10 [supera o dp entre sementes]
   Length MBPO-N8 × DORL-N8c: MBPO-N8 melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO-N8 × DORL-const-N8c: MBPO-N8 melhor em FB; DORL-const-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MBPO-N8 × DORL-const-N8c: MBPO-N8 melhor em FB; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
   R_tra  MBPO-N8 × aleatória: MBPO-N8 melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
   R_tra  DORL-N8 × MBPO-N4c: DORL-N8 melhor em NX_0, NX_10; MBPO-N4c melhor em FB [dentro da variação entre sementes]
   Length DORL-N8 × MBPO-N4c: DORL-N8 melhor em NX_0; MBPO-N4c melhor em FB [supera o dp entre sementes]
+  R_tra  DORL-N8 × MOPO-N4c: DORL-N8 melhor em NX_0, NX_10; MOPO-N4c melhor em FB [dentro da variação entre sementes]
+  Length DORL-N8 × MOPO-N4c: DORL-N8 melhor em NX_0; MOPO-N4c melhor em FB [supera o dp entre sementes]
   R_each DORL-N8 × DORL-N4c: DORL-N8 melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   MCD    DORL-N8 × DORL-N4c: DORL-N8 melhor em NX_0; DORL-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_each DORL-N8 × DORL-const-N4c: DORL-N8 melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  MCD    DORL-N8 × DORL-const-N4c: DORL-N8 melhor em NX_0; DORL-const-N4c melhor em FB, NX_10 [dentro da variação entre sementes]
   R_tra  DORL-N8 × MBPO-N8c: DORL-N8 melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
   Length DORL-N8 × MBPO-N8c: DORL-N8 melhor em NX_0; MBPO-N8c melhor em FB [dentro da variação entre sementes]
+  R_tra  DORL-N8 × MOPO-N8c: DORL-N8 melhor em NX_0, NX_10; MOPO-N8c melhor em FB [supera o dp entre sementes]
+  Length DORL-N8 × MOPO-N8c: DORL-N8 melhor em NX_0; MOPO-N8c melhor em FB [supera o dp entre sementes]
   R_tra  DORL-N8 × DORL-N8c: DORL-N8 melhor em FB, NX_10; DORL-N8c melhor em NX_0 [dentro da variação entre sementes]
   Length DORL-N8 × DORL-N8c: DORL-N8 melhor em FB; DORL-N8c melhor em NX_0 [dentro da variação entre sementes]
+  Length DORL-N8 × DORL-const-N8c: DORL-N8 melhor em FB; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
   R_tra  DORL-N8 × aleatória: DORL-N8 melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  MBPO-N4c × MOPO-N4c: MBPO-N4c melhor em FB, NX_10; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MBPO-N4c × MOPO-N4c: MBPO-N4c melhor em FB, NX_10; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
+  Length MBPO-N4c × MOPO-N4c: MBPO-N4c melhor em FB; MOPO-N4c melhor em NX_0 [dentro da variação entre sementes]
   R_tra  MBPO-N4c × DORL-N4c: MBPO-N4c melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO-N4c × DORL-N4c: MBPO-N4c melhor em FB; DORL-N4c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO-N4c × DORL-const-N4c: MBPO-N4c melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MBPO-N4c × DORL-const-N4c: MBPO-N4c melhor em FB; DORL-const-N4c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO-N4c × MBPO-N8c: MBPO-N4c melhor em FB, NX_10; MBPO-N8c melhor em NX_0 [dentro da variação entre sementes]
   R_each MBPO-N4c × MBPO-N8c: MBPO-N4c melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
   Length MBPO-N4c × MBPO-N8c: MBPO-N4c melhor em FB; MBPO-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO-N4c × MOPO-N8c: MBPO-N4c melhor em FB, NX_10; MOPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  Length MBPO-N4c × MOPO-N8c: MBPO-N4c melhor em FB; MOPO-N8c melhor em NX_0 [dentro da variação entre sementes]
   R_tra  MBPO-N4c × DORL-N8c: MBPO-N4c melhor em FB; DORL-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO-N4c × DORL-N8c: MBPO-N4c melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO-N4c × DORL-const-N8c: MBPO-N4c melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MBPO-N4c × DORL-const-N8c: MBPO-N4c melhor em NX_10; DORL-const-N8c melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length MBPO-N4c × DORL-const-N8c: MBPO-N4c melhor em FB; DORL-const-N8c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO-N4c × aleatória: MBPO-N4c melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  MOPO-N4c × DORL-N4c: MOPO-N4c melhor em FB; DORL-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO-N4c × DORL-N4c: MOPO-N4c melhor em FB; DORL-N4c melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO-N4c × DORL-N4c: MOPO-N4c melhor em NX_0, NX_10; DORL-N4c melhor em FB [dentro da variação entre sementes]
+  R_tra  MOPO-N4c × DORL-const-N4c: MOPO-N4c melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO-N4c × DORL-const-N4c: MOPO-N4c melhor em FB; DORL-const-N4c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em NX_10; MBPO-N8c melhor em FB, NX_0 [dentro da variação entre sementes]
+  R_each MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em FB; MBPO-N8c melhor em NX_0 [supera o dp entre sementes]
+  MCD    MOPO-N4c × MBPO-N8c: MOPO-N4c melhor em FB; MBPO-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO-N4c × MOPO-N8c: MOPO-N4c melhor em FB; MOPO-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  MOPO-N4c × DORL-N8c: MOPO-N4c melhor em FB; DORL-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO-N4c × DORL-N8c: MOPO-N4c melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO-N4c × DORL-const-N8c: MOPO-N4c melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_each MOPO-N4c × DORL-const-N8c: MOPO-N4c melhor em NX_0, NX_10; DORL-const-N8c melhor em FB [dentro da variação entre sementes]
+  Length MOPO-N4c × DORL-const-N8c: MOPO-N4c melhor em FB; DORL-const-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO-N4c × aleatória: MOPO-N4c melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  DORL-N4c × DORL-const-N4c: DORL-N4c melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each DORL-N4c × DORL-const-N4c: DORL-N4c melhor em FB; DORL-const-N4c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  MCD    DORL-N4c × DORL-const-N4c: DORL-N4c melhor em FB, NX_10; DORL-const-N4c melhor em NX_0 [dentro da variação entre sementes]
   R_tra  DORL-N4c × MBPO-N8c: DORL-N4c melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
   Length DORL-N4c × MBPO-N8c: DORL-N4c melhor em NX_0; MBPO-N8c melhor em FB [supera o dp entre sementes]
   MCD    DORL-N4c × MBPO-N8c: DORL-N4c melhor em FB; MBPO-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-N4c × MOPO-N8c: DORL-N4c melhor em NX_0, NX_10; MOPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length DORL-N4c × MOPO-N8c: DORL-N4c melhor em NX_0; MOPO-N8c melhor em FB [supera o dp entre sementes]
   R_each DORL-N4c × DORL-N8c: DORL-N4c melhor em NX_0, NX_10; DORL-N8c melhor em FB [dentro da variação entre sementes]
   MCD    DORL-N4c × DORL-N8c: DORL-N4c melhor em FB, NX_10; DORL-N8c melhor em NX_0 [dentro da variação entre sementes]
+  MCD    DORL-N4c × DORL-const-N8c: DORL-N4c melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
   R_tra  DORL-N4c × aleatória: DORL-N4c melhor em FB, NX_0; aleatória melhor em NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-const-N4c × MBPO-N8c: DORL-const-N4c melhor em NX_0, NX_10; MBPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length DORL-const-N4c × MBPO-N8c: DORL-const-N4c melhor em NX_0; MBPO-N8c melhor em FB [supera o dp entre sementes]
+  MCD    DORL-const-N4c × MBPO-N8c: DORL-const-N4c melhor em FB; MBPO-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-const-N4c × MOPO-N8c: DORL-const-N4c melhor em NX_0, NX_10; MOPO-N8c melhor em FB [dentro da variação entre sementes]
+  Length DORL-const-N4c × MOPO-N8c: DORL-const-N4c melhor em NX_0; MOPO-N8c melhor em FB [supera o dp entre sementes]
+  R_each DORL-const-N4c × DORL-N8c: DORL-const-N4c melhor em NX_0, NX_10; DORL-N8c melhor em FB [dentro da variação entre sementes]
+  MCD    DORL-const-N4c × DORL-N8c: DORL-const-N4c melhor em FB; DORL-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  MCD    DORL-const-N4c × DORL-const-N8c: DORL-const-N4c melhor em FB, NX_10; DORL-const-N8c melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  DORL-const-N4c × aleatória: DORL-const-N4c melhor em FB, NX_0; aleatória melhor em NX_10 [dentro da variação entre sementes]
   R_tra  MBPO-N8c × DORL-N8c: MBPO-N8c melhor em FB; DORL-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length MBPO-N8c × DORL-N8c: MBPO-N8c melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MBPO-N8c × DORL-const-N8c: MBPO-N8c melhor em FB; DORL-const-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_each MBPO-N8c × DORL-const-N8c: MBPO-N8c melhor em FB; DORL-const-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MBPO-N8c × DORL-const-N8c: MBPO-N8c melhor em FB; DORL-const-N8c melhor em NX_0 [supera o dp entre sementes]
   R_tra  MBPO-N8c × aleatória: MBPO-N8c melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  MOPO-N8c × DORL-N8c: MOPO-N8c melhor em FB; DORL-N8c melhor em NX_0, NX_10 [supera o dp entre sementes]
+  Length MOPO-N8c × DORL-N8c: MOPO-N8c melhor em FB; DORL-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO-N8c × DORL-const-N8c: MOPO-N8c melhor em FB; DORL-const-N8c melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length MOPO-N8c × DORL-const-N8c: MOPO-N8c melhor em FB; DORL-const-N8c melhor em NX_0 [supera o dp entre sementes]
+  R_tra  MOPO-N8c × aleatória: MOPO-N8c melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
   R_tra  DORL-N8c × aleatória: DORL-N8c melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
+  R_tra  DORL-const-N8c × aleatória: DORL-const-N8c melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
 
-Arquivos: ../../results/a5/e1_por_semente.csv, ../../results/a5/e1_resumo.csv, ../../results/a5/e1_posicoes.csv
+Arquivos: ../../results/a5_por_semente.csv, ../../results/a5_resumo.csv, ../../results/a5_posicoes.csv
