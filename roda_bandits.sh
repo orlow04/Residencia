@@ -28,7 +28,7 @@ fs = sorted(glob.glob(f"{logs}/[[]{msg}[]]_*.log"))
 if not fs:
     sys.exit(1)
 d = read_log(fs[-1])
-k = len(d[d.index >= 1])
+k = len(d[d.index >= 0])   # os bandits registram a avaliação pré-treino como época -1
 print(f"  {msg}: {k} épocas em {fs[-1].rsplit('/', 1)[1]}")
 sys.exit(0 if k == 200 else 1)
 PY
