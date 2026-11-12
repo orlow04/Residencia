@@ -15,13 +15,13 @@ Média $\pm$ dp entre 5 sementes; uma diferença conta quando supera o maior dp 
 \multicolumn{6}{@{}l}{\textit{Afirmações do artigo}} \\
 A1 & O DORL prolonga a sessão (Length e $R_{tra}$ acima do MBPO) & S, M & a, d &
   NX\_0: $+7{,}6$ em Length, $+6{,}6$ em $R_{tra}$. NX\_10: RL abaixo do acaso em $R_{tra}$ (7,08--7,39 contra 8,72).
-  $N = 1/4c/8c$: $+4{,}8/+6{,}7/+3{,}5$. Saída calibrada: $+0{,}3$, RL $\approx$ acaso &
+  $N = 1/4c/8c$: $+4{,}8/+6{,}7/+3{,}5$, todo do passo MOPO $\to$ DORL-const em $4c/8c$. Saída calibrada: $+0{,}3$, RL $\approx$ acaso &
   Condicional (regra determinística) \\
 A2 & C1: a penalidade de incerteza produz efeito Mateus & T, M & a, e &
   MCD $+0{,}043$ com dp de $0{,}085$. Saída calibrada: MOPO = MBPO em cobertura (50,2\% contra 52,8\%) e MCD &
   Dentro do ruído \\
 A3 & C4: o termo de entropia reintroduz exploração & T & c &
-  P\_E constante = DORL nas quatro métricas e, sob a saída calibrada, na cobertura (2,5\% contra 2,7\%);
+  P\_E constante = DORL nas quatro métricas, com a janela corrigida ($N = 4c/8c$) e, sob a saída calibrada, na cobertura (2,5\% contra 2,7\%);
   P\_E $= 1{,}96$ de 2 na política treinada &
   Não sustentada (bônus fixo por passo) \\
 A4 & O DORL reduz a concentração & M & b, e &
@@ -42,13 +42,13 @@ B1 & O $\hat r$ não ordena os itens como a avaliação & T, M & b &
   Verificada \\
 B2 & O P\_E funciona como bônus fixo por passo & T & c & $\approx$99\% da variação de $\tilde r$; 1,96 de 2; ablação & Verificada \\
 B3 & A política explora a regra de saída & S & d &
-  FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; $N = 8$ original é artefato do recorte & Verificada \\
+  FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; $N = 8$ original é artefato do recorte; MOPO cicla como o MBPO, DORL-const como o DORL & Verificada \\
 B4 & A regra de saída não corresponde ao usuário real & S & d, f &
   $P(\text{fim}\mid\text{repete categoria}) = 6{,}3\%$ contra 2,6\%; o simulador supõe 100\% contra 0\% &
   Verificada (associação) \\
 B5 & Decide a razão entre bônus por passo e variação do $\hat r$ & T, S & c, d &
-  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Saída calibrada: só o bônus fixo
-  derruba a cobertura (50,2\% $\to$ 2,5\%) &
+  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Só o bônus fixo derruba a cobertura:
+  saída calibrada 50,2\% $\to$ 2,5\%; janela corrigida 10,4\% $\to$ 3,3\% ($N = 4c$) &
   Hipótese apoiada \\
 B6 & A concentração depende do nível medido & M & b, e &
   MCD e cobertura em ordens opostas; sem bolha individual (V 9,2--11,4 contra 8,02 do usuário) & Verificada \\

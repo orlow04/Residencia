@@ -6,8 +6,8 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 | Id | Experimento | Status |
 |---|---|---|
 | Rev | Revisualização de vídeos: referência real e repetição das políticas no FB (`revisitas.py`) | Feito (A, B, C) |
-| A5-2 | Janela corrigida (N = 4, 8) para MOPO e DORL-const (`roda_a5.sh`) | Em execução (desde 11/11 18:38) |
-| Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | Em execução (desde 11/11 18:38) |
+| A5-2 | Janela corrigida (N = 4, 8) para MOPO e DORL-const (`roda_a5.sh`) | Feito |
+| Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | s1 e s3 feitas; s2 e s4 em execução |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -66,7 +66,7 @@ denominador. O número deste script é o que vale.
 
 **Resultado C** (FB; média ± dp entre 5 sementes; `results/revisitas/revisitas_resumo.csv`). Taxa de base da
 política uniforme no top 10%: 30,6% dos 3.327 itens do small_matrix. O número foi calculado à parte e entra no
-`revisitas.py` a partir da reexecução.
+`revisitas.py` a partir da reexecução (`results/revisitas/revisitas_saida.txt`).
 
 | Método | Repetição | Passos no top 10% | Repetidos no top 10% | Cobertura com repetição | Cobertura sem repetição |
 |---|---|---|---|---|---|
@@ -114,7 +114,7 @@ política uniforme no top 10%: 30,6% dos 3.327 itens do small_matrix. O número 
 4. **A concentração do RL no simulador não é de popularidade.** O RL concentra-se em poucos itens quaisquer, em geral
    menos populares que o acaso. O "efeito Mateus" medido aqui é homogeneização, não reforço do que já é popular
    (etapa 8 da semana 9). O mecanismo de reforço que a revisita real tem (Gini 0,958) não existe no simulador.
-5. **Diferença sem interpretação firme.** DORL 13,2% contra DORL-const 30,5% de passos no top 10% (dp 0,108).
+5. **Diferença sem interpretação firme (descartada na etapa 2).** DORL 13,2% contra DORL-const 30,5% de passos no top 10% (dp 0,108).
    - A diferença é compatível com o termo de k = 1 favorecer itens raros (S1: Spearman −0,53).
    - Mas some sob o E6 (11,2% contra 13,4%). Leitura: possível efeito da variação do P_E na popularidade, só na
      regra determinística.
@@ -127,12 +127,71 @@ política uniforme no top 10%: 30,6% dos 3.327 itens do small_matrix. O número 
   das políticas. Hipótese não verificada: o big_matrix desses usuários evita os itens do small_matrix.
 - A repetição das políticas é medida por trajetória simulada, e a do usuário por sessão real com corte de 30 min.
 - O dp da popularidade é grande (até 0,26).
-- MOPO-N4c/N8c e DORL-const-N4c/N8c entram na reexecução da parte C após o A5-2.
 
 ## Etapa 2 — Janela corrigida para MOPO e DORL-const
 
-Em execução. Após o término: `e1_protocolos.py` no conjunto do E3, `bolha.py`, `fb_rotacao.py`,
-`alem_da_acuracia.py` e a parte C do `revisitas.py`. Atualiza a etapa 5/6 da semana 9 e as linhas A1/B3 da síntese.
+A decomposição do E2 se repete com a janela corrigida, nos dois N: só o bônus fixo por passo muda o resultado.
+A penalidade de incerteza e a variação do P_E ficam dentro do ruído em Length, cobertura e ciclos do FB.
+
+**Pergunta.** A decomposição MBPO → MOPO → DORL-const → DORL (E2, E6) vale com a regra de saída sem o recorte da
+janela (A5)?
+
+**Procedimento.** MOPO e DORL-const com N = 4 e N = 8 corrigidos, 5 sementes cada (`METODOS="MOPO DORLconst"
+roda_a5.sh`; DORL-const com `PE_CONST=1.9609`). As demais análises usam as mesmas trajetórias:
+`e1_protocolos.py` → `results/a5/e1_saida.txt`; `alem_da_acuracia.py`, `bolha.py`, `fb_rotacao.py` e
+`revisitas.py` → `results/{alem,bolha,fb,revisitas}/`.
+
+**Resultado.** Média entre 5 sementes. Length e R_tra em NX_0; cobertura e personalização em NX_10; ciclo puro no FB.
+
+| N | Método | Length | R_tra | Cobertura | Personalização | Ciclo puro (FB) |
+|---|---|---|---|---|---|---|
+| 4 (original) | MBPO | 15,78 ± 1,83 | 11,69 ± 2,32 | 12,0% | 0,52 | 0,53 |
+| | MOPO | 15,60 ± 2,34 | 12,00 ± 2,61 | 11,2% | 0,52 | 0,60 |
+| | DORL-const | 24,00 ± 2,66 | 18,53 ± 0,29 | 3,4% | 0,63 | 0,05 |
+| | DORL | 23,42 ± 1,10 | 18,27 ± 2,46 | 3,3% | 0,59 | 0,14 |
+| 4c | MBPO | 16,65 ± 1,95 | 12,20 ± 2,03 | 10,5% | 0,48 | 0,62 |
+| | MOPO | 16,84 ± 1,26 | 12,89 ± 0,75 | 10,4% | 0,45 | 0,60 |
+| | DORL-const | 22,57 ± 2,46 | 18,65 ± 3,63 | 3,3% | 0,56 | 0,12 |
+| | DORL | 23,39 ± 2,61 | 18,62 ± 3,10 | 3,2% | 0,54 | 0,14 |
+| 8c | MBPO | 18,64 ± 1,72 | 13,31 ± 2,46 | 5,3% | 0,21 | 0,14 |
+| | MOPO | 18,12 ± 1,44 | 12,36 ± 1,31 | 5,7% | 0,22 | 0,36 |
+| | DORL-const | 21,15 ± 1,17 | 15,74 ± 2,01 | 3,8% | 0,60 | 0,08 |
+| | DORL | 22,10 ± 0,83 | 17,39 ± 0,68 | 3,7% | 0,55 | 0,07 |
+
+Decomposição em Length (NX_0); "acima" = supera o maior dp entre sementes dos dois métodos.
+
+| Passo | Termo acrescentado | N = 4 | N = 4c | N = 8c |
+|---|---|---|---|---|
+| MBPO → MOPO | P_U | −0,2 (ruído) | +0,2 (ruído) | −0,5 (ruído) |
+| MOPO → DORL-const | Bônus fixo por passo | +8,4 (acima) | +5,7 (acima) | +3,0 (acima) |
+| DORL-const → DORL | Variação do P_E | −0,6 (ruído) | +0,8 (ruído) | +0,9 (ruído) |
+
+**Interpretação.**
+
+1. **O E2 se reproduz com a janela corrigida.** Nos três cenários, o único passo acima do ruído é o bônus fixo.
+   Ele explica toda a vantagem do DORL sobre o MBPO em Length (+6,7 com N = 4c; +3,5 com N = 8c). Em R_tra, com
+   N = 8c, DORL − DORL-const = +1,6, dentro do dp (2,0).
+2. **A concentração de itens também vem do bônus.**
+   - A cobertura cai de 10,4% para 3,3% (N = 4c) e de 5,7% para 3,8% (N = 8c) no passo MOPO → DORL-const.
+   - P_U e a variação do P_E não a alteram.
+   - É o mesmo padrão do E6 (50,2% → 2,5%), agora em três regras determinísticas e na calibrada.
+3. **O ciclo do FB é dos métodos sem bônus.**
+   - MBPO e MOPO ciclam: ciclo puro em 0,60–0,62 das trajetórias com N = 4c.
+   - DORL e DORL-const quase não ciclam (0,12–0,14).
+   - Responde em parte à questão em aberto da semana 9 ("por que DORL/DORL-const quase não ciclam no FB"): o que
+     separa os dois grupos é o bônus, não a variação do P_E. O mecanismo segue em aberto.
+4. **Bolha:** nenhuma variante forma bolha individual. V vai de 9,70 a 10,05, contra 8,02 do usuário.
+5. **A diferença de popularidade da etapa 1 (item 5) não se sustenta.** DORL-const contra DORL no top 10%:
+   - N = 4: 30,5% contra 13,2%;
+   - N = 4c: 21,5% contra 20,7%;
+   - N = 8c: 30,9% contra 18,9%.
+
+   A direção não é estável entre as regras, e os dp são de 0,08 a 0,12. Leitura: ruído, não efeito do P_E.
+6. **Personalização com N = 8c.** MBPO e MOPO caem para 0,21–0,22, abaixo de DORL e DORL-const (0,55–0,60).
+   Fato registrado, sem interpretação.
+
+**Limitações.** Uma constante do bônus (a do E2) e um λ₁. A aleatória com janela corrigida está em
+`results/e3/aleatoria_N{4,8}c.json` e não entra no `e1_saida.txt` do A5.
 
 ## Etapa 3 — Sementes dos bandits
 

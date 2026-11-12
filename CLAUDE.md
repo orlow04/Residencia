@@ -89,7 +89,9 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
 
 - Revisitas (feito): as políticas repetem 6,7–74,3% dos passos FB contra 3,4% nas sessões reais; a cobertura sem
   repetições é 1,1–2,6× maior; a repetição real segue a popularidade (top 10%: 20,3% contra 10,6%), a das políticas não.
-- Em execução desde 11/11 18:38: janela corrigida para MOPO e DORL-const; sementes 1–4 dos bandits.
+- Janela corrigida para MOPO e DORL-const (feito, 12/11): com N = 4c/8c, só MOPO → DORL-const passa do dp
+  (Length +5,7/+3,0; cobertura 10,4% → 3,3%); P_U e variação do P_E dentro do ruído. MOPO cicla como o MBPO no FB.
+- Bandits: s1 e s3 feitas; s2 e s4 em execução desde 12/11 09:25.
 
 ## Próxima semana (planejada; última de experimentos)
 
@@ -98,7 +100,7 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
    `KuaiEnv.py:317`), excluindo registros duplicados.
 3. Tabela de síntese (afirmação × sinal × evidência × força) na estrutura acima; congelar os experimentos.
 4. Esqueleto do relatório e apêndice técnico único (semanas 8 e 9).
-Em aberto: Length do MBPO não monótono no N; por que DORL/DORL-const quase não ciclam no FB.
+Em aberto: Length do MBPO não monótono no N; por que o bônus fixo impede o ciclo no FB (o ciclo é dos métodos sem bônus).
 
 ## Armadilhas conhecidas
 
