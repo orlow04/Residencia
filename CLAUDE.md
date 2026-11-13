@@ -91,7 +91,9 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
   repetições é 1,1–2,6× maior; a repetição real segue a popularidade (top 10%: 20,3% contra 10,6%), a das políticas não.
 - Janela corrigida para MOPO e DORL-const (feito, 12/11): com N = 4c/8c, só MOPO → DORL-const passa do dp
   (Length +5,7/+3,0; cobertura 10,4% → 3,3%); P_U e variação do P_E dentro do ruído. MOPO cicla como o MBPO no FB.
-- Bandits: s1 e s3 feitas; s2 e s4 em execução desde 12/11 09:25.
+- Bandits com 5 sementes (feito, 13/11): abaixo do acaso em R_tra e Length; UCB empata com o acaso em R_each (NX_0) e
+  supera MBPO/MOPO/DORL nela; em NX_10, RL abaixo dos bandits só para MBPO/MOPO (DORL/DORL-const: ruído).
+- Termo técnico: o bônus fixo por passo do DORL é um *survival bonus* (usar o nome em inglês).
 
 ## Próxima semana (planejada; última de experimentos)
 
@@ -100,7 +102,7 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
    `KuaiEnv.py:317`), excluindo registros duplicados.
 3. Tabela de síntese (afirmação × sinal × evidência × força) na estrutura acima; congelar os experimentos.
 4. Esqueleto do relatório e apêndice técnico único (semanas 8 e 9).
-Em aberto: Length do MBPO não monótono no N; por que o bônus fixo impede o ciclo no FB (o ciclo é dos métodos sem bônus).
+Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede o ciclo no FB (o ciclo é dos métodos sem bônus).
 
 ## Armadilhas conhecidas
 
@@ -114,6 +116,11 @@ Em aberto: Length do MBPO não monótono no N; por que o bônus fixo impede o ci
 - Pares usuário–vídeo repetidos no big_matrix (11,8% das linhas dos usuários de avaliação): 56% das repetições
   são duplicatas exatas (mesmo timestamp e watch_ratio). Sem elas, 5,5% das visualizações repetem um par, 70% em
   outra sessão (`revisitas.py`). Não tratar como revisitas sem filtrar.
+- `e1_protocolos.py --out X` é **prefixo**, não pasta: usar `--out ../../results/a5/e1` (gera `results/a5/e1_*.csv`).
+  O `exporta_resultados.sh` copia `e1_*` do DORL-codes para `results/e1/`: não deixar `e1_saida.txt` velho lá
+  (os antigos estão em `DORL-codes/e1_antigo/` na 4090).
+- Push da 4090 falhando com `vscode-git-*.sock ECONNREFUSED`: terminal de sessão antiga do VS Code. Abrir terminal novo
+  ou, no Mac, `git pull <host-4090>:dorl_passo1 main`. Não deixar credencial do GitHub na 4090 (máquina compartilhada).
 - FB: o bloco de N + 1 itens vale só entre as trajetórias em ciclo puro, não para a média de itens distintos.
 - Erros já cometidos e corrigidos: (1) "a semente 2 é a mais próxima do artigo nas quatro métricas" é falso — ela é a única a menos de um desvio do artigo nas quatro; (2) a MCD do KuaiRec usa 10 categorias dominantes, não 12 (a Justificativa de Replicação ainda diz 12).
 

@@ -23,13 +23,14 @@ A2 & C1: a penalidade de incerteza produz efeito Mateus & T, M & a, e &
 A3 & C4: o termo de entropia reintroduz exploração & T & c &
   P\_E constante = DORL nas quatro métricas, com a janela corrigida ($N = 4c/8c$) e, sob a saída calibrada, na cobertura (2,5\% contra 2,7\%);
   P\_E $= 1{,}96$ de 2 na política treinada &
-  Não sustentada (bônus fixo por passo) \\
+  Não sustentada (\textit{survival bonus}) \\
 A4 & O DORL reduz a concentração & M & b, e &
   RL abaixo da taxa de base do acaso na MCD (0,83). Cobertura: DORL 3,3\%, MBPO 12\%, acaso 86,5\%;
   saída calibrada: 2,7\% contra 52,8\% &
   Invertida no nível do item \\
-A5 & O RL supera os bandits & M & b, d &
-  $R_{each}$ do RL abaixo do acaso nos três protocolos (0,69--0,78 contra 0,87); bandits abaixo do acaso\tnote{a} &
+A5 & O RL supera os bandits & M & a, b, d &
+  5 sementes: RL acima em $R_{tra}$ e Length (NX\_0); UCB acima de MBPO, MOPO e DORL em $R_{each}$; em NX\_10, UCB acima de MBPO e MOPO;
+  bandits abaixo do acaso em $R_{tra}$ e Length &
   Condicional ($R_{tra}$ em NX\_0) \\
 A6 & A Tabela 2 representa cada método & M & a &
   ``$\pm$'' entre épocas de uma execução; dp da MCD entre sementes $= 3{,}6\times$ a diferença DORL $-$ MBPO &
@@ -40,14 +41,14 @@ A7 & C2 e C3 & --- & --- & Correlacional (C2) e teórica (C3); fora do alcance d
 B1 & O $\hat r$ não ordena os itens como a avaliação & T, M & b &
   Top-10 do $\hat r$: 0,40 contra 0,87 do acaso. Com o alvo da avaliação, MBPO muda ($R_{each}$ 0,736 $\to$ 1,034), DORL não &
   Verificada \\
-B2 & O P\_E funciona como bônus fixo por passo & T & c & $\approx$99\% da variação de $\tilde r$; 1,96 de 2; ablação & Verificada \\
+B2 & O P\_E funciona como \textit{survival bonus} & T & c & $\approx$99\% da variação de $\tilde r$; 1,96 de 2; ablação & Verificada \\
 B3 & A política explora a regra de saída & S & d &
   FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; $N = 8$ original é artefato do recorte; MOPO cicla como o MBPO, DORL-const como o DORL & Verificada \\
 B4 & A regra de saída não corresponde ao usuário real & S & d, f &
   $P(\text{fim}\mid\text{repete categoria}) = 6{,}3\%$ contra 2,6\%; o simulador supõe 100\% contra 0\% &
   Verificada (associação) \\
-B5 & Decide a razão entre bônus por passo e variação do $\hat r$ & T, S & c, d &
-  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Só o bônus fixo derruba a cobertura:
+B5 & Decide a razão entre \textit{survival bonus} e variação do $\hat r$ & T, S & c, d &
+  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Só o \textit{survival bonus} derruba a cobertura:
   saída calibrada 50,2\% $\to$ 2,5\%; janela corrigida 10,4\% $\to$ 3,3\% ($N = 4c$) &
   Hipótese apoiada \\
 B6 & A concentração depende do nível medido & M & b, e &
@@ -62,7 +63,6 @@ B7 & A repetição do FB infla a concentração e não segue a popularidade & S,
   Controle: (a) desvio entre sementes; (b) referência sem sinal; (c) ablação por constante;
   (d) variação da regra ou do protocolo; (e) concentração em vários níveis;
   (f) referência empírica (big\_matrix).
-\item[a] Bandits com uma semente; sementes adicionais em andamento.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

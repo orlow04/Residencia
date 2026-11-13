@@ -7,7 +7,7 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 |---|---|---|
 | Rev | Revisualização de vídeos: referência real e repetição das políticas no FB (`revisitas.py`) | Feito (A, B, C) |
 | A5-2 | Janela corrigida (N = 4, 8) para MOPO e DORL-const (`roda_a5.sh`) | Feito |
-| Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | s1 e s3 feitas; s2 e s4 em execução |
+| Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | Feito |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -94,7 +94,7 @@ política uniforme no top 10%: 30,6% dos 3.327 itens do small_matrix. O número 
 1. **As políticas repetem de 2 a 20 vezes mais que o usuário real.**
    - Nas trajetórias FB, a repetição vai de 6,7% (MOPO-E6) a 74,3% (MBPO-N4c); nas sessões reais de 10–30 itens,
      é de 3,4%.
-   - Só a saída calibrada sem bônus fixo (MBPO-E6, MOPO-E6) chega perto. Com a regra determinística, nenhuma
+   - Só a saída calibrada sem *survival bonus* (MBPO-E6, MOPO-E6) chega perto. Com a regra determinística, nenhuma
      variante fica abaixo de 17%.
    - O usuário real quase não repete dentro da sessão: 70% das repetições acontecem em outra sessão.
 2. **A repetição infla a concentração.**
@@ -130,7 +130,7 @@ política uniforme no top 10%: 30,6% dos 3.327 itens do small_matrix. O número 
 
 ## Etapa 2 — Janela corrigida para MOPO e DORL-const
 
-A decomposição do E2 se repete com a janela corrigida, nos dois N: só o bônus fixo por passo muda o resultado.
+A decomposição do E2 se repete com a janela corrigida, nos dois N: só o *survival bonus* (o bônus fixo por passo que o termo de entropia soma) muda o resultado.
 A penalidade de incerteza e a variação do P_E ficam dentro do ruído em Length, cobertura e ciclos do FB.
 
 **Pergunta.** A decomposição MBPO → MOPO → DORL-const → DORL (E2, E6) vale com a regra de saída sem o recorte da
@@ -163,12 +163,12 @@ Decomposição em Length (NX_0); "acima" = supera o maior dp entre sementes dos 
 | Passo | Termo acrescentado | N = 4 | N = 4c | N = 8c |
 |---|---|---|---|---|
 | MBPO → MOPO | P_U | −0,2 (ruído) | +0,2 (ruído) | −0,5 (ruído) |
-| MOPO → DORL-const | Bônus fixo por passo | +8,4 (acima) | +5,7 (acima) | +3,0 (acima) |
+| MOPO → DORL-const | *Survival bonus* | +8,4 (acima) | +5,7 (acima) | +3,0 (acima) |
 | DORL-const → DORL | Variação do P_E | −0,6 (ruído) | +0,8 (ruído) | +0,9 (ruído) |
 
 **Interpretação.**
 
-1. **O E2 se reproduz com a janela corrigida.** Nos três cenários, o único passo acima do ruído é o bônus fixo.
+1. **O E2 se reproduz com a janela corrigida.** Nos três cenários, o único passo acima do ruído é o *survival bonus*.
    Ele explica toda a vantagem do DORL sobre o MBPO em Length (+6,7 com N = 4c; +3,5 com N = 8c). Em R_tra, com
    N = 8c, DORL − DORL-const = +1,6, dentro do dp (2,0).
 2. **A concentração de itens também vem do bônus.**
@@ -195,5 +195,53 @@ Decomposição em Length (NX_0); "acima" = supera o maior dp entre sementes dos 
 
 ## Etapa 3 — Sementes dos bandits
 
-Em execução (~17 h). Após o término: `e1_protocolos.py` com os logs `[UCB]_*`/`[UCB_s*]_*` e
-`[epsilon-greedy]_*`/`[epsilon-greedy_s*]_*`. Atualiza S3/E1 e a linha A5 da síntese.
+Com 5 sementes, a S3 se mantém: os bandits ficam abaixo da política aleatória em R_tra e Length nos três protocolos.
+O RL fica abaixo dos bandits em R_each, e em R_tra quando o comprimento é fixado.
+
+**Pergunta.** As conclusões da S3 e do E1 sobre os bandits, tiradas com uma semente, se mantêm com cinco?
+
+**Procedimento.** UCB e ε-greedy com as sementes 1 a 4 (`roda_bandits.sh`; mensagens `UCB_s{n}` e
+`epsilon-greedy_s{n}`), mesmos argumentos da execução de 20/10, que entra como semente 0. Agregação pelo
+`e1_protocolos.py` → `results/e1/e1_saida.txt`. Cada execução levou cerca de 15 h, com quatro em paralelo.
+
+**Resultado** (média ± dp entre 5 sementes).
+
+| Protocolo | Método | R_tra | R_each | Length | MCD |
+|---|---|---|---|---|---|
+| NX_0 | UCB | 3,65 ± 0,04 | 0,869 ± 0,009 | 4,19 ± 0,04 | 0,822 |
+| | ε-greedy | 3,59 ± 0,12 | 0,841 ± 0,020 | 4,25 ± 0,05 | 0,818 |
+| | Aleatória | 4,01 ± 0,02 | 0,872 ± 0,001 | 4,60 ± 0,02 | 0,827 |
+| NX_10 | UCB | 8,45 ± 0,15 | 0,845 ± 0,014 | 10 | 0,814 |
+| | ε-greedy | 8,29 ± 0,16 | 0,829 ± 0,016 | 10 | 0,811 |
+| | Aleatória | 8,72 ± 0,03 | 0,872 ± 0,003 | 10 | 0,827 |
+| FB | UCB | 2,95 ± 0,03 | 0,919 ± 0,004 | 3,21 ± 0,03 | 0,838 |
+| | ε-greedy | 2,12 ± 0,05 | 0,789 ± 0,021 | 2,68 ± 0,01 | 0,815 |
+| | Aleatória | 4,01 ± 0,01 | 0,873 ± 0,004 | 4,59 ± 0,01 | 0,827 |
+
+**Interpretação.**
+
+1. **Os bandits continuam abaixo do acaso** em R_tra e Length nos três protocolos, acima do dp. Em R_each:
+   - o ε-greedy fica abaixo nos três protocolos;
+   - o UCB empata com o acaso em NX_0 (0,869 contra 0,872, dentro do dp) e fica abaixo em NX_10;
+   - a única exceção é o FB, em que o UCB supera o acaso (0,919 contra 0,873), provavelmente porque repete itens
+     de recompensa alta. Hipótese não verificada: os bandits não têm trajetórias registradas.
+
+   A S3 dizia "abaixo do acaso em R_tra, R_each e Length". Com 5 sementes, a frase vale para o ε-greedy; para o
+   UCB, vale em R_tra e Length, não em R_each.
+2. **RL × bandits** (contra o maior dp entre sementes):
+   - **NX_0, R_tra e Length:** o RL supera os bandits por larga margem, como na Tabela 2.
+   - **R_each:** o UCB supera MBPO, MOPO e DORL em NX_0; contra o DORL-const, fica dentro do dp (0,088 contra 0,095).
+   - **NX_10, R_tra:** o UCB supera MBPO e MOPO acima do dp. Contra o DORL, a margem é limítrofe (1,260 contra
+     1,258); contra o DORL-const, fica dentro do dp. O ε-greedy supera MBPO e MOPO; contra DORL e DORL-const,
+     fica dentro do dp.
+
+   A frase do E1, "em NX_10 os quatro métodos de RL ficam abaixo dos bandits", só se sustenta para MBPO e MOPO;
+   para DORL e DORL-const é ruído.
+3. **A afirmação A5 do artigo (o RL supera os bandits) continua condicional.** Vale para R_tra e Length com a regra
+   de saída determinística, e se inverte em R_each e, para MBPO e MOPO, em NX_10.
+4. **A Tabela 2 nos bandits.** UCB: 3,61 / 0,853 / 4,22 / 0,811 no artigo, contra 3,65 / 0,869 / 4,19 / 0,822 aqui.
+   ε-greedy: 3,52 / 0,828 / 4,22 / 0,823, contra 3,59 / 0,841 / 4,25 / 0,818. Os valores ficam próximos; não há
+   dp entre sementes no artigo para comparar.
+
+**Limitações.** Sem trajetórias registradas para os bandits (o `traj_log.patch` cobre só o avaliador das
+políticas de RL), então cobertura, bolha e repetição não foram medidas para eles.

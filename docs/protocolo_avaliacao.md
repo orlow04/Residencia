@@ -41,7 +41,7 @@ robustez), acrescidos dos dois objetivos próprios do RL: valor de longo prazo e
 | O2 | Valor de longo prazo (sessão) | A política mantém o usuário por mais tempo com itens bons? | Length e R_tra, sempre junto de R_each e de um protocolo com comprimento fixo (NX_10) | Aleatória com a mesma regra de saída | a, b, c, d | Vantagem só com a regra determinística: some com a saída calibrada (+0,3 passo, E6) e vira desvantagem em NX_10 (E1) |
 | O3 | Diversidade e concentração | A exposição se concentra em poucos itens, categorias ou perfis? | Concentração em 4 níveis: categoria (MCD), item (cobertura, Gini da exposição), usuário (personalização; variedade V relativa ao próprio usuário), sessão (repetição) | Taxa de base do acaso em cada nível; janelas do próprio usuário | a, b, e | MCD e cobertura dão ordens opostas (etapa 8); DORL-E6 cobre 2,7% dos itens contra 52,8% do MBPO-E6 |
 | O4 | Popularidade (efeito Mateus) | A política reforça o que já é popular? | Fração da exposição no top 10% de popularidade do log; Gini por item | Acaso (30,6%); revisitas reais (20,3% contra 10,6%) | b, f | O RL concentra-se em itens pouco populares: homogeneização, não Mateus (semana 10, etapa 1) |
-| O5 | Fidelidade do sinal de treino | O que a política maximiza prevê o que a avaliação mede? | Top-k do r̂ avaliado pela recompensa de avaliação; correlação por usuário | Acaso; média do item; oráculo | b, c | Top-10 do r̂ 0,40 contra 0,87 do acaso (S2); P_E ≈ bônus fixo (S1, P, E2) |
+| O5 | Fidelidade do sinal de treino | O que a política maximiza prevê o que a avaliação mede? | Top-k do r̂ avaliado pela recompensa de avaliação; correlação por usuário | Acaso; média do item; oráculo | b, c | Top-10 do r̂ 0,40 contra 0,87 do acaso (S2); P_E ≈ *survival bonus* (S1, P, E2) |
 | O6 | Plausibilidade do ambiente | O usuário simulado se comporta como o real nos aspectos que a política explora? | P(fim \| evento) do simulador contra sessões reais; repetição na sessão | Sessões reais do log (corte de 30 min, sem duplicatas) | f | Saída: 100% contra 6,3% real (etapa 9); repetição: 7–74% contra 3,4% real (semana 10) |
 
 Regra de leitura para O2: um ganho em Length ou R_tra que não aparece em R_each nem em NX_10 é ganho de **duração**, e
@@ -70,7 +70,7 @@ Ordem recomendada para avaliar um novo método ou repetir esta avaliação em ou
    - Logs completos, um por semente.
 2. **Ler o código antes de medir.**
    - Localizar a regra de saída e os protocolos.
-   - Localizar o deslocamento da recompensa: bônus por passo implícito?
+   - Localizar o deslocamento da recompensa: há um *survival bonus* implícito?
    - Comparar o alvo de treino com a recompensa de avaliação.
    - Registrar cada achado com arquivo e linha.
 3. **Diagnóstico sem treino** (barato, na CPU):
@@ -104,7 +104,7 @@ Toda tabela de resultados deve trazer:
 |---|---|---|
 | Avaliação off-policy (IPS, doubly robust) | Avalia a política no log real, sem simulador; testa O1 e O2 sem a regra de saída | Estimar o valor das políticas treinadas com IPS sobre o big_matrix |
 | Retenção entre sessões (C2 do artigo) | O objetivo de longo prazo do RL vai além de uma sessão | Usar as revisitas em outra sessão (70% das repetições reais) como sinal |
-| Varredura de λ₁, λ₂ e do bônus fixo | B5 é hipótese apoiada com um único valor do bônus | Variar a constante do DORL-const sob o E6 |
+| Varredura de λ₁, λ₂ e do *survival bonus* | B5 é hipótese apoiada com um único valor do bônus | Variar a constante do DORL-const sob o E6 |
 | Segundo conjunto de dados (KuaiRand) | Todos os achados são de um simulador e um conjunto de dados | Repetir os passos 3 e 4 da seção 5 |
 | Calibração da saída por usuário | O E6 usa duas probabilidades globais | Estimar P(fim \| repete categoria) por usuário |
 
