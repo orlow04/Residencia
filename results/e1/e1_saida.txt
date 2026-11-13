@@ -24,7 +24,15 @@
   usado: DORL-const   [DORLconst_s3]_2026_10_29-06_10_13.log (200 épocas)
   usado: DORL-const   [DORLconst_s4]_2026_10_29-06_42_06.log (200 épocas)
   usado: UCB          [UCB]_2026_10_20-16_40_19.log (200 épocas)
+  usado: UCB          [UCB_s1]_2026_11_11-18_38_16.log (200 épocas)
+  usado: UCB          [UCB_s2]_2026_11_12-09_25_58.log (200 épocas)
+  usado: UCB          [UCB_s3]_2026_11_11-18_40_19.log (200 épocas)
+  usado: UCB          [UCB_s4]_2026_11_12-09_28_13.log (200 épocas)
   usado: eps-greedy   [epsilon-greedy]_2026_10_20-16_40_19.log (200 épocas)
+  usado: eps-greedy   [epsilon-greedy_s1]_2026_11_11-18_38_23.log (200 épocas)
+  usado: eps-greedy   [epsilon-greedy_s2]_2026_11_12-09_21_45.log (200 épocas)
+  usado: eps-greedy   [epsilon-greedy_s3]_2026_11_11-18_40_19.log (200 épocas)
+  usado: eps-greedy   [epsilon-greedy_s4]_2026_11_12-09_26_10.log (200 épocas)
 
 == Média entre sementes ± dp entre sementes (n = número de sementes). MCD: menor é melhor.
 
@@ -34,8 +42,8 @@ FB
   MOPO          5    17.850 ± 4.331     0.690 ± 0.141    26.130 ± 3.634     0.382 ± 0.118
   DORL          5    11.555 ± 2.209     0.712 ± 0.078    16.183 ± 1.746     0.398 ± 0.096
   DORL-const    5     9.857 ± 2.249     0.691 ± 0.059    14.308 ± 2.231     0.322 ± 0.016
-  UCB           1     2.935  (1 sem.)     0.923  (1 sem.)     3.177  (1 sem.)     0.840  (1 sem.)
-  eps-greedy    1     2.163  (1 sem.)     0.805  (1 sem.)     2.687  (1 sem.)     0.807  (1 sem.)
+  UCB           5     2.952 ± 0.026     0.919 ± 0.004     3.212 ± 0.026     0.838 ± 0.003
+  eps-greedy    5     2.118 ± 0.053     0.789 ± 0.021     2.684 ± 0.010     0.815 ± 0.010
   aleatória     5     4.005 ± 0.011     0.873 ± 0.004     4.588 ± 0.009     0.827 ± 0.002
 
 NX_0
@@ -44,8 +52,8 @@ NX_0
   MOPO          5    12.001 ± 2.613     0.763 ± 0.061    15.595 ± 2.339     0.366 ± 0.085
   DORL          5    18.273 ± 2.455     0.780 ± 0.086    23.415 ± 1.100     0.431 ± 0.027
   DORL-const    5    18.528 ± 0.294     0.781 ± 0.095    23.998 ± 2.658     0.406 ± 0.026
-  UCB           1     3.597  (1 sem.)     0.857  (1 sem.)     4.186  (1 sem.)     0.822  (1 sem.)
-  eps-greedy    1     3.705  (1 sem.)     0.857  (1 sem.)     4.309  (1 sem.)     0.813  (1 sem.)
+  UCB           5     3.645 ± 0.041     0.869 ± 0.009     4.187 ± 0.043     0.822 ± 0.007
+  eps-greedy    5     3.588 ± 0.124     0.841 ± 0.020     4.253 ± 0.054     0.818 ± 0.008
   aleatória     5     4.007 ± 0.017     0.872 ± 0.001     4.598 ± 0.016     0.827 ± 0.001
 
 NX_10
@@ -54,8 +62,8 @@ NX_10
   MOPO          5     7.388 ± 0.810     0.739 ± 0.081    10.000 ± 0.000     0.356 ± 0.103
   DORL          5     7.187 ± 1.258     0.719 ± 0.126    10.000 ± 0.000     0.384 ± 0.062
   DORL-const    5     7.342 ± 1.108     0.734 ± 0.111    10.000 ± 0.000     0.364 ± 0.047
-  UCB           1     8.258  (1 sem.)     0.826  (1 sem.)    10.000  (1 sem.)     0.812  (1 sem.)
-  eps-greedy    1     8.434  (1 sem.)     0.843  (1 sem.)    10.000  (1 sem.)     0.810  (1 sem.)
+  UCB           5     8.447 ± 0.145     0.845 ± 0.014    10.000 ± 0.000     0.814 ± 0.005
+  eps-greedy    5     8.293 ± 0.156     0.829 ± 0.016    10.000 ± 0.000     0.811 ± 0.005
   aleatória     5     8.723 ± 0.027     0.872 ± 0.003    10.000 ± 0.000     0.827 ± 0.001
 
 == Posição de cada método (1 = melhor)
@@ -64,8 +72,8 @@ MBPO               1          5          1       1           4            7     
 MOPO               2          7          2       3           3            6            4         2            4             4          2
 DORL               3          4          3       4           2            5            2         4            6             6          4
 DORL-const         4          6          4       2           1            4            1         3            5             5          3
-UCB                6          1          6       7           7            2            7         6            3             3          6
-eps-greedy         7          3          7       5           6            3            6         5            2             2          5
+UCB                6          1          6       7           6            2            7         6            2             2          6
+eps-greedy         7          3          7       5           7            3            6         5            3             3          5
 aleatória          5          2          5       6           5            1            5         7            1             1          7
 
 == Inversões entre métricas (mesmo protocolo)
@@ -100,9 +108,9 @@ aleatória          5          2          5       6           5            1    
   NX_10 MOPO × aleatória: MOPO melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   FB    DORL × DORL-const: DORL melhor em R_tra, R_each, Length; DORL-const melhor em MCD [dentro da variação entre sementes]
   FB    DORL × UCB: DORL melhor em R_tra, Length, MCD; UCB melhor em R_each [supera o dp entre sementes]
-  NX_0  DORL × UCB: DORL melhor em R_tra, Length, MCD; UCB melhor em R_each [dentro da variação entre sementes]
-  NX_10 DORL × UCB: DORL melhor em MCD; UCB melhor em R_tra, R_each [dentro da variação entre sementes]
-  FB    DORL × eps-greedy: DORL melhor em R_tra, Length, MCD; eps-greedy melhor em R_each [supera o dp entre sementes]
+  NX_0  DORL × UCB: DORL melhor em R_tra, Length, MCD; UCB melhor em R_each [supera o dp entre sementes]
+  NX_10 DORL × UCB: DORL melhor em MCD; UCB melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    DORL × eps-greedy: DORL melhor em R_tra, Length, MCD; eps-greedy melhor em R_each [dentro da variação entre sementes]
   NX_0  DORL × eps-greedy: DORL melhor em R_tra, Length, MCD; eps-greedy melhor em R_each [dentro da variação entre sementes]
   NX_10 DORL × eps-greedy: DORL melhor em MCD; eps-greedy melhor em R_tra, R_each [dentro da variação entre sementes]
   FB    DORL × aleatória: DORL melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
@@ -117,10 +125,11 @@ aleatória          5          2          5       6           5            1    
   FB    DORL-const × aleatória: DORL-const melhor em R_tra, Length, MCD; aleatória melhor em R_each [supera o dp entre sementes]
   NX_0  DORL-const × aleatória: DORL-const melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
   NX_10 DORL-const × aleatória: DORL-const melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
-  FB    UCB × eps-greedy: UCB melhor em R_tra, R_each, Length; eps-greedy melhor em MCD [sem dp: 1 semente nos dois]
-  NX_0  UCB × eps-greedy: UCB melhor em R_each; eps-greedy melhor em R_tra, Length, MCD [sem dp: 1 semente nos dois]
+  FB    UCB × eps-greedy: UCB melhor em R_tra, R_each, Length; eps-greedy melhor em MCD [supera o dp entre sementes]
+  NX_0  UCB × eps-greedy: UCB melhor em R_tra, R_each; eps-greedy melhor em Length, MCD [dentro da variação entre sementes]
+  NX_10 UCB × eps-greedy: UCB melhor em R_tra, R_each; eps-greedy melhor em MCD [dentro da variação entre sementes]
   FB    UCB × aleatória: UCB melhor em R_each; aleatória melhor em R_tra, Length, MCD [supera o dp entre sementes]
-  NX_0  UCB × aleatória: UCB melhor em MCD; aleatória melhor em R_tra, R_each, Length [supera o dp entre sementes]
+  NX_0  UCB × aleatória: UCB melhor em MCD; aleatória melhor em R_tra, R_each, Length [dentro da variação entre sementes]
   NX_10 UCB × aleatória: UCB melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
   FB    eps-greedy × aleatória: eps-greedy melhor em MCD; aleatória melhor em R_tra, R_each, Length [supera o dp entre sementes]
   NX_0  eps-greedy × aleatória: eps-greedy melhor em MCD; aleatória melhor em R_tra, R_each, Length [supera o dp entre sementes]
@@ -150,16 +159,14 @@ aleatória          5          2          5       6           5            1    
   R_tra  DORL × DORL-const: DORL melhor em FB; DORL-const melhor em NX_0, NX_10 [dentro da variação entre sementes]
   R_each DORL × DORL-const: DORL melhor em FB; DORL-const melhor em NX_0, NX_10 [dentro da variação entre sementes]
   Length DORL × DORL-const: DORL melhor em FB; DORL-const melhor em NX_0 [dentro da variação entre sementes]
-  R_tra  DORL × UCB: DORL melhor em FB, NX_0; UCB melhor em NX_10 [dentro da variação entre sementes]
+  R_tra  DORL × UCB: DORL melhor em FB, NX_0; UCB melhor em NX_10 [supera o dp entre sementes]
   R_tra  DORL × eps-greedy: DORL melhor em FB, NX_0; eps-greedy melhor em NX_10 [dentro da variação entre sementes]
   R_tra  DORL × aleatória: DORL melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
   R_tra  DORL-const × UCB: DORL-const melhor em FB, NX_0; UCB melhor em NX_10 [dentro da variação entre sementes]
   R_tra  DORL-const × eps-greedy: DORL-const melhor em FB, NX_0; eps-greedy melhor em NX_10 [dentro da variação entre sementes]
   R_tra  DORL-const × aleatória: DORL-const melhor em FB, NX_0; aleatória melhor em NX_10 [supera o dp entre sementes]
-  R_tra  UCB × eps-greedy: UCB melhor em FB; eps-greedy melhor em NX_0, NX_10 [sem dp: 1 semente nos dois]
-  R_each UCB × eps-greedy: UCB melhor em FB, NX_0; eps-greedy melhor em NX_10 [sem dp: 1 semente nos dois]
-  Length UCB × eps-greedy: UCB melhor em FB; eps-greedy melhor em NX_0 [sem dp: 1 semente nos dois]
-  R_each UCB × aleatória: UCB melhor em FB; aleatória melhor em NX_0, NX_10 [supera o dp entre sementes]
-  MCD    UCB × aleatória: UCB melhor em NX_0, NX_10; aleatória melhor em FB [supera o dp entre sementes]
+  Length UCB × eps-greedy: UCB melhor em FB; eps-greedy melhor em NX_0 [supera o dp entre sementes]
+  R_each UCB × aleatória: UCB melhor em FB; aleatória melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  MCD    UCB × aleatória: UCB melhor em NX_0, NX_10; aleatória melhor em FB [dentro da variação entre sementes]
 
-Arquivos: e1_por_semente.csv, e1_resumo.csv, e1_posicoes.csv
+Arquivos: ../../results/e1/e1_por_semente.csv, ../../results/e1/e1_resumo.csv, ../../results/e1/e1_posicoes.csv
