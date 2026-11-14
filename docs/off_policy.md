@@ -52,12 +52,58 @@ Limites desta validação (o que o caso real tem e ela não):
 - A recompensa é determinística dado (usuário, item).
 - O contexto é o usuário, não uma sequência.
 
+## Validação com π_β dependente do contexto (`ope_contexto.py` → `results/ope/ope_contexto.txt`)
+
+- **Contexto:** (usuário, último item).
+- **Política de registro verdadeira:** a transição real do big_matrix, 0,95·transição + 0,05·uniforme. Usa
+  8.768.473 pares consecutivos na mesma sessão (usuários fora da avaliação, itens do small_matrix).
+- **π_β nos pesos, três versões:**
+  - verdadeira;
+  - contagens (último item → item), estimadas no próprio log;
+  - marginal, que ignora o contexto (mal especificada).
+- **Políticas-alvo:** uniforme; 30 fixos; oráculo top-10; segue o registro (10 próximos mais frequentes);
+  100 fixos evitando a categoria do último item (imita o RL).
+- **Repetições:** 20, com logs de 10⁶ e 10⁷ passos.
+
+Resultado (fato; viés com 10⁷ passos):
+
+| π_β nos pesos | IPS | SNIPS | DR |
+|---|---|---|---|
+| Verdadeira | ≤ 0,006 em todos os alvos | ≤ 0,003 | ≤ 0,003 |
+| Contagens (estimada) | −0,57 a −0,60; oráculo −2,88 | ≤ 0,005 | oráculo −1,98; demais ≤ 0,001 |
+| Marginal (mal especificada) | segue o registro +18,95; cat. diferente −0,057 | ≤ 0,008 | ≤ 0,005 |
+
+1. **Com π_β estimada, o IPS falha e o SNIPS não.**
+   - A tabela de contagens tem 3.327² células e é esparsa. Todo par registrado tem contagem ≥ 1, o que superestima
+     π_β nas ações observadas e encolhe os pesos.
+   - O viés diminui com o tamanho do log (−0,80 com 10⁶; −0,57 com 10⁷), mas não some.
+   - O SNIPS cancela o fator comum ao normalizar pelos pesos.
+2. **O DR herda o problema dos pesos encolhidos** quando o modelo direto está errado (oráculo: −1,98).
+3. **π_β mal especificada é catastrófica para o IPS** quando a política-alvo se correlaciona com o contexto do
+   registro (+18,95 em "segue o registro"). O SNIPS fica a 0,008.
+4. **Escolha para o caso real:** SNIPS com π_β por contagens (último item → item), reportando ESS. IPS e DR entram
+   como diagnóstico, não como estimativa principal.
+
+Limites: a recompensa depende só do usuário, não do último item; no caso real, ela também depende do histórico.
+
+## A política no teste (verificado no código)
+
+O `A2CPolicy_withEmbedding.forward` (`src/core/policy/a2c2.py:150–185`) segue estes passos:
+- obtém a distribuição sobre os itens da saída do *actor* (`Categorical`, saída *softmax* do `Actor` do tianshou);
+- remove os itens já recomendados quando o protocolo é NX;
+- **sorteia** a ação: `deterministic_eval` falso e sem `exploration_noise` no teste.
+
+π_e(a|s) é, portanto, a saída do *actor*, conhecida exatamente: é o que o OPE precisa.
+
+O estado (`which_tracker avg`, `reward_handle cat`) é a média dos embeddings dos últimos 3 itens, concatenada com as
+recompensas. No log real, essas recompensas serão o watch_ratio registrado, normalizado como no ambiente de teste.
+Conferir essa normalização ao escrever o carregador.
+
 ## Próximos passos
 
-1. **Validação com π_β dependente do contexto.** Registro gerado por uma política que depende do último item, com π_β
-   estimada por um modelo mal especificado. Mede o viés que o erro de π_β introduz. Roda no Mac.
-2. **Retreino com checkpoint:** MBPO, MOPO, DORL e DORL-const, `--is_save`, 5 sementes, só a última época. Conferir
-   que os logs são idênticos aos atuais. Na 4090, depois da varredura do *survival bonus*.
+1. Feito em 14/11: validação com π_β dependente do contexto (seção acima).
+2. **Retreino com checkpoint** (`roda_ckpt.sh`): MBPO, MOPO, DORL e DORL-const, `--is_save`, 5 sementes; mantém só
+   a última época e confere que os logs são idênticos aos atuais. Na 4090, depois da varredura do *survival bonus*.
 3. **Dados reais:** sequências do big_matrix (usuários fora da avaliação, itens do small_matrix, sem duplicatas,
    sessões de 30 min). Estimar π_β(a | último item) e aplicar os estimadores às políticas retreinadas.
 4. **Comparação:** ordem dos métodos sob OPE contra a ordem no simulador (R_each em NX_0 e NX_10).
