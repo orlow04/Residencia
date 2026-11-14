@@ -1,0 +1,189 @@
+== Logs
+  usado: MOPO-E6      [E6_MOPO_s0]_2026_11_11-10_48_16.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s1]_2026_11_11-11_21_09.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s2]_2026_11_11-11_53_57.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s3]_2026_11_11-10_48_22.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s4]_2026_11_11-11_21_09.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s0]_2026_11_14-10_00_57.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s1]_2026_11_14-10_42_20.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s2]_2026_11_14-11_22_21.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s3]_2026_11_14-11_57_43.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s4]_2026_11_14-12_33_27.log (200 épocas)
+  usado: SB0.5-E6     [SB0p5_E6_s0]_2026_11_14-13_08_39.log (200 épocas)
+  usado: SB0.5-E6     [SB0p5_E6_s1]_2026_11_14-13_43_56.log (200 épocas)
+  usado: SB0.5-E6     [SB0p5_E6_s2]_2026_11_14-14_19_28.log (200 épocas)
+  usado: SB0.5-E6     [SB0p5_E6_s3]_2026_11_14-14_54_39.log (200 épocas)
+  usado: SB0.5-E6     [SB0p5_E6_s4]_2026_11_14-15_30_17.log (200 épocas)
+  usado: SB1-E6       [SB1_E6_s0]_2026_11_14-10_01_01.log (200 épocas)
+  usado: SB1-E6       [SB1_E6_s1]_2026_11_14-10_42_21.log (200 épocas)
+  usado: SB1-E6       [SB1_E6_s2]_2026_11_14-11_22_47.log (200 épocas)
+  usado: SB1-E6       [SB1_E6_s3]_2026_11_14-11_58_22.log (200 épocas)
+  usado: SB1-E6       [SB1_E6_s4]_2026_11_14-12_33_25.log (200 épocas)
+  usado: SB2-E6       [SB2_E6_s0]_2026_11_14-13_08_32.log (200 épocas)
+  usado: SB2-E6       [SB2_E6_s1]_2026_11_14-13_43_46.log (200 épocas)
+  usado: SB2-E6       [SB2_E6_s2]_2026_11_14-14_18_56.log (200 épocas)
+  usado: SB2-E6       [SB2_E6_s3]_2026_11_14-14_54_17.log (200 épocas)
+  usado: SB2-E6       [SB2_E6_s4]_2026_11_14-15_29_54.log (200 épocas)
+  usado: SB4-E6       [SB4_E6_s0]_2026_11_14-16_04_41.log (200 épocas)
+  usado: SB4-E6       [SB4_E6_s1]_2026_11_14-16_37_34.log (200 épocas)
+  usado: SB4-E6       [SB4_E6_s2]_2026_11_14-17_10_33.log (200 épocas)
+  usado: SB4-E6       [SB4_E6_s3]_2026_11_14-17_43_15.log (200 épocas)
+  usado: SB4-E6       [SB4_E6_s4]_2026_11_14-18_16_13.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s0]_2026_11_10-21_51_33.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s1]_2026_11_10-22_24_25.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s2]_2026_11_10-22_57_27.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s3]_2026_11_10-21_51_38.log (200 épocas)
+  usado: DORL-const-E6 [E6_DORLconst_s4]_2026_11_10-22_24_43.log (200 épocas)
+
+== Média entre sementes ± dp entre sementes (n = número de sementes). MCD: menor é melhor.
+
+FB
+  método        n             R_tra            R_each            Length               MCD
+  MOPO-E6       5    17.014 ± 0.804     0.819 ± 0.040    20.792 ± 0.073     0.641 ± 0.041
+  SB0-E6        5    17.419 ± 0.794     0.835 ± 0.038    20.856 ± 0.050     0.508 ± 0.045
+  SB0.5-E6      5    16.586 ± 0.892     0.796 ± 0.043    20.835 ± 0.102     0.532 ± 0.040
+  SB1-E6        5    17.419 ± 0.529     0.841 ± 0.028    20.711 ± 0.091     0.538 ± 0.034
+  SB2-E6        5    17.444 ± 1.521     0.848 ± 0.073    20.570 ± 0.064     0.562 ± 0.045
+  SB4-E6        5    17.329 ± 1.962     0.854 ± 0.097    20.296 ± 0.062     0.572 ± 0.086
+  DORL-const-E6  5    17.274 ± 1.421     0.868 ± 0.074    19.905 ± 0.116     0.770 ± 0.111
+  aleatória     5    17.569 ± 0.096     0.872 ± 0.002    20.147 ± 0.100     0.827 ± 0.000
+
+NX_0
+  método        n             R_tra            R_each            Length               MCD
+  MOPO-E6       5    17.476 ± 0.146     0.842 ± 0.008    20.755 ± 0.087     0.669 ± 0.019
+  SB0-E6        5    17.739 ± 0.670     0.839 ± 0.030    21.145 ± 0.087     0.563 ± 0.019
+  SB0.5-E6      5    17.209 ± 0.733     0.813 ± 0.034    21.169 ± 0.063     0.594 ± 0.026
+  SB1-E6        5    17.958 ± 0.576     0.849 ± 0.030    21.161 ± 0.066     0.590 ± 0.026
+  SB2-E6        5    18.132 ± 0.987     0.855 ± 0.045    21.202 ± 0.072     0.618 ± 0.029
+  SB4-E6        5    18.251 ± 1.339     0.861 ± 0.063    21.190 ± 0.048     0.667 ± 0.060
+  DORL-const-E6  5    18.062 ± 0.615     0.864 ± 0.032    20.912 ± 0.230     0.806 ± 0.059
+  aleatória     5    17.530 ± 0.068     0.872 ± 0.002    20.099 ± 0.055     0.827 ± 0.001
+
+NX_10
+  método        n             R_tra            R_each            Length               MCD
+  MOPO-E6       5     8.301 ± 0.187     0.830 ± 0.019    10.000 ± 0.000     0.645 ± 0.024
+  SB0-E6        5     8.365 ± 0.340     0.836 ± 0.034    10.000 ± 0.000     0.523 ± 0.035
+  SB0.5-E6      5     8.014 ± 0.391     0.801 ± 0.039    10.000 ± 0.000     0.549 ± 0.035
+  SB1-E6        5     8.435 ± 0.279     0.843 ± 0.028    10.000 ± 0.000     0.550 ± 0.032
+  SB2-E6        5     8.512 ± 0.651     0.851 ± 0.065    10.000 ± 0.000     0.570 ± 0.040
+  SB4-E6        5     8.571 ± 0.954     0.857 ± 0.095    10.000 ± 0.000     0.582 ± 0.084
+  DORL-const-E6  5     8.866 ± 0.593     0.887 ± 0.059    10.000 ± 0.000     0.764 ± 0.112
+  aleatória     5     8.715 ± 0.017     0.871 ± 0.002    10.000 ± 0.000     0.827 ± 0.001
+
+== Posição de cada método (1 = melhor)
+               FB:R_tra  FB:R_each  FB:Length  FB:MCD  NX_0:R_tra  NX_0:R_each  NX_0:Length  NX_0:MCD  NX_10:R_tra  NX_10:R_each  NX_10:MCD
+MOPO-E6               7          7          3       6           7            6            7         6            7             7          6
+SB0-E6                4          6          1       1           5            7            5         1            6             6          1
+SB0.5-E6              8          8          2       2           8            8            3         3            8             8          2
+SB1-E6                3          5          4       3           4            5            4         2            5             5          3
+SB2-E6                2          4          5       4           2            4            1         4            4             4          4
+SB4-E6                5          3          6       5           1            3            2         5            3             3          5
+DORL-const-E6         6          2          8       7           3            2            6         7            1             1          7
+aleatória             1          1          7       8           6            1            8         8            2             2          8
+
+== Inversões entre métricas (mesmo protocolo)
+  NX_0  MOPO-E6 × SB0-E6: MOPO-E6 melhor em R_each; SB0-E6 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × SB0.5-E6: MOPO-E6 melhor em R_tra, R_each; SB0.5-E6 melhor em Length, MCD [dentro da variação entre sementes]
+  NX_0  MOPO-E6 × SB0.5-E6: MOPO-E6 melhor em R_tra, R_each; SB0.5-E6 melhor em Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO-E6 × SB0.5-E6: MOPO-E6 melhor em R_tra, R_each; SB0.5-E6 melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × SB1-E6: MOPO-E6 melhor em Length; SB1-E6 melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × SB2-E6: MOPO-E6 melhor em Length; SB2-E6 melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × SB4-E6: MOPO-E6 melhor em Length; SB4-E6 melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × DORL-const-E6: MOPO-E6 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MOPO-E6 × DORL-const-E6: MOPO-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 MOPO-E6 × DORL-const-E6: MOPO-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-E6 × aleatória: MOPO-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MOPO-E6 × aleatória: MOPO-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 MOPO-E6 × aleatória: MOPO-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_0  SB0-E6 × SB0.5-E6: SB0-E6 melhor em R_tra, R_each, MCD; SB0.5-E6 melhor em Length [dentro da variação entre sementes]
+  FB    SB0-E6 × SB1-E6: SB0-E6 melhor em Length, MCD; SB1-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0-E6 × SB1-E6: SB0-E6 melhor em MCD; SB1-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB0-E6 × SB1-E6: SB0-E6 melhor em MCD; SB1-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0-E6 × SB2-E6: SB0-E6 melhor em Length, MCD; SB2-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0-E6 × SB2-E6: SB0-E6 melhor em MCD; SB2-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB0-E6 × SB2-E6: SB0-E6 melhor em MCD; SB2-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0-E6 × SB4-E6: SB0-E6 melhor em R_tra, Length, MCD; SB4-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB0-E6 × SB4-E6: SB0-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB0-E6 × SB4-E6: SB0-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0-E6 × DORL-const-E6: SB0-E6 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB0-E6 × DORL-const-E6: SB0-E6 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 SB0-E6 × DORL-const-E6: SB0-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0-E6 × aleatória: SB0-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0-E6 × aleatória: SB0-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB0-E6 × aleatória: SB0-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    SB0.5-E6 × SB1-E6: SB0.5-E6 melhor em Length, MCD; SB1-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0.5-E6 × SB1-E6: SB0.5-E6 melhor em Length; SB1-E6 melhor em R_tra, R_each, MCD [dentro da variação entre sementes]
+  NX_10 SB0.5-E6 × SB1-E6: SB0.5-E6 melhor em MCD; SB1-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0.5-E6 × SB2-E6: SB0.5-E6 melhor em Length, MCD; SB2-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0.5-E6 × SB2-E6: SB0.5-E6 melhor em MCD; SB2-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB0.5-E6 × SB2-E6: SB0.5-E6 melhor em MCD; SB2-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0.5-E6 × SB4-E6: SB0.5-E6 melhor em Length, MCD; SB4-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0.5-E6 × SB4-E6: SB0.5-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB0.5-E6 × SB4-E6: SB0.5-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB0.5-E6 × DORL-const-E6: SB0.5-E6 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0.5-E6 × DORL-const-E6: SB0.5-E6 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_10 SB0.5-E6 × DORL-const-E6: SB0.5-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    SB0.5-E6 × aleatória: SB0.5-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_0  SB0.5-E6 × aleatória: SB0.5-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 SB0.5-E6 × aleatória: SB0.5-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    SB1-E6 × SB2-E6: SB1-E6 melhor em Length, MCD; SB2-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB1-E6 × SB2-E6: SB1-E6 melhor em MCD; SB2-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB1-E6 × SB2-E6: SB1-E6 melhor em MCD; SB2-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB1-E6 × SB4-E6: SB1-E6 melhor em R_tra, Length, MCD; SB4-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB1-E6 × SB4-E6: SB1-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_10 SB1-E6 × SB4-E6: SB1-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB1-E6 × DORL-const-E6: SB1-E6 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB1-E6 × DORL-const-E6: SB1-E6 melhor em Length, MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 SB1-E6 × DORL-const-E6: SB1-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB1-E6 × aleatória: SB1-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB1-E6 × aleatória: SB1-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB1-E6 × aleatória: SB1-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    SB2-E6 × SB4-E6: SB2-E6 melhor em R_tra, Length, MCD; SB4-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB2-E6 × SB4-E6: SB2-E6 melhor em Length, MCD; SB4-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 SB2-E6 × SB4-E6: SB2-E6 melhor em MCD; SB4-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB2-E6 × DORL-const-E6: SB2-E6 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB2-E6 × DORL-const-E6: SB2-E6 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB2-E6 × DORL-const-E6: SB2-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB2-E6 × aleatória: SB2-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB2-E6 × aleatória: SB2-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB2-E6 × aleatória: SB2-E6 melhor em MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB4-E6 × DORL-const-E6: SB4-E6 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_0  SB4-E6 × DORL-const-E6: SB4-E6 melhor em R_tra, Length, MCD; DORL-const-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB4-E6 × DORL-const-E6: SB4-E6 melhor em MCD; DORL-const-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    SB4-E6 × aleatória: SB4-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB4-E6 × aleatória: SB4-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB4-E6 × aleatória: SB4-E6 melhor em MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    DORL-const-E6 × aleatória: DORL-const-E6 melhor em MCD; aleatória melhor em R_tra, R_each, Length [dentro da variação entre sementes]
+  NX_0  DORL-const-E6 × aleatória: DORL-const-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+
+== Inversões entre protocolos (mesma métrica)
+  R_each MOPO-E6 × SB0-E6: MOPO-E6 melhor em NX_0; SB0-E6 melhor em FB, NX_10 [dentro da variação entre sementes]
+  Length MOPO-E6 × SB1-E6: MOPO-E6 melhor em FB; SB1-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length MOPO-E6 × SB2-E6: MOPO-E6 melhor em FB; SB2-E6 melhor em NX_0 [supera o dp entre sementes]
+  Length MOPO-E6 × SB4-E6: MOPO-E6 melhor em FB; SB4-E6 melhor em NX_0 [supera o dp entre sementes]
+  Length MOPO-E6 × DORL-const-E6: MOPO-E6 melhor em FB; DORL-const-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length SB0-E6 × SB0.5-E6: SB0-E6 melhor em FB; SB0.5-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length SB0-E6 × SB1-E6: SB0-E6 melhor em FB; SB1-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length SB0-E6 × SB2-E6: SB0-E6 melhor em FB; SB2-E6 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  SB0-E6 × SB4-E6: SB0-E6 melhor em FB; SB4-E6 melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length SB0-E6 × SB4-E6: SB0-E6 melhor em FB; SB4-E6 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  SB0-E6 × DORL-const-E6: SB0-E6 melhor em FB; DORL-const-E6 melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  SB0-E6 × aleatória: SB0-E6 melhor em NX_0; aleatória melhor em FB, NX_10 [dentro da variação entre sementes]
+  MCD    SB0.5-E6 × SB1-E6: SB0.5-E6 melhor em FB, NX_10; SB1-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length SB0.5-E6 × SB2-E6: SB0.5-E6 melhor em FB; SB2-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length SB0.5-E6 × SB4-E6: SB0.5-E6 melhor em FB; SB4-E6 melhor em NX_0 [dentro da variação entre sementes]
+  Length SB1-E6 × SB2-E6: SB1-E6 melhor em FB; SB2-E6 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  SB1-E6 × SB4-E6: SB1-E6 melhor em FB; SB4-E6 melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  Length SB1-E6 × SB4-E6: SB1-E6 melhor em FB; SB4-E6 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  SB1-E6 × DORL-const-E6: SB1-E6 melhor em FB; DORL-const-E6 melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  SB1-E6 × aleatória: SB1-E6 melhor em NX_0; aleatória melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  SB2-E6 × SB4-E6: SB2-E6 melhor em FB; SB4-E6 melhor em NX_0, NX_10 [dentro da variação entre sementes]
+  R_tra  SB2-E6 × DORL-const-E6: SB2-E6 melhor em FB, NX_0; DORL-const-E6 melhor em NX_10 [dentro da variação entre sementes]
+  R_tra  SB2-E6 × aleatória: SB2-E6 melhor em NX_0; aleatória melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  SB4-E6 × DORL-const-E6: SB4-E6 melhor em FB, NX_0; DORL-const-E6 melhor em NX_10 [dentro da variação entre sementes]
+  R_tra  SB4-E6 × aleatória: SB4-E6 melhor em NX_0; aleatória melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  DORL-const-E6 × aleatória: DORL-const-E6 melhor em NX_0, NX_10; aleatória melhor em FB [dentro da variação entre sementes]
+  R_each DORL-const-E6 × aleatória: DORL-const-E6 melhor em NX_10; aleatória melhor em FB, NX_0 [dentro da variação entre sementes]
+  Length DORL-const-E6 × aleatória: DORL-const-E6 melhor em NX_0; aleatória melhor em FB [supera o dp entre sementes]
+
+Arquivos: ../../results/sb/e6_por_semente.csv, ../../results/sb/e6_resumo.csv, ../../results/sb/e6_posicoes.csv
