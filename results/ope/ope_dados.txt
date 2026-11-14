@@ -1,0 +1,9 @@
+big_matrix: 12,530,806 linhas; fora da avaliação (sem duplicatas): 11,029,712
+Passos do log (itens do small_matrix): 9,454,659 em 623,916 sessões de 5,765 usuários; 3327 dos 3327 itens aparecem
+Sessão (itens filtrados): mediana 5, média 15.2, p90 36; passos em sessões de até 30 itens: 37.2%
+Passos em t = 0: 6.6%; em t < 3 (estado com o item de preenchimento): 16.1%
+Recompensa média do registro (valor da política de registro): 0.881; média do small_matrix: 0.872
+π_β por contagens (β = 10), quantis 1/10/50/90/99%: 1.62e-04 / 3.24e-04 / 9.90e-04 / 4.42e-03 / 3.62e-02
+π_β marginal, quantis 1/10/50/90/99%: 1.16e-04 / 1.98e-04 / 3.46e-04 / 5.35e-04 / 7.05e-04
+Pares (anterior → item) com contagem 1: 23.3% dos passos com t ≥ 1
+ESS de uma política-alvo uniforme (pesos ∝ 1/π_β): 3,895,164

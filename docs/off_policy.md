@@ -21,8 +21,9 @@ regra de saída, e verificar se a ordem dos métodos se mantém (objetivos O1/O2
   explode.
 - **Estimadores** (`ope.py`): IPS, SNIPS, IPS com corte, modelo direto (DM) e doubly robust (DR). Diagnóstico: ESS e
   maior peso.
-- **Política de registro π_β:** desconhecida; será estimada. Candidata natural: próximo item dado o último item,
-  a mesma tabela de k = 1 do P_E. O termo de entropia do DORL é a entropia dessa política de registro.
+- **Política de registro π_β:** desconhecida; é estimada pelo próximo item dado o último item. É o mesmo objeto
+  cuja entropia o P_E de k = 1 do DORL mede, embora as tabelas não sejam idênticas (a do DORL usa todos os itens e
+  não corta sessões).
 
 ## Validação semi-sintética (`ope.py --validacao` → `results/ope/ope_validacao.txt`)
 
@@ -95,18 +96,57 @@ O `A2CPolicy_withEmbedding.forward` (`src/core/policy/a2c2.py:150–185`) segue 
 
 π_e(a|s) é, portanto, a saída do *actor*, conhecida exatamente: é o que o OPE precisa.
 
-O estado (`which_tracker avg`, `reward_handle cat`) é a média dos embeddings dos últimos 3 itens, concatenada com as
-recompensas. No log real, essas recompensas serão o watch_ratio registrado, normalizado como no ambiente de teste.
-Conferir essa normalização ao escrever o carregador.
+O estado (`StateTrackerAvg2.forward`, `state_tracker2.py:138`; `which_tracker avg`, `reward_handle cat`,
+`window_size 3`) é construído assim, no teste:
+- **t = 0:** [embedding de preenchimento, 1]. É o ramo `reset`, e a recompensa inicial 1 não é normalizada.
+- **t ≥ 1:** média das entradas [embedding do item, recompensa normalizada] dos min(t, 3) passos anteriores. Se t < 3,
+  entra também a entrada de preenchimento, com recompensa 1 normalizada.
+- **Normalização:** min((r − r_min) / (r_max − r_min), 1), com r_min e r_max da matriz de avaliação (0 e 5).
+
+O `ope_politicas.py` reimplementa isso a partir do checkpoint, sem importar classes do DORL. O
+`tests/test_ope_politicas.py` compara estado e π_e(·|s) com o `StateTrackerAvg2` e o `Actor` reais numa sessão de
+7 passos: diferença 0. Duas mutações do teste (t errado; recompensa errada) falham, como esperado.
+
+## Log real (`ope_dados.py` → `results/ope/ope_dados.txt`; `ope_log.npz` não versionado, 206 MB)
+
+- **Sessões:** intervalo > 30 min na sequência completa do usuário; dentro da sessão ficam só os itens do
+  small_matrix, e t é a posição nessa sequência filtrada.
+- **Tamanho:** 9.454.659 passos, 623.916 sessões, 5.765 usuários; os 3.327 itens aparecem.
+- **Sessão filtrada:** mediana 5 itens, média 15,2, p90 36. 37,2% dos passos estão em sessões de até 30 itens.
+- **Posição:** 6,6% dos passos em t = 0; 16,1% em t < 3 (estado com preenchimento).
+- **Valor da política de registro:** 0,881 (recompensa média registrada); a média do small_matrix é 0,872.
+- **π_β por contagens** (β = 10): mediana 9,9·10⁻⁴; 23,3% dos passos com t ≥ 1 são pares vistos uma única vez. É o
+  regime esparso em que o IPS fica enviesado e o SNIPS não (seção anterior).
+- **ESS de uma política-alvo uniforme:** 3,9 milhões.
+
+## Aplicação às políticas (`ope_politicas.py`; aguarda os checkpoints)
+
+Para cada checkpoint `CK_*`:
+- **Estimativas:** SNIPS (principal) com IC de 95% por *bootstrap* de usuários; SNIPS só com t ≥ 3; SNIPS com π_β
+  marginal; IPS, DR e DM (diagnóstico); ESS e maior peso.
+- **Sem pesos**, a política nos contextos reais: nº efetivo de itens por passo (entropia), itens para 95% da
+  exposição, Gini e fração da exposição nos 10% de itens mais frequentes. Mede a concentração fora do simulador.
+- **Referências:** política de registro e uniforme.
+- **Agregação:** média ± dp entre sementes.
+
+Ensaio com checkpoints falsos (pesos aleatórios), só para testar o fluxo: 47 s por checkpoint na CPU do Mac. Os
+checkpoints são pequenos, então a aplicação pode rodar no Mac se eles forem copiados da 4090.
+
+Limites conhecidos:
+- **Contexto filtrado.** O histórico só tem itens do small_matrix; os outros itens que o usuário viu entre eles
+  são ignorados.
+- **Estado fora da distribuição de treino.** A política foi treinada com históricos gerados por ela mesma no
+  simulador; aqui recebe históricos reais.
+- **Sem máscara.** A política é avaliada sem remover itens já vistos, como no FB.
+- **Só um passo.** O valor é por passo; a duração da sessão não é estimada.
 
 ## Próximos passos
 
 1. Feito em 14/11: validação com π_β dependente do contexto (seção acima).
 2. **Retreino com checkpoint** (`roda_ckpt.sh`): MBPO, MOPO, DORL e DORL-const, `--is_save`, 5 sementes; mantém só
    a última época e confere que os logs são idênticos aos atuais. Na 4090, depois da varredura do *survival bonus*.
-3. **Dados reais:** sequências do big_matrix (usuários fora da avaliação, itens do small_matrix, sem duplicatas,
-   sessões de 30 min). Estimar π_β(a | último item) e aplicar os estimadores às políticas retreinadas.
+3. Feito em 14/11: log real e script de aplicação (seções acima). Falta rodar o `ope_politicas.py` com os
+   checkpoints.
 4. **Comparação:** ordem dos métodos sob OPE contra a ordem no simulador (R_each em NX_0 e NX_10).
 
-Referência: a avaliação off-policy (IPS, doubly robust) está na literatura âncora do TCC (`docs/contexto_tcc.md`,
-seção 3). Os nomes de artigos específicos ainda não foram fixados.
+Leituras para entender o código: `docs/off_policy_leitura.md`.
