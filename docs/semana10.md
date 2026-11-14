@@ -8,6 +8,7 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 | Rev | Revisualização de vídeos: referência real e repetição das políticas no FB (`revisitas.py`) | Feito (A, B, C) |
 | A5-2 | Janela corrigida (N = 4, 8) para MOPO e DORL-const (`roda_a5.sh`) | Feito |
 | Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | Feito |
+| SB | Varredura do *survival bonus*: b ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`roda_bonus.sh`) | Feito |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -246,3 +247,81 @@ O RL fica abaixo dos bandits em R_each, e em R_tra quando o comprimento é fixad
 
 **Limitações.** Sem trajetórias registradas para os bandits (o `traj_log.patch` cobre só o avaliador das
 políticas de RL), então cobertura, bolha e repetição não foram medidas para eles.
+
+## Etapa 4 — Varredura do *survival bonus*
+
+**Pergunta.** O efeito do *survival bonus* (bônus fixo por passo) cresce com o seu tamanho? O E2, o E6 e a etapa 2
+compararam só dois pontos: MOPO (sem bônus) e DORL-const (b = 8,35).
+
+**Desenho.** DORL-const com outras constantes (`roda_bonus.sh`, 14/11): b = λ₂·(c − 0,291) ∈ {0; 0,5; 1; 2; 4},
+λ₁ = 0,05, λ₂ = 5, 5 sementes, nas regras N4 (determinística original) e E6 (saída calibrada, N = 1). São 50
+execuções `SB{b}_{N4,E6}_s*`, todas com 200 épocas (`results/sb/n4_saida.txt`, `e6_saida.txt`). Os extremos já
+existiam: MOPO e DORL-const (b = 8,35).
+
+**O que b = 0 controla (verificado no código).** Com b = 0, a recompensa é a do MOPO: o MIN_R não depende do
+`PE_CONST` (`simulated_env.py:81`). O valor exato do mínimo é 0,29089 (`results/analises/pe_diag.json`), então o b
+real é o nominal + 0,0005. O que muda do MOPO para b = 0 é a escala da recompensa no estado de treino:
+`train_max = MAX_R − MIN_R` (`run_Policy_Main.py:250`, usado só em `state_tracker2.py:231`), e o MAX_R inclui
+λ₂·entropy_max (`simulated_env.py:82`). Com λ₂ = 5, a faixa cresce 5·(2 − 0,291) = 8,55, igual em toda a série SB e
+no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO → b = 0 isola a normalização do estado.
+
+**Resultado, regra N4** (cobertura e personalização em NX_10; `results/sb/n4_resumo.csv`, `results/alem/`, `results/fb/`).
+
+| Bônus | Length (NX_0) | R_tra (NX_0) | R_each (NX_0) | Cobertura (%) | Length (FB) | Repetição (FB) | Ciclo puro (FB) |
+|---|---|---|---|---|---|---|---|
+| MOPO (λ₂ = 0) | 15,60 ± 2,34 | 12,00 ± 2,61 | 0,763 ± 0,061 | 11,2 ± 3,2 | 26,13 ± 3,63 | 0,70 ± 0,09 | 0,60 ± 0,24 |
+| b = 0 | 15,86 ± 2,44 | 11,26 ± 1,95 | 0,712 ± 0,090 | 6,1 ± 1,1 | 27,68 ± 0,24 | 0,73 ± 0,01 | 0,70 ± 0,19 |
+| b = 0,5 | 17,41 ± 1,16 | 12,97 ± 0,65 | 0,749 ± 0,069 | 5,7 ± 1,0 | 25,93 ± 0,92 | 0,66 ± 0,04 | 0,40 ± 0,31 |
+| b = 1 | 19,59 ± 2,67 | 14,38 ± 2,40 | 0,736 ± 0,079 | 4,6 ± 0,8 | 25,85 ± 1,00 | 0,64 ± 0,03 | 0,31 ± 0,28 |
+| b = 2 | 20,19 ± 1,73 | 14,29 ± 1,87 | 0,706 ± 0,054 | 5,0 ± 1,1 | 23,57 ± 2,03 | 0,56 ± 0,08 | 0,15 ± 0,24 |
+| b = 4 | 19,83 ± 2,21 | 15,97 ± 1,56 | 0,812 ± 0,111 | 3,8 ± 0,3 | 21,56 ± 0,85 | 0,53 ± 0,02 | 0,15 ± 0,17 |
+| b = 8,35 (DORL-const) | 24,00 ± 2,66 | 18,53 ± 0,29 | 0,781 ± 0,095 | 3,4 ± 0,4 | 14,31 ± 2,23 | 0,31 ± 0,06 | 0,05 ± 0,01 |
+| Aleatória | 4,60 ± 0,02 | 4,01 ± 0,02 | 0,872 ± 0,001 | 86,5 | 4,59 ± 0,01 | — | — |
+
+**Resultado, regra E6** (`results/sb/e6_resumo.csv`).
+
+| Bônus | Length (NX_0) | R_each (NX_0) | MCD (NX_0) | Cobertura (%) | Personalização | Repetição (FB) |
+|---|---|---|---|---|---|---|
+| MOPO-E6 (λ₂ = 0) | 20,75 ± 0,09 | 0,842 ± 0,008 | 0,669 ± 0,019 | 50,2 ± 5,0 | 0,96 ± 0,02 | 0,07 ± 0,04 |
+| b = 0 | 21,14 ± 0,09 | 0,839 ± 0,030 | 0,563 ± 0,019 | 24,3 ± 3,9 | 0,83 ± 0,03 | 0,23 ± 0,04 |
+| b = 0,5 | 21,17 ± 0,06 | 0,813 ± 0,034 | 0,594 ± 0,026 | 15,3 ± 1,1 | 0,79 ± 0,01 | 0,27 ± 0,01 |
+| b = 1 | 21,16 ± 0,07 | 0,849 ± 0,030 | 0,590 ± 0,026 | 9,9 ± 0,6 | 0,73 ± 0,02 | 0,32 ± 0,01 |
+| b = 2 | 21,20 ± 0,07 | 0,855 ± 0,045 | 0,618 ± 0,029 | 5,5 ± 0,2 | 0,60 ± 0,02 | 0,42 ± 0,01 |
+| b = 4 | 21,19 ± 0,05 | 0,861 ± 0,063 | 0,667 ± 0,060 | 3,0 ± 0,2 | 0,39 ± 0,03 | 0,51 ± 0,01 |
+| b = 8,35 (DORL-const-E6) | 20,91 ± 0,23 | 0,864 ± 0,032 | 0,806 ± 0,059 | 2,5 ± 0,5 | 0,16 ± 0,02 | 0,62 ± 0,03 |
+| Aleatória | 20,10 ± 0,05 | 0,872 ± 0,002 | 0,827 ± 0,001 | 86,5 | 1,00 | — |
+
+**Interpretação.**
+
+1. **O Length responde à dose na regra N4, sem ser linear.** b = 0 reproduz o MOPO (15,9 contra 15,6). De b = 0 para
+   b = 1 e b = 2, o ganho é de +3,7 e +4,3 passos, acima do dp (2,7 e 2,4). Entre b = 1, 2 e 4 não há diferença
+   (19,6 a 20,2). De b = 4 para 8,35, mais +4,2, acima do dp (2,7). O ganho de Length do MOPO para o DORL-const vem
+   todo do bônus: a conclusão do E2 se mantém.
+2. **Na regra E6, nenhuma dose compra Length.** De b = 0 a b = 4, o Length fica entre 21,14 e 21,20, variação menor
+   que o dp (0,05 a 0,09). Confirma o E6 com cinco pontos em vez de dois.
+3. **A cobertura cai com a dose, de forma monótona, na regra E6:** 24,3% → 15,3% → 9,9% → 5,5% → 3,0% → 2,5%. Cada
+   passo até b = 4 supera o dp; o último (3,0% → 2,5%) não. A personalização cai junto (0,83 → 0,16), e a repetição
+   no FB sobe (0,23 → 0,62). Na regra N4, a queda é menor e não é monótona ponto a ponto (6,1% → 5,7% → 4,6% → 5,0% → 3,8% → 3,4%); de
+   b = 0 para b = 4, a diferença (−2,3 pontos) supera o dp (1,1).
+4. **Correção: b = 0 não reproduz o MOPO em cobertura.** Com a mesma recompensa, a cobertura cai de 50,2% para 24,3%
+   no E6 e de 11,2% para 6,1% no N4, sem sobreposição entre sementes (E6: 43,6–55,6% contra 19,9–28,5%; N4:
+   8,6–16,3% contra 4,3–7,2%). No E6, a MCD também muda (0,669 → 0,563) e o Length sobe 0,39 (dp 0,09).
+   - Consequência: a frase "do MOPO para o DORL-const muda só o bônus fixo por passo" (E2, E6 e etapa 2) está
+     errada. Mudam duas coisas: o bônus e a normalização da recompensa no estado de treino.
+   - Da queda de cobertura do MOPO para o DORL-const, a parte que ocorre com bônus zero é 25,9 de 47,7 pontos no
+     E6 (54%) e 5,1 de 7,8 pontos no N4 (65%). O restante acompanha o tamanho do bônus.
+   - Hipótese, não testada: a causa é a escala do canal de recompensa do estado (faixa 8,55 maior no treino,
+     enquanto o teste normaliza por 5 nos dois casos). O teste direto é o MOPO com o `train_max` do DORL.
+   - Length e R_tra na regra N4 e o comportamento no FB não mudam do MOPO para b = 0; neles a atribuição ao bônus
+     se mantém.
+5. **No FB com a regra N4, o bônus reduz o ciclo de forma gradual.** Length 27,7 → 21,6 → 14,3; repetição
+   0,73 → 0,53 → 0,31; ciclo puro 0,70 → 0,15 → 0,05 (b = 0, 4 e 8,35). A pergunta em aberto ("por que o *survival
+   bonus* impede o ciclo no FB") ganha um fato: o efeito é gradual, não um limiar. O mecanismo continua sem
+   explicação. Na regra E6, o sinal é o oposto: a repetição no FB cresce com a dose.
+6. **Nenhuma dose leva a recompensa por passo acima do acaso.** Na regra N4, o R_each fica entre 0,71 e 0,81 contra
+   0,872; para b = 4 e b = 8,35 a diferença está dentro do dp (0,111 e 0,095). Em NX_10, o R_tra fica entre 6,3 e 7,4 contra 8,72,
+   acima do dp em todos os pontos.
+
+**Limitações.** Sem ponto entre b = 4 e 8,35. A hipótese da normalização do estado não foi testada. λ₁ fixo.
+Uma calibração do E6.
+

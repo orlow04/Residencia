@@ -94,6 +94,10 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
 - Bandits com 5 sementes (feito, 13/11): abaixo do acaso em R_tra e Length; UCB empata com o acaso em R_each (NX_0) e
   supera MBPO/MOPO/DORL nela; em NX_10, RL abaixo dos bandits só para MBPO/MOPO (DORL/DORL-const: ruído).
 - Termo técnico: o bônus fixo por passo do DORL é um *survival bonus* (usar o nome em inglês).
+- Varredura do *survival bonus* (feito, 14/11; etapa 4): na regra N4 o Length cresce com b (15,9 → 19,6 → 24,0) e o
+  ciclo no FB diminui (ciclo puro 0,70 → 0,15 → 0,05); no E6 a cobertura cai com b (24,3% → 9,9% → 2,5%) sem ganho de
+  Length. **b = 0 não reproduz o MOPO em cobertura** (E6: 50,2% → 24,3%; N4: 11,2% → 6,1%): MOPO → DORL-const muda
+  também `train_max` (normalização da recompensa no estado, `run_Policy_Main.py:250`). Causa: hipótese não testada.
 
 ## Próxima semana (planejada; última de experimentos)
 
@@ -125,7 +129,7 @@ Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede
   os demais usuários (até 5.765) têm 9,45 M linhas com esses itens (base possível para avaliação off-policy).
 - As políticas não são salvas por padrão (`--is_save` desligado); o estado não usa embedding de usuário.
 - FB: o bloco de N + 1 itens vale só entre as trajetórias em ciclo puro, não para a média de itens distintos.
-- Erros já cometidos e corrigidos: (1) "a semente 2 é a mais próxima do artigo nas quatro métricas" é falso — ela é a única a menos de um desvio do artigo nas quatro; (2) a MCD do KuaiRec usa 10 categorias dominantes, não 12 (a Justificativa de Replicação ainda diz 12).
+- Erros já cometidos e corrigidos: (1) "a semente 2 é a mais próxima do artigo nas quatro métricas" é falso — ela é a única a menos de um desvio do artigo nas quatro; (2) a MCD do KuaiRec usa 10 categorias dominantes, não 12 (a Justificativa de Replicação ainda diz 12); (3) "MOPO → DORL-const acrescenta só o bônus fixo" é falso — muda também a normalização do estado; vale para Length e FB, não para a cobertura (54–65% da queda ocorre com bônus zero).
 
 ## Arquivos deste repositório
 
@@ -148,7 +152,7 @@ Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede
 | `e6_saida_prob.patch`, `roda_e6.sh` | E6: saída probabilística calibrada nas sessões reais (`E6_P_REP=0.063 E6_P_BASE=0.026`, N = 1); MBPO/MOPO/DORL/DORL-const `E6_*`; aleatória com `--p_saida` em `results/e6/aleatoria_E6.json` |
 | `revisitas.py` | Revisualização: revisitas reais no big_matrix (sem duplicatas), loop no small_matrix e repetição das políticas no FB (`--traj`) → `results/revisitas/` |
 | `roda_bandits.sh` | Sementes adicionais de UCB e ε-greedy (`UCB_s{n}`, `epsilon-greedy_s{n}`) |
-| `roda_bonus.sh` | Varredura do *survival bonus*: DORL-const com b = λ₂·(c − 0,291) ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`SB{b}_{N4,E6}_s*`) |
+| `roda_bonus.sh` | Varredura do *survival bonus*: DORL-const com b = λ₂·(c − 0,291) ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`SB{b}_{N4,E6}_s*`); E1 em `results/sb/` |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |
