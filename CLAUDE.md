@@ -121,6 +121,9 @@ Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede
   (os antigos estão em `DORL-codes/e1_antigo/` na 4090).
 - Push da 4090 falhando com `vscode-git-*.sock ECONNREFUSED`: terminal de sessão antiga do VS Code. Abrir terminal novo
   ou, no Mac, `git pull <host-4090>:dorl_passo1 main`. Não deixar credencial do GitHub na 4090 (máquina compartilhada).
+- Os usuários de avaliação não têm nenhuma interação com os itens do small_matrix no big_matrix (0 de 533.090 linhas);
+  os demais usuários (até 5.765) têm 9,45 M linhas com esses itens (base possível para avaliação off-policy).
+- As políticas não são salvas por padrão (`--is_save` desligado); o estado não usa embedding de usuário.
 - FB: o bloco de N + 1 itens vale só entre as trajetórias em ciclo puro, não para a média de itens distintos.
 - Erros já cometidos e corrigidos: (1) "a semente 2 é a mais próxima do artigo nas quatro métricas" é falso — ela é a única a menos de um desvio do artigo nas quatro; (2) a MCD do KuaiRec usa 10 categorias dominantes, não 12 (a Justificativa de Replicação ainda diz 12).
 
@@ -145,6 +148,7 @@ Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede
 | `e6_saida_prob.patch`, `roda_e6.sh` | E6: saída probabilística calibrada nas sessões reais (`E6_P_REP=0.063 E6_P_BASE=0.026`, N = 1); MBPO/MOPO/DORL/DORL-const `E6_*`; aleatória com `--p_saida` em `results/e6/aleatoria_E6.json` |
 | `revisitas.py` | Revisualização: revisitas reais no big_matrix (sem duplicatas), loop no small_matrix e repetição das políticas no FB (`--traj`) → `results/revisitas/` |
 | `roda_bandits.sh` | Sementes adicionais de UCB e ε-greedy (`UCB_s{n}`, `epsilon-greedy_s{n}`) |
+| `roda_bonus.sh` | Varredura do *survival bonus*: DORL-const com b = λ₂·(c − 0,291) ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`SB{b}_{N4,E6}_s*`) |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |

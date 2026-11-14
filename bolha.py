@@ -38,17 +38,23 @@ def nome(orig):
     E3N<N>_<M>: regra de saída com outro N (MBPO-N1); A5N<N>_<M>: idem com a janela corrigida (MBPO-N4c)."""
     if orig in NOMES:
         return NOMES[orig]
+    m = re.fullmatch(r"SB(\d+(?:p\d+)?)_(N4|E6)", orig)   # varredura do survival bonus (roda_bonus.sh): SB0.5, SB0.5-E6
+    if m:
+        return f"SB{m.group(1).replace('p', '.')}{'-E6' if m.group(2) == 'E6' else ''}"
     m = re.fullmatch(r"(E3|A5)N(\d+)_(MBPO|MOPO|DORL|DORLconst)", orig)
     return f"{NOMES[m.group(3)]}-N{m.group(2)}{'c' if m.group(1) == 'A5' else ''}" if m else None
 
 
 def ordem(metodos):
-    """Ordem das tabelas: métodos do R/E2/E5, depois as variações de N (por N), aleatória por último."""
+    """Ordem das tabelas: métodos do R/E2/E5, variações de N (por N), varredura do bônus, aleatória por último."""
     def chave(m):
         if m in ORDEM:
             return (0, ORDEM.index(m), 0, m)
         if m == "aleatória":
-            return (2, 0, 0, m)
+            return (3, 0, 0, m)
+        sb = re.fullmatch(r"SB([\d.]+)(-E6)?", m)
+        if sb:
+            return (2, bool(sb.group(2)), float(sb.group(1)), m)
         n = re.search(r"-N(\d+)", m)
         fam = m[:n.start()] if n else m
         return (1, int(n.group(1)) if n else 0, m.endswith("c"), ORDEM.index(fam) if fam in ORDEM else 9)

@@ -124,7 +124,8 @@ política uniforme no top 10%: 30,6% dos 3.327 itens do small_matrix. O número 
 **Limitações.**
 
 - A referência de popularidade dos usuários de avaliação (10,6% das visualizações no top 10%) não é comparável à
-  das políticas. Hipótese não verificada: o big_matrix desses usuários evita os itens do small_matrix.
+  das políticas. Verificado em 14/11: o big_matrix desses usuários não tem nenhuma linha com os 3.327 itens do small_matrix
+  (0 de 533.090); os demais usuários têm 9,45 milhões de linhas com eles.
 - A repetição das políticas é medida por trajetória simulada, e a do usuário por sessão real com corte de 30 min.
 - O dp da popularidade é grande (até 0,26).
 
