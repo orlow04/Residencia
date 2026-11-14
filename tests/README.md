@@ -14,6 +14,7 @@ Requisitos: numpy, pandas, scipy e scikit-learn (o venv do DORL já tem).
 | `test_bolha.py` | `bolha.py` | a definição de V e D calculada item a item (não há código do DORL a copiar) |
 | `test_a5.py` | `a5_janela.patch` aplicado ao `KuaiEnv.py` | o `_determine_whether_to_leave` original: idêntico sem `A5_FIX`; com a variável, janela = min(t, N) anteriores; o recorte original ocorre em N/2 < t < N |
 | `test_alem.py` | `alem_da_acuracia.py` | cada critério (R_each, MCD, V, cobertura, Gini, novidade, serendipidade, personalização) calculado item a item |
+| `test_ope.py` | `ope.py` | propriedades exatas dos estimadores num problema pequeno: IPS e DR sem viés (esperança exata), DR com q̂ exato sem variância |
 | `test_mecanismo.py` | `mecanismo_bolha.py`, `fb_rotacao.py` | regra contrafactual × cópia literal de `_determine_whether_to_leave`; V condicional × reimplementação; medidas do FB em casos montados |
 | `test_sessoes.py` | `sessoes_reais.py` | elegibilidade (cadeia contígua), repetição de categoria e fim de sessão calculados linha a linha |
 | `test_e6.py` | `e6_saida_prob.patch` aplicado ao `KuaiEnv.py` | o `_determine_whether_to_leave` original: idêntico e sem consumir números aleatórios sem `E6_P_REP`; com as variáveis, frequência de saída = P_REP/P_BASE conforme repita ou não; reprodutível |
@@ -46,6 +47,9 @@ python tests/test_bolha.py "$PWD/bolha.py"
 # critérios além da acurácia; mecanismo da diversidade e FB
 python tests/test_alem.py "$PWD/alem_da_acuracia.py"
 python tests/test_mecanismo.py "$PWD/mecanismo_bolha.py" "$PWD/fb_rotacao.py"
+
+# avaliação off-policy (branch off-policy)
+python tests/test_ope.py "$PWD/ope.py"
 
 python tests/test_sessoes.py "$PWD/sessoes_reais.py"
 
