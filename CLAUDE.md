@@ -101,6 +101,8 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
   (`MOPO-tmax`, `roda_tmax.sh`): só com o `train_max` do DORL, a cobertura do MOPO cai para a de b = 0 (E6: 22,8%;
   N4: 5,4%). DORL × MOPO tem três fatores: variação do P_E, *survival bonus* e escala da recompensa no estado.
   No Length (N4), só o bônus inteiro se sustenta (+5,2 a +8,1); as doses intermediárias não se distinguem do `MOPO-tmax`.
+- Preparado e não rodado (16/11): sementes 5–9 na regra N4 (MOPO, MOPO-tmax, b = 0, 1, 2, 4, DORL-const) e controle
+  inverso no E6 (`TM_SB0_E6_s*`); regra de leitura em `docs/semana10.md`, fim da etapa 4.
 
 ## Próxima semana (planejada; última de experimentos)
 

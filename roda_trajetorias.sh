@@ -8,6 +8,8 @@
 #   nohup bash roda_trajetorias.sh MBPO DORL > traj_fila1.out 2>&1 &
 #   nohup bash roda_trajetorias.sh MOPO DORL-const > traj_fila2.out 2>&1 &     (segunda fila, em paralelo)
 # Métodos: MBPO MOPO DORL DORL-const. Sementes: SEEDS="0 1 2 3 4" (padrão).
+# Sementes novas (ex.: SEEDS="5 6 7 8 9"): não há log original; a execução é aceita com 200 épocas e o script avisa.
+# Nas análises, usar o glob das reexecuções: "MOPO=$L/[[]MOPO_traj_s[0-9][]]_*.log" (0–4 idênticas às originais).
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 W="$HERE/dorl-workspace/DORL-codes"
@@ -36,6 +38,9 @@ fn, dn = completo(new)
 fo, do = completo(orig)
 if dn is None:
     sys.exit(f"  {new}: sem log completo")
+if do is None:   # semente sem execução original (SEEDS além de 0–4): não há o que conferir além das 200 épocas
+    print(f"  {new}: 200 épocas; semente nova, sem log original {orig} para conferir")
+    sys.exit(0)
 cols = [c for c in do.columns if any(k in c for k in ("R_tra", "ctr", "len_tra", "ifeat_feat"))]
 if not do[cols].equals(dn[cols]):
     sys.exit(f"  {new}: DIFERENTE de {fo.rsplit('/', 1)[1]}")

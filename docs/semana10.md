@@ -10,6 +10,7 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 | Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | Feito |
 | SB | Varredura do *survival bonus*: b ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`roda_bonus.sh`) | Feito |
 | TM | Controle da varredura: MOPO com o `train_max` do DORL (`tmax.patch`, `roda_tmax.sh`) | Feito (16/11) |
+| S10 | Sementes 5–9 na regra N4 (MOPO, MOPO-tmax, b = 0, 1, 2, 4, DORL-const) e controle inverso no E6 | Preparado, não rodado |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -351,6 +352,16 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
 6. **Nenhuma dose leva a recompensa por passo acima do acaso.** Na regra N4, o R_each fica entre 0,71 e 0,81 contra
    0,872; para b = 4 e b = 8,35 a diferença está dentro do dp (0,111 e 0,095). Em NX_10, o R_tra fica entre 6,3 e 7,4 contra 8,72,
    acima do dp em todos os pontos.
+
+**Preparado e não rodado (16/11): sementes 5–9 na regra N4 e controle inverso.** Motivo: a ressalva do item 1.
+- Execuções: b = 0, 1, 2 e 4 (`SEEDS="5 6 7 8 9" roda_bonus.sh N4`), MOPO-tmax (`roda_tmax.sh N4`), MOPO e
+  DORL-const (`roda_trajetorias.sh`, que passou a aceitar sementes sem log original). São 35 execuções.
+- Controle inverso, sementes 0–4: b = 0 com o `train_max` do MOPO na regra E6 (`METODOS="SB0" roda_tmax.sh E6`).
+- Leitura combinada antes de rodar, com 10 sementes por ponto no Length em NX_0:
+  (a) se b = 0 e MOPO-tmax ficarem a menos de um dp, os 2,9 passos eram ruído e os dois viram uma referência só;
+  (b) uma dose intermediária conta como efeito se superar essa referência por mais que o maior dp;
+  (c) se MOPO-tmax continuar acima do MOPO e de b = 0, a equivalência entre as duas configurações precisa ser revista.
+- Controle inverso: se a hipótese vale, a cobertura volta à do MOPO-E6 (50,2%) e o Length a 20,76.
 
 **Limitações.** Sem ponto entre b = 4 e 8,35. O controle do `train_max` foi feito só num sentido (MOPO com a escala do DORL; o inverso, b = 0 com a escala do MOPO, não rodou). Cinco sementes por ponto não resolvem diferenças de Length de cerca de 3 passos na regra N4. λ₁ fixo.
 Uma calibração do E6.
