@@ -97,7 +97,8 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
 - Varredura do *survival bonus* (feito, 14/11; etapa 4): na regra N4 o Length cresce com b (15,9 → 19,6 → 24,0) e o
   ciclo no FB diminui (ciclo puro 0,70 → 0,15 → 0,05); no E6 a cobertura cai com b (24,3% → 9,9% → 2,5%) sem ganho de
   Length. **b = 0 não reproduz o MOPO em cobertura** (E6: 50,2% → 24,3%; N4: 11,2% → 6,1%): MOPO → DORL-const muda
-  também `train_max` (normalização da recompensa no estado, `run_Policy_Main.py:250`). Causa: hipótese não testada.
+  também `train_max` (normalização da recompensa no estado, `run_Policy_Main.py:250`). Causa: hipótese não testada;
+  o controle está pronto e não rodou (`roda_tmax.sh`; se a hipótese vale, `MOPO-tmax` reproduz o SB0).
 
 ## Próxima semana (planejada; última de experimentos)
 
@@ -153,6 +154,7 @@ Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede
 | `revisitas.py` | Revisualização: revisitas reais no big_matrix (sem duplicatas), loop no small_matrix e repetição das políticas no FB (`--traj`) → `results/revisitas/` |
 | `roda_bandits.sh` | Sementes adicionais de UCB e ε-greedy (`UCB_s{n}`, `epsilon-greedy_s{n}`) |
 | `roda_bonus.sh` | Varredura do *survival bonus*: DORL-const com b = λ₂·(c − 0,291) ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`SB{b}_{N4,E6}_s*`); E1 em `results/sb/` |
+| `tmax.patch`, `roda_tmax.sh` | Controle da varredura: MOPO com o `train_max` do DORL (`TMAX_LAMBDA=5`; `TM_MOPO_{N4,E6}_s*`) e, opcional, SB0 com o do MOPO (`TM_SB0_*`); nas tabelas, `MOPO-tmax` e `SB0-tmin` |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |

@@ -312,6 +312,8 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
      E6 (54%) e 5,1 de 7,8 pontos no N4 (65%). O restante acompanha o tamanho do bônus.
    - Hipótese, não testada: a causa é a escala do canal de recompensa do estado (faixa 8,55 maior no treino,
      enquanto o teste normaliza por 5 nos dois casos). O teste direto é o MOPO com o `train_max` do DORL.
+     Preparado e não rodado: `tmax.patch` e `roda_tmax.sh` (`TM_MOPO_{N4,E6}_s*`). Se a hipótese vale, o MOPO com
+     essa escala reproduz b = 0 (24,3% no E6; 6,1% no N4); se reproduzir o MOPO (50,2%; 11,2%), a causa é outra.
    - Length e R_tra na regra N4 e o comportamento no FB não mudam do MOPO para b = 0; neles a atribuição ao bônus
      se mantém.
 5. **No FB com a regra N4, o bônus reduz o ciclo de forma gradual.** Length 27,7 → 21,6 → 14,3; repetição

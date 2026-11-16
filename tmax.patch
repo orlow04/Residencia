@@ -1,0 +1,41 @@
+diff --git a/run_Policy_Main.py b/run_Policy_Main.py
+index 4e2a854..cf576e8 100644
+--- a/run_Policy_Main.py
++++ b/run_Policy_Main.py
+@@ -39,6 +39,26 @@ from util.utils import LoggerCallback_Policy, save_model_fn
+ import logzero
+ from logzero import logger
+ 
++# Residência (controle da varredura do survival bonus): TMAX_LAMBDA=<x> faz o train_max, que é a escala da recompensa
++# no estado de treino (state_tracker2.py:231), ser o de uma execução com lambda_entropy = x. A recompensa não muda.
++# Sem a variável, o comportamento é idêntico ao original.
++_TMAX_LAMBDA = os.environ.get("TMAX_LAMBDA")
++
++
++def _tmax_ajusta(train_max, mapa, entropy_window, lambda_entropy):
++    """train_max = MAX_R - MIN_R contém lambda_entropy * (entropy_max - entropy_min) (simulated_env.py:81-82), com
++    entropy_min/max somados por termo da janela, como em prepare_envs. Troca esse termo pelo de TMAX_LAMBDA."""
++    if _TMAX_LAMBDA is None:
++        return train_max
++    faixa = 0
++    for termo in set(entropy_window):
++        valores = [v for k, v in mapa.items() if len(k) == termo]
++        faixa += max(valores) - min(valores)
++    novo = train_max + (float(_TMAX_LAMBDA) - lambda_entropy) * faixa
++    logger.info("TMAX_LAMBDA = {}: train_max {:.6f} -> {:.6f} (faixa da entropia {:.6f})".format(
++        _TMAX_LAMBDA, float(train_max), float(novo), float(faixa)))
++    return novo
++
+ try:
+     import envpool
+ except ImportError:
+@@ -248,6 +268,9 @@ def setup_state_tracker(args, ensemble_models, env, train_envs, test_envs_dict):
+         args.state_dim = action_columns[0].embedding_dim + saved_embedding.feat_user.weight.shape[1]
+ 
+     train_max = train_envs.get_env_attr("MAX_R")[0] - train_envs.get_env_attr("MIN_R")[0]
++    if _TMAX_LAMBDA is not None:
++        train_max = _tmax_ajusta(train_max, train_envs.get_env_attr("entropy_dict")[0]["map"], args.entropy_window,
++                                 args.lambda_entropy)
+     train_min = 0
+     test_max = test_envs_dict['FB'].get_env_attr("mat")[0].max()
+     test_min = test_envs_dict['FB'].get_env_attr("mat")[0].min()

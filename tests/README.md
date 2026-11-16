@@ -17,6 +17,7 @@ Requisitos: numpy, pandas, scipy e scikit-learn (o venv do DORL já tem).
 | `test_mecanismo.py` | `mecanismo_bolha.py`, `fb_rotacao.py` | regra contrafactual × cópia literal de `_determine_whether_to_leave`; V condicional × reimplementação; medidas do FB em casos montados |
 | `test_sessoes.py` | `sessoes_reais.py` | elegibilidade (cadeia contígua), repetição de categoria e fim de sessão calculados linha a linha |
 | `test_e6.py` | `e6_saida_prob.patch` aplicado ao `KuaiEnv.py` | o `_determine_whether_to_leave` original: idêntico e sem consumir números aleatórios sem `E6_P_REP`; com as variáveis, frequência de saída = P_REP/P_BASE conforme repita ou não; reprodutível |
+| `test_tmax.py` | `tmax.patch` aplicado ao `run_Policy_Main.py` | `MAX_R − MIN_R` de `simulated_env.py:81–82` com o `entropy_min/max` de `prepare_envs`: intacto sem `TMAX_LAMBDA`; com a variável, igual ao `train_max` da execução com o outro `lambda_entropy`, nos dois sentidos; o patch só acrescenta linhas |
 | `test_e5.py` | `e5_alvo.patch` aplicado ao `KuaiEnv.py` | o `KuaiEnv.get_df_kuairec` original, **com os dados reais** (o carregador lê categorias e características): idêntico sem `E5_RAW_WR`; com a variável, só o alvo muda |
 
 ## Como rodar (da raiz deste repositório)
@@ -57,6 +58,11 @@ python tests/test_sessoes.py "$PWD/sessoes_reais.py"
 # E6: mesma estrutura do A5, com o e6_saida_prob.patch (testar também com os três patches aplicados juntos)
 (cd dorl-workspace/DORL-codes && cp /tmp/kuai_orig.py /tmp/kuai_e6.py && patch -s /tmp/kuai_e6.py ../../e6_saida_prob.patch \
   && python ../../tests/test_e6.py /tmp/kuai_orig.py /tmp/kuai_e6.py)
+
+# tmax.patch (controle do train_max)
+(cd dorl-workspace/DORL-codes && git show HEAD:run_Policy_Main.py > /tmp/rpm_orig.py \
+  && cp /tmp/rpm_orig.py /tmp/rpm_tmax.py && patch -s /tmp/rpm_tmax.py ../../tmax.patch \
+  && python ../../tests/test_tmax.py /tmp/rpm_orig.py /tmp/rpm_tmax.py)
 
 # E5: carregador original (do git) × cópia com o e5_alvo.patch, nos dados reais (de dorl-workspace/DORL-codes)
 # Rode duas vezes se video_duration_normed.csv ainda não existir: a primeira chamada cria esse cache e a

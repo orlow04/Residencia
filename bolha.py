@@ -41,17 +41,24 @@ def nome(orig):
     m = re.fullmatch(r"SB(\d+(?:p\d+)?)_(N4|E6)", orig)   # varredura do survival bonus (roda_bonus.sh): SB0.5, SB0.5-E6
     if m:
         return f"SB{m.group(1).replace('p', '.')}{'-E6' if m.group(2) == 'E6' else ''}"
+    m = re.fullmatch(r"TM_(MOPO|SB0)_(N4|E6)", orig)     # controle do train_max (roda_tmax.sh): MOPO-tmax, SB0-tmin
+    if m:
+        return f"{'MOPO-tmax' if m.group(1) == 'MOPO' else 'SB0-tmin'}{'-E6' if m.group(2) == 'E6' else ''}"
     m = re.fullmatch(r"(E3|A5)N(\d+)_(MBPO|MOPO|DORL|DORLconst)", orig)
     return f"{NOMES[m.group(3)]}-N{m.group(2)}{'c' if m.group(1) == 'A5' else ''}" if m else None
 
 
 def ordem(metodos):
-    """Ordem das tabelas: métodos do R/E2/E5, variações de N (por N), varredura do bônus, aleatória por último."""
+    """Ordem das tabelas: métodos do R/E2/E5, variações de N (por N), varredura do bônus e controle do train_max
+    (por regra), aleatória por último."""
     def chave(m):
         if m in ORDEM:
             return (0, ORDEM.index(m), 0, m)
         if m == "aleatória":
             return (3, 0, 0, m)
+        tm = re.fullmatch(r"(MOPO-tmax|SB0-tmin)(-E6)?", m)
+        if tm:
+            return (2, bool(tm.group(2)), 100.0 + (tm.group(1) == "SB0-tmin"), m)
         sb = re.fullmatch(r"SB([\d.]+)(-E6)?", m)
         if sb:
             return (2, bool(sb.group(2)), float(sb.group(1)), m)
