@@ -191,14 +191,15 @@ Hipótese, não testada: a variedade das políticas no simulador sob NX vem da m
 da dependência do estado. É coerente com o FB, em que elas repetem 6,7% a 74,3% dos passos (`docs/semana10.md`).
 Um OPE com máscara dos itens já vistos na sessão não foi feito.
 
-A confirmar pelo Gabriel: que o `roda_ckpt.sh` imprimiu "idêntico ao original" nas 20 execuções (`ck_fila*.out`, na
-4090). Sem isso, a correspondência entre os checkpoints e as execuções originais não está verificada.
+Conferência do retreino (16/11, na 4090): `grep "NÃO conferido" ck_fila*.out` não imprime nada, e só restaram os
+checkpoints da época 200. O `roda_ckpt.sh` só apaga os intermediários depois de conferir o log contra a execução
+original, então os 20 checkpoints correspondem às políticas das tabelas do simulador.
 
 ## Próximos passos
 
 1. Feito em 14/11: validação com π_β dependente do contexto (seção acima).
-2. Feito em 16/11: retreino com checkpoint (`roda_ckpt.sh`; 20 checkpoints da época 200). Conferência dos logs
-   contra os originais: a confirmar (ver acima).
+2. Feito em 16/11: retreino com checkpoint (`roda_ckpt.sh`; 20 checkpoints da época 200). Logs conferidos
+   contra os originais (ver acima).
 3. Feito em 16/11: `ope_politicas.py` com os 20 checkpoints (seção Resultado).
 4. Feito em 16/11: comparação com o simulador (`ope_compara.py`). A ordem dos métodos não é identificável sob OPE.
 5. Em aberto: decidir se este ramo entra no `main` e no relatório.
