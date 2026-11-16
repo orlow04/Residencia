@@ -298,6 +298,15 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
    b = 1 e b = 2, o ganho é de +3,7 e +4,3 passos, acima do dp (2,7 e 2,4). Entre b = 1, 2 e 4 não há diferença
    (19,6 a 20,2). De b = 4 para 8,35, mais +4,2, acima do dp (2,7). O ganho de Length do MOPO para o DORL-const vem
    todo do bônus: a conclusão do E2 se mantém.
+   - **Ressalva (16/11, controle do `train_max`; `results/tmax/n4_resumo.csv`).** O MOPO-tmax é a mesma configuração
+     de b = 0, a menos de 0,0005 de recompensa por passo, e dá Length 18,8 ± 2,5 contra 15,9 ± 2,4. Duas
+     configurações equivalentes diferem em 2,9 passos, mais que o dp de cada uma. Logo, com 5 sementes, diferenças
+     de Length dessa ordem na regra N4 não são confiáveis, mesmo acima do dp.
+   - Contra o MOPO-tmax, as doses intermediárias não se distinguem do bônus zero (+0,8; +1,4; +1,0 para b = 1, 2 e
+     4). Só o bônus inteiro fica acima das duas referências (+8,1 contra b = 0; +5,2 contra o MOPO-tmax, dp 2,7).
+     O que se sustenta: o bônus de 8,35 aumenta o Length; a forma da curva entre 0 e 4 não está resolvida.
+   - A conclusão do E2 (DORL-const = DORL) não muda. Muda a parte do ganho MOPO → DORL-const (+8,4) atribuível
+     ao bônus: entre 5,2 e 8,1 passos, conforme a referência de bônus zero.
 2. **Na regra E6, nenhuma dose compra Length.** De b = 0 a b = 4, o Length fica entre 21,14 e 21,20, variação menor
    que o dp (0,05 a 0,09). Confirma o E6 com cinco pontos em vez de dois.
 3. **A cobertura cai com a dose, de forma monótona, na regra E6:** 24,3% → 15,3% → 9,9% → 5,5% → 3,0% → 2,5%. Cada
@@ -328,10 +337,13 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
      *survival bonus* e a escala da recompensa no estado, que muda junto com λ₂ sem ser parte do método.
    - Hipótese, não testada: com a faixa maior, o canal de recompensa do treino fica comprimido em [0; 0,1], o estado
      distingue menos os históricos e a política depende menos dele. No teste, a normalização é por 5 nos dois casos.
-   - Não medido para o MOPO-tmax: Length e R_tra em NX_0 e o comportamento no FB (falta o `e1_protocolos.py` e o
-     `fb_rotacao.py` nessas execuções).
-   - Length e R_tra na regra N4 e o comportamento no FB não mudam do MOPO para b = 0; neles a atribuição ao bônus
-     se mantém.
+   - Demais métricas do MOPO-tmax (`results/tmax/n4_resumo.csv`, `e6_resumo.csv`). Na regra E6, ele reproduz
+     b = 0 também no Length em NX_0 (21,14 ± 0,07 contra 21,15 ± 0,09; MOPO: 20,76 ± 0,09) e na MCD (0,586 contra
+     0,563; MOPO: 0,669; dp 0,02): o Length a mais de b = 0 no E6 (+0,39) vem da escala do estado. Na regra N4, o
+     FB é igual (Length 27,81 ± 0,07 contra 27,68 ± 0,24: o ciclo continua), mas o Length em NX_0 não (18,8 contra
+     15,9; ver a ressalva do item 1). O `fb_rotacao.py` não foi rodado nessas execuções.
+   - O comportamento no FB não muda do MOPO para b = 0 nem para o MOPO-tmax; nele a atribuição ao bônus se
+     mantém. Para Length e R_tra na regra N4, vale a ressalva do item 1.
 5. **No FB com a regra N4, o bônus reduz o ciclo de forma gradual.** Length 27,7 → 21,6 → 14,3; repetição
    0,73 → 0,53 → 0,31; ciclo puro 0,70 → 0,15 → 0,05 (b = 0, 4 e 8,35). A pergunta em aberto ("por que o *survival
    bonus* impede o ciclo no FB") ganha um fato: o efeito é gradual, não um limiar. O mecanismo continua sem
@@ -340,6 +352,6 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
    0,872; para b = 4 e b = 8,35 a diferença está dentro do dp (0,111 e 0,095). Em NX_10, o R_tra fica entre 6,3 e 7,4 contra 8,72,
    acima do dp em todos os pontos.
 
-**Limitações.** Sem ponto entre b = 4 e 8,35. O controle do `train_max` foi feito só num sentido (MOPO com a escala do DORL; o inverso, b = 0 com a escala do MOPO, não rodou) e só a cobertura foi lida. λ₁ fixo.
+**Limitações.** Sem ponto entre b = 4 e 8,35. O controle do `train_max` foi feito só num sentido (MOPO com a escala do DORL; o inverso, b = 0 com a escala do MOPO, não rodou). Cinco sementes por ponto não resolvem diferenças de Length de cerca de 3 passos na regra N4. λ₁ fixo.
 Uma calibração do E6.
 
