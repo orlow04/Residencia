@@ -66,11 +66,11 @@ def estado(emb, h, hr, t, r_min, r_max):
     r = norm(hr) * real
     falta = (t < J).float().unsqueeze(-1)                                  # entra a entrada de preenchimento
     soma_e = e.sum(1) + falta * emb[pad]
-    soma_r = r.sum(1, keepdim=True) + falta * norm(torch.tensor(1.0))
+    soma_r = r.sum(1, keepdim=True) + falta * norm(emb.new_ones(()))
     k = real.sum(1, keepdim=True).float() + falta
     s = torch.cat([soma_e, soma_r], 1) / k
     ini = t == 0
-    s[ini] = torch.cat([emb[pad], torch.ones(1)]).to(s)
+    s[ini] = torch.cat([emb[pad], emb.new_ones(1)]).to(s)
     return s
 
 
