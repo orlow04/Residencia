@@ -9,6 +9,7 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 | A5-2 | Janela corrigida (N = 4, 8) para MOPO e DORL-const (`roda_a5.sh`) | Feito |
 | Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | Feito |
 | SB | Varredura do *survival bonus*: b ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`roda_bonus.sh`) | Feito |
+| TM | Controle da varredura: MOPO com o `train_max` do DORL (`tmax.patch`, `roda_tmax.sh`) | Feito (16/11) |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -310,10 +311,25 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
      errada. Mudam duas coisas: o bônus e a normalização da recompensa no estado de treino.
    - Da queda de cobertura do MOPO para o DORL-const, a parte que ocorre com bônus zero é 25,9 de 47,7 pontos no
      E6 (54%) e 5,1 de 7,8 pontos no N4 (65%). O restante acompanha o tamanho do bônus.
-   - Hipótese, não testada: a causa é a escala do canal de recompensa do estado (faixa 8,55 maior no treino,
-     enquanto o teste normaliza por 5 nos dois casos). O teste direto é o MOPO com o `train_max` do DORL.
-     Preparado e não rodado: `tmax.patch` e `roda_tmax.sh` (`TM_MOPO_{N4,E6}_s*`). Se a hipótese vale, o MOPO com
-     essa escala reproduz b = 0 (24,3% no E6; 6,1% no N4); se reproduzir o MOPO (50,2%; 11,2%), a causa é outra.
+   - Causa, testada em 16/11 (`MOPO-tmax`: MOPO com `TMAX_LAMBDA=5`; `results/alem/alem_resumo.csv`): é a escala do
+     canal de recompensa do estado de treino. O estado concatena a recompensa dividida por `train_max` e limitada a
+     1 (`state_tracker2.py:231–241`); o patch muda o `train_max` de 0,9387 para 9,4842 (linha `TMAX_LAMBDA` dos
+     logs) e não toca na recompensa. Só com isso, a cobertura do MOPO cai para a de b = 0:
+
+     | Cobertura (NX_10) | MOPO | MOPO-tmax | b = 0 | DORL-const |
+     |---|---|---|---|---|
+     | Regra N4 | 11,2 ± 3,2% | 5,4 ± 0,9% | 6,1 ± 1,1% | 3,4 ± 0,4% |
+     | Regra E6 | 50,2 ± 5,0% | 22,8 ± 2,7% | 24,3 ± 3,9% | 2,5 ± 0,5% |
+
+     Não há sobreposição entre sementes do MOPO e do MOPO-tmax (E6: 43,6–55,6% contra 20,5–27,1%; N4: 8,6–16,3%
+     contra 4,3–6,5%), e a diferença entre MOPO-tmax e b = 0 fica dentro do dp (1,5 e 0,7 ponto). A personalização
+     acompanha (E6: 0,958 → 0,794, contra 0,831 de b = 0; N4: 0,524 → 0,313, contra 0,384).
+   - Leitura: a comparação DORL × MOPO do artigo tem três fatores, não dois: a variação do P_E (sem efeito, E2), o
+     *survival bonus* e a escala da recompensa no estado, que muda junto com λ₂ sem ser parte do método.
+   - Hipótese, não testada: com a faixa maior, o canal de recompensa do treino fica comprimido em [0; 0,1], o estado
+     distingue menos os históricos e a política depende menos dele. No teste, a normalização é por 5 nos dois casos.
+   - Não medido para o MOPO-tmax: Length e R_tra em NX_0 e o comportamento no FB (falta o `e1_protocolos.py` e o
+     `fb_rotacao.py` nessas execuções).
    - Length e R_tra na regra N4 e o comportamento no FB não mudam do MOPO para b = 0; neles a atribuição ao bônus
      se mantém.
 5. **No FB com a regra N4, o bônus reduz o ciclo de forma gradual.** Length 27,7 → 21,6 → 14,3; repetição
@@ -324,6 +340,6 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
    0,872; para b = 4 e b = 8,35 a diferença está dentro do dp (0,111 e 0,095). Em NX_10, o R_tra fica entre 6,3 e 7,4 contra 8,72,
    acima do dp em todos os pontos.
 
-**Limitações.** Sem ponto entre b = 4 e 8,35. A hipótese da normalização do estado não foi testada. λ₁ fixo.
+**Limitações.** Sem ponto entre b = 4 e 8,35. O controle do `train_max` foi feito só num sentido (MOPO com a escala do DORL; o inverso, b = 0 com a escala do MOPO, não rodou) e só a cobertura foi lida. λ₁ fixo.
 Uma calibração do E6.
 
