@@ -119,7 +119,7 @@ O `ope_politicas.py` reimplementa isso a partir do checkpoint, sem importar clas
   regime esparso em que o IPS fica enviesado e o SNIPS não (seção anterior).
 - **ESS de uma política-alvo uniforme:** 3,9 milhões.
 
-## Aplicação às políticas (`ope_politicas.py`; aguarda os checkpoints)
+## Aplicação às políticas (`ope_politicas.py`)
 
 Para cada checkpoint `CK_*`:
 - **Estimativas:** SNIPS (principal) com IC de 95% por *bootstrap* de usuários; SNIPS só com t ≥ 3; SNIPS com π_β
@@ -140,13 +140,67 @@ Limites conhecidos:
 - **Sem máscara.** A política é avaliada sem remover itens já vistos, como no FB.
 - **Só um passo.** O valor é por passo; a duração da sessão não é estimada.
 
+### Resultado (16/11/2026)
+
+Arquivos: `results/ope/ope_saida.txt` e `ope_por_semente.csv`; resumo e cruzamento com o simulador em
+`results/ope/ope_comparacao.txt` (`ope_compara.py`). São 20 checkpoints, todos da época 200. Antes de rodar, o
+`ope_politicas.py` foi corrigido: a função `estado` criava dois tensores sem dispositivo e falhava em CUDA. Em CPU o
+estado é idêntico ao da versão anterior, e o `tests/test_ope_politicas.py` continua com diferença 0.
+
+Referências: política de registro 0,881; uniforme 0,898 (IC95 0,893–0,903), ESS 3,9 milhões.
+
+| Método | SNIPS (média ± dp) | Mediana | Mín–máx | ESS | Itens efetivos por passo | Itens para 95% da exposição |
+|---|---|---|---|---|---|---|
+| MBPO | 0,367 ± 0,309 | 0,278 | 0,134–0,903 | 1.225–2.911 | 1,03–1,19 | 2–4 |
+| MOPO | 0,350 ± 0,271 | 0,331 | 0,125–0,804 | 215–2.806 | 1,13–1,38 | 3–4 |
+| DORL | 0,639 ± 0,528 | 0,389 | 0,201–1,459 | 1.106–1.554 | 1,16–1,47 | 2–4 |
+| DORL-const | 0,630 ± 0,633 | 0,384 | 0,250–1,757 | 1.507–2.427 | 1,17–2,25 | 4–16 |
+
+Fatos:
+
+1. **As políticas são quase determinísticas e quase independentes do contexto real.** Em 9,45 milhões de contextos,
+   cada política concentra 95% da exposição em 2 a 16 dos 3.327 itens; o Gini da exposição fica entre 0,997 e 1,000
+   (política de registro: 0,244).
+2. **O OPE tem pouco suporte.** O ESS vai de 215 a 2.911 passos (0,002% a 0,03% do log), contra 3,9 milhões da
+   uniforme. O SNIPS quase coincide com o DM, que não usa pesos (Spearman 0,98; diferença mediana 0,022). Na prática,
+   a estimativa é a recompensa média registrada dos poucos itens que cada semente prefere.
+3. **A ordem dos métodos não é identificável.** A maior diferença entre médias (0,29) não supera o dp entre sementes
+   (0,27 a 0,63). As medianas ficam entre 0,28 e 0,39; as médias de DORL e DORL-const são puxadas por uma semente
+   cada (1,459 e 1,757).
+4. **A maioria das políticas fica abaixo da política de registro.** O SNIPS é menor que 0,881 em 17 de 20; o IC95
+   fica inteiro abaixo em 15 e inteiro acima em 2 (DORL s4, DORL-const s3). No simulador, o R_each dos quatro métodos
+   (0,74 a 0,78 em NX_0) também fica abaixo do acaso (0,872).
+5. **Concordância com o simulador, política a política:** Spearman +0,57 entre o SNIPS e o R_each em NX_0
+   (p = 0,01, n = 20, sem correção para 8 comparações); +0,35 em NX_10 e +0,38 no FB (p ≥ 0,10).
+6. **Popularidade dos itens preferidos:** DORL e DORL-const põem no máximo 15% da exposição nos 10% de itens mais
+   frequentes do log, nas 10 sementes; MBPO e MOPO põem mais de 50% em 5 de 10. A diferença entre as médias fica
+   dentro do dp (a distribuição entre sementes é bimodal). Política de registro: 18,5%.
+
+Leitura:
+
+- O OPE não confirma nem refuta a ordem dos métodos do simulador: o ruído entre sementes é maior que qualquer
+  diferença entre métodos.
+- O que ele mostra, sem simulador e sem regra de saída, é a concentração (fato 1) e o valor por passo abaixo da
+  referência na maioria das sementes (fato 4). Os dois vão na mesma direção dos achados no simulador (cobertura
+  baixa; R_each abaixo do acaso).
+- O IC95 cobre só a amostragem de usuários. Não cobre o erro de π_β estimada nem o suporte pequeno (fato 2); os
+  dois casos acima da referência não sustentam, sozinhos, que essas políticas são melhores que a de registro.
+- O fato 5 é exploratório: a correlação junta diferenças entre métodos e entre sementes.
+
+Hipótese, não testada: a variedade das políticas no simulador sob NX vem da máscara de itens já recomendados, e não
+da dependência do estado. É coerente com o FB, em que elas repetem 6,7% a 74,3% dos passos (`docs/semana10.md`).
+Um OPE com máscara dos itens já vistos na sessão não foi feito.
+
+A confirmar pelo Gabriel: que o `roda_ckpt.sh` imprimiu "idêntico ao original" nas 20 execuções (`ck_fila*.out`, na
+4090). Sem isso, a correspondência entre os checkpoints e as execuções originais não está verificada.
+
 ## Próximos passos
 
 1. Feito em 14/11: validação com π_β dependente do contexto (seção acima).
-2. **Retreino com checkpoint** (`roda_ckpt.sh`): MBPO, MOPO, DORL e DORL-const, `--is_save`, 5 sementes; mantém só
-   a última época e confere que os logs são idênticos aos atuais. Na 4090, depois da varredura do *survival bonus*.
-3. Feito em 14/11: log real e script de aplicação (seções acima). Falta rodar o `ope_politicas.py` com os
-   checkpoints.
-4. **Comparação:** ordem dos métodos sob OPE contra a ordem no simulador (R_each em NX_0 e NX_10).
+2. Feito em 16/11: retreino com checkpoint (`roda_ckpt.sh`; 20 checkpoints da época 200). Conferência dos logs
+   contra os originais: a confirmar (ver acima).
+3. Feito em 16/11: `ope_politicas.py` com os 20 checkpoints (seção Resultado).
+4. Feito em 16/11: comparação com o simulador (`ope_compara.py`). A ordem dos métodos não é identificável sob OPE.
+5. Em aberto: decidir se este ramo entra no `main` e no relatório.
 
 Leituras para entender o código: `docs/off_policy_leitura.md`.

@@ -1,0 +1,26 @@
+Políticas: 20; épocas dos checkpoints: [200]
+Referências: política de registro 0.881; uniforme SNIPS 0.898 (IC95 0.893–0.903), ESS 3,895,164
+
+Método       SNIPS média ± dp  mediana       mín–máx   ESS mín–máx  itens ef./passo  itens p/ 95%  top 10% por semente
+MBPO           0.367 ± 0.309     0.278  0.134–0.903    1225–2911      1.03–1.19         2–4        0.000 0.000 0.000 0.808 0.916
+MOPO           0.350 ± 0.271     0.331  0.125–0.804     215–2806      1.13–1.38         3–4        0.000 0.000 0.528 0.674 0.890
+DORL           0.639 ± 0.528     0.389  0.201–1.459    1106–1554      1.16–1.47         2–4        0.000 0.000 0.000 0.000 0.005
+DORL-const     0.630 ± 0.633     0.384  0.250–1.757    1507–2427      1.17–2.25         4–16       0.000 0.015 0.060 0.119 0.152
+
+Maior diferença entre médias de métodos: 0.289; menor dp entre sementes: 0.271
+Contra a política de registro (0.881): SNIPS abaixo em 17 de 20; IC95 inteiro abaixo em 15, inteiro acima em 2, contém em 3
+Políticas cujo IC95 não fica inteiro abaixo: DORL s2 0.872 [0.823, 0.923] ESS 1,193; DORL s4 1.459 [1.393, 1.527] ESS 1,419; DORL-const s3 1.757 [1.701, 1.814] ESS 2,265; MBPO s0 0.903 [0.875, 0.933] ESS 2,271; MOPO s1 0.804 [0.481, 1.138] ESS 215
+SNIPS × DM (sem pesos): Spearman 0.977; |SNIPS − DM| mediana 0.022, máximo 0.422
+Massa de π_e na ação registrada: 0.000079–0.000450 (uniforme: 0.000301)
+
+Concordância com o simulador, política a política (Spearman entre o SNIPS e a métrica do simulador da mesma
+semente; o roda_ckpt.sh confere os CK_* contra as execuções originais; p sem correção para 8 comparações):
+  NX_0  R_each ρ = +0.57 (p = 0.01, n = 20); médias no simulador: MBPO < MOPO < DORL < DORL-const
+  NX_0  R_tra  ρ = +0.60 (p = 0.01, n = 20); médias no simulador: MBPO < MOPO < DORL < DORL-const
+  NX_0  Length ρ = +0.48 (p = 0.03, n = 20); médias no simulador: MOPO < MBPO < DORL < DORL-const
+  NX_10 R_each ρ = +0.35 (p = 0.13, n = 20); médias no simulador: MBPO < DORL < DORL-const < MOPO
+  NX_10 R_tra  ρ = +0.35 (p = 0.13, n = 20); médias no simulador: MBPO < DORL < DORL-const < MOPO
+  FB    R_each ρ = +0.38 (p = 0.10, n = 20); médias no simulador: MOPO < DORL-const < MBPO < DORL
+  FB    R_tra  ρ = -0.04 (p = 0.87, n = 20); médias no simulador: DORL-const < DORL < MOPO < MBPO
+  FB    Length ρ = -0.34 (p = 0.15, n = 20); médias no simulador: DORL-const < DORL < MOPO < MBPO
+  médias do SNIPS: MOPO < MBPO < DORL-const < DORL
