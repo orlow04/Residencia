@@ -106,13 +106,14 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
   b = 0 com o `train_max` do MOPO volta à cobertura do MOPO no E6 (48,0% × 50,2%). Hipótese do `train_max` confirmada
   nos dois sentidos.
 
-## Próxima semana (planejada; última de experimentos)
+## Próximos passos (a semana 10 é a última; no Termo final, o campo Planejamento leva os próximos passos, como nos relatórios de referência)
 
-1. Feito em 11/11: DORL-const e MOPO sob o E6 (etapa 10, itens 7 e 8). Experimentos da semana 9 fechados para a apresentação.
-2. Se houver tempo: revisitas reais ao mesmo vídeo (no FB a recompensa de um item repetido é a mesma,
-   `KuaiEnv.py:317`), excluindo registros duplicados.
-3. Tabela de síntese (afirmação × sinal × evidência × força) na estrutura acima; congelar os experimentos.
-4. Esqueleto do relatório e apêndice técnico único (semanas 8 e 9).
+1. Feito: E6 com DORL-const e MOPO (11/11), revisitas (11/11), tabela de síntese (`docs/sintese.md`).
+2. Opcional: sementes 5–9 com N = 8c (`SEEDS="5 6 7 8 9" roda_a5.sh 8`, MBPO/DORL e MOPO/DORLconst; ~6 h na 4090)
+   para DORL − MBPO (+3,5) e MOPO → DORL-const (+3,0), hoje com 5 sementes.
+3. Decidir se a avaliação off-policy (branch `off-policy`) entra no `main` e no relatório; depois, congelar os
+   experimentos (tag).
+4. Esqueleto do relatório e apêndice técnico único (semanas 8–10).
 Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede o ciclo no FB (o ciclo é dos métodos sem bônus);
 por que a escala da recompensa no estado reduz a cobertura (hipótese: estado menos informativo); por que, na regra N4, a personalização sobe com a dose enquanto a cobertura cai.
 
@@ -175,4 +176,6 @@ por que a escala da recompensa no estado reduz a cobertura (hipótese: estado me
 ## Documentos fora do repositório
 
 - Google Drive, pasta da residência: Termo semanal (`GABRIEL ORLOW DE OLIVEIRA SENE_DDMMAA`), "Experimentos em RLRS - Avaliação/Bolhas", "Justificativa de Replicação do DORL", planilha "Artigos Residência".
-- Relatórios de referência de residências anteriores: Artur Novais e Daniel Fazzioni (2025).
+- Relatórios de referência de residências anteriores: Artur Novais e Daniel Fazzioni (2025); cópias locais em `papers/`
+  (fora do git). No último Termo (10º gate), os dois mantêm o campo Planejamento com 2–3 próximos passos além da
+  residência, e a Entrega abre com um resumo da jornada.

@@ -3,3 +3,6 @@ dorl-workspace/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Artigos e relatórios de terceiros (direitos autorais): só locais
+papers/
