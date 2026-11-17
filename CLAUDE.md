@@ -85,7 +85,7 @@ avaliação; limitações das medidas → a política explora a regra do simulad
 Afsar et al.: dependência de simuladores → referência sem sinal). Não usar referenciais que o Gabriel não estudou.
 Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
 
-## Semana 10 — registro em `docs/semana10.md`; síntese em `docs/sintese.md`
+## Semana 10 — registro em `docs/semana10.md`; síntese em `docs/sintese.md`; números do Termo final em `docs/resultados_semana10.md`
 
 - Revisitas (feito): as políticas repetem 6,7–74,3% dos passos FB contra 3,4% nas sessões reais; a cobertura sem
   repetições é 1,1–2,6× maior; a repetição real segue a popularidade (top 10%: 20,3% contra 10,6%), a das políticas não.
