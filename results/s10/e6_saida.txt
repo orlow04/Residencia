@@ -1,0 +1,85 @@
+== Logs
+  usado: MOPO-E6      [E6_MOPO_s0]_2026_11_11-10_48_16.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s1]_2026_11_11-11_21_09.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s2]_2026_11_11-11_53_57.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s3]_2026_11_11-10_48_22.log (200 épocas)
+  usado: MOPO-E6      [E6_MOPO_s4]_2026_11_11-11_21_09.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s0]_2026_11_14-10_00_57.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s1]_2026_11_14-10_42_20.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s2]_2026_11_14-11_22_21.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s3]_2026_11_14-11_57_43.log (200 épocas)
+  usado: SB0-E6       [SB0_E6_s4]_2026_11_14-12_33_27.log (200 épocas)
+  usado: MOPO-tmax-E6 [TM_MOPO_E6_s0]_2026_11_16-12_10_32.log (200 épocas)
+  usado: MOPO-tmax-E6 [TM_MOPO_E6_s1]_2026_11_16-12_55_49.log (200 épocas)
+  usado: MOPO-tmax-E6 [TM_MOPO_E6_s2]_2026_11_16-13_40_48.log (200 épocas)
+  usado: MOPO-tmax-E6 [TM_MOPO_E6_s3]_2026_11_16-14_26_00.log (200 épocas)
+  usado: MOPO-tmax-E6 [TM_MOPO_E6_s4]_2026_11_16-15_09_26.log (200 épocas)
+  usado: SB0-tmin-E6  [TM_SB0_E6_s0]_2026_11_16-19_24_20.log (200 épocas)
+  usado: SB0-tmin-E6  [TM_SB0_E6_s1]_2026_11_16-19_59_53.log (200 épocas)
+  usado: SB0-tmin-E6  [TM_SB0_E6_s2]_2026_11_16-20_35_28.log (200 épocas)
+  usado: SB0-tmin-E6  [TM_SB0_E6_s3]_2026_11_16-21_12_24.log (200 épocas)
+  usado: SB0-tmin-E6  [TM_SB0_E6_s4]_2026_11_16-21_50_02.log (200 épocas)
+
+== Média entre sementes ± dp entre sementes (n = número de sementes). MCD: menor é melhor.
+
+FB
+  método        n             R_tra            R_each            Length               MCD
+  MOPO-E6       5    17.014 ± 0.804     0.819 ± 0.040    20.792 ± 0.073     0.641 ± 0.041
+  SB0-E6        5    17.419 ± 0.794     0.835 ± 0.038    20.856 ± 0.050     0.508 ± 0.045
+  MOPO-tmax-E6  5    16.121 ± 1.719     0.775 ± 0.085    20.819 ± 0.099     0.519 ± 0.046
+  SB0-tmin-E6   5    16.713 ± 1.012     0.807 ± 0.048    20.725 ± 0.124     0.677 ± 0.021
+  aleatória     5    17.569 ± 0.096     0.872 ± 0.002    20.147 ± 0.100     0.827 ± 0.000
+
+NX_0
+  método        n             R_tra            R_each            Length               MCD
+  MOPO-E6       5    17.476 ± 0.146     0.842 ± 0.008    20.755 ± 0.087     0.669 ± 0.019
+  SB0-E6        5    17.739 ± 0.670     0.839 ± 0.030    21.145 ± 0.087     0.563 ± 0.019
+  MOPO-tmax-E6  5    17.564 ± 1.149     0.831 ± 0.052    21.135 ± 0.068     0.586 ± 0.020
+  SB0-tmin-E6   5    17.308 ± 0.124     0.837 ± 0.009    20.692 ± 0.136     0.670 ± 0.030
+  aleatória     5    17.530 ± 0.068     0.872 ± 0.002    20.099 ± 0.055     0.827 ± 0.001
+
+NX_10
+  método        n             R_tra            R_each            Length               MCD
+  MOPO-E6       5     8.301 ± 0.187     0.830 ± 0.019    10.000 ± 0.000     0.645 ± 0.024
+  SB0-E6        5     8.365 ± 0.340     0.836 ± 0.034    10.000 ± 0.000     0.523 ± 0.035
+  MOPO-tmax-E6  5     8.040 ± 0.655     0.804 ± 0.065    10.000 ± 0.000     0.538 ± 0.022
+  SB0-tmin-E6   5     8.219 ± 0.242     0.822 ± 0.024    10.000 ± 0.000     0.656 ± 0.027
+  aleatória     5     8.715 ± 0.017     0.871 ± 0.002    10.000 ± 0.000     0.827 ± 0.001
+
+== Posição de cada método (1 = melhor)
+              FB:R_tra  FB:R_each  FB:Length  FB:MCD  NX_0:R_tra  NX_0:R_each  NX_0:Length  NX_0:MCD  NX_10:R_tra  NX_10:R_each  NX_10:MCD
+MOPO-E6              3          3          3       3           4            2            3         3            3             3          3
+SB0-E6               2          2          1       1           1            3            1         1            2             2          1
+MOPO-tmax-E6         5          5          2       2           2            5            2         2            5             5          2
+SB0-tmin-E6          4          4          4       4           5            4            4         4            4             4          4
+aleatória            1          1          5       5           3            1            5         5            1             1          5
+
+== Inversões entre métricas (mesmo protocolo)
+  NX_0  MOPO-E6 × SB0-E6: MOPO-E6 melhor em R_each; SB0-E6 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × MOPO-tmax-E6: MOPO-E6 melhor em R_tra, R_each; MOPO-tmax-E6 melhor em Length, MCD [dentro da variação entre sementes]
+  NX_0  MOPO-E6 × MOPO-tmax-E6: MOPO-E6 melhor em R_each; MOPO-tmax-E6 melhor em R_tra, Length, MCD [dentro da variação entre sementes]
+  NX_10 MOPO-E6 × MOPO-tmax-E6: MOPO-E6 melhor em R_tra, R_each; MOPO-tmax-E6 melhor em MCD [dentro da variação entre sementes]
+  FB    MOPO-E6 × aleatória: MOPO-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MOPO-E6 × aleatória: MOPO-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_10 MOPO-E6 × aleatória: MOPO-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    SB0-E6 × aleatória: SB0-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0-E6 × aleatória: SB0-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 SB0-E6 × aleatória: SB0-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    MOPO-tmax-E6 × SB0-tmin-E6: MOPO-tmax-E6 melhor em Length, MCD; SB0-tmin-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MOPO-tmax-E6 × SB0-tmin-E6: MOPO-tmax-E6 melhor em R_tra, Length, MCD; SB0-tmin-E6 melhor em R_each [dentro da variação entre sementes]
+  NX_10 MOPO-tmax-E6 × SB0-tmin-E6: MOPO-tmax-E6 melhor em MCD; SB0-tmin-E6 melhor em R_tra, R_each [dentro da variação entre sementes]
+  FB    MOPO-tmax-E6 × aleatória: MOPO-tmax-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  MOPO-tmax-E6 × aleatória: MOPO-tmax-E6 melhor em R_tra, Length, MCD; aleatória melhor em R_each [dentro da variação entre sementes]
+  NX_10 MOPO-tmax-E6 × aleatória: MOPO-tmax-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  FB    SB0-tmin-E6 × aleatória: SB0-tmin-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [dentro da variação entre sementes]
+  NX_0  SB0-tmin-E6 × aleatória: SB0-tmin-E6 melhor em Length, MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+  NX_10 SB0-tmin-E6 × aleatória: SB0-tmin-E6 melhor em MCD; aleatória melhor em R_tra, R_each [supera o dp entre sementes]
+
+== Inversões entre protocolos (mesma métrica)
+  R_each MOPO-E6 × SB0-E6: MOPO-E6 melhor em NX_0; SB0-E6 melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO-E6 × MOPO-tmax-E6: MOPO-E6 melhor em FB, NX_10; MOPO-tmax-E6 melhor em NX_0 [dentro da variação entre sementes]
+  R_tra  SB0-E6 × aleatória: SB0-E6 melhor em NX_0; aleatória melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO-tmax-E6 × SB0-tmin-E6: MOPO-tmax-E6 melhor em NX_0; SB0-tmin-E6 melhor em FB, NX_10 [dentro da variação entre sementes]
+  R_tra  MOPO-tmax-E6 × aleatória: MOPO-tmax-E6 melhor em NX_0; aleatória melhor em FB, NX_10 [dentro da variação entre sementes]
+
+Arquivos: ../../results/s10/e6_por_semente.csv, ../../results/s10/e6_resumo.csv, ../../results/s10/e6_posicoes.csv
