@@ -1,6 +1,7 @@
-# Avaliação off-policy (OPE) — branch `off-policy`
+# Avaliação off-policy (OPE)
 
-Iniciado em 14/11/2026. Objetivo: estimar o valor das políticas treinadas a partir do log real, sem o simulador e sem a
+Iniciado em 14/11/2026 na branch `off-policy`; no `main` desde 17/11/2026 (merge `d706527`).
+Objetivo: estimar o valor das políticas treinadas a partir do log real, sem o simulador e sem a
 regra de saída, e verificar se a ordem dos métodos se mantém (objetivos O1/O2 do `docs/protocolo_avaliacao.md`).
 
 ## Viabilidade (verificado em 14/11)
@@ -202,6 +203,6 @@ original, então os 20 checkpoints correspondem às políticas das tabelas do si
    contra os originais (ver acima).
 3. Feito em 16/11: `ope_politicas.py` com os 20 checkpoints (seção Resultado).
 4. Feito em 16/11: comparação com o simulador (`ope_compara.py`). A ordem dos métodos não é identificável sob OPE.
-5. Em aberto: decidir se este ramo entra no `main` e no relatório.
+5. Decidido em 17/11: entra no `main` (merge `d706527`) e no relatório (síntese B8; controle g do protocolo).
 
 Leituras para entender o código: `docs/off_policy_leitura.md`.

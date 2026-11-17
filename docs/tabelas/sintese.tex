@@ -58,13 +58,17 @@ B6 & A concentração depende do nível medido & M & b, e &
 B7 & A repetição do FB infla a concentração e não segue a popularidade & S, M & e, f &
   Repetição 6,7--74,3\% dos passos contra 3,4\% real; cobertura com/sem repetição: MBPO 3,9/6,6\%, DORL-E6 0,9/2,3\%;
   top 10\% nos repetidos $\approx$ nos passos (MBPO 17,3 contra 17,8\%), real 20,3 contra 10,6\% & Verificada \\
+B8 & Fora do simulador: exposição concentrada e valor abaixo do registro & S, M & a, g &
+  OPE de 20 políticas em 9,45 M passos reais (SNIPS, $\pi_\beta$ por contagens): 95\% da exposição em 2--16 itens, Gini 0,997--1,000 contra 0,244;
+  SNIPS abaixo do registro (0,881) em 17 de 20; diferença entre métodos (0,29) menor que o dp entre sementes (0,27--0,63); ESS 215--2.911 &
+  Verificada; ordem dos métodos não identificável \\
 \bottomrule
 \end{tabularx}
 \begin{tablenotes}\footnotesize
 \item Sinal: T = treino ($\hat r$, P\_U, P\_E); S = regra do simulador; M = métrica ou protocolo.
   Controle: (a) desvio entre sementes; (b) referência sem sinal; (c) ablação por constante;
   (d) variação da regra ou do protocolo; (e) concentração em vários níveis;
-  (f) referência empírica (big\_matrix).
+  (f) referência empírica (big\_matrix); (g) avaliação off-policy no log real.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

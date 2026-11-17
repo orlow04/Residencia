@@ -13,7 +13,7 @@ Uma afirmação sobre um RLRS avaliado em simulador ("o método X melhora o obje
 sobrevive a quatro condições:
 
 1. **Supera o ruído de semente.** Ver o controle (a).
-2. **É lida contra uma referência sem sinal e contra o comportamento real.** Ver os controles (b) e (f).
+2. **É lida contra uma referência sem sinal e contra o comportamento real.** Ver os controles (b), (f) e (g).
 3. **Não aparece sem o mecanismo alegado.** Ver o controle (c).
 4. **Não depende de uma regra arbitrária do simulador ou do protocolo.** Ver os controles (d) e (e).
 
@@ -59,6 +59,7 @@ Cada controle tem um alvo, um procedimento mínimo e uma regra de decisão. As l
 | d | Variação da regra e do protocolo | Resultado que depende de uma regra arbitrária | Variar N, a janela e o tipo de saída (determinística × calibrada); avaliar em FB, NX_0 e NX_10 | Uma afirmação que inverte entre condições é condicional, e a condição é reportada | Aggarwal: desenho da avaliação offline |
 | e | Concentração em vários níveis | Leitura de concentração que muda com o nível | Medir categoria, item, usuário e sessão, todos contra a taxa de base | Uma afirmação de diversidade vale só para o nível medido | Aggarwal: limitações das medidas |
 | f | Referência empírica | Simulador que premia comportamento irreal | Medir no log real o evento que a política explora (saída, repetição), sem duplicatas | Se a política depende de um evento implausível, o resultado é do simulador | Afsar et al.: lacuna simulador–usuário |
+| g | Avaliação off-policy | Resultado que só existe no simulador (depende da regra de saída ou do usuário simulado) | Estimar o valor por passo das políticas no log real (SNIPS com π_β estimada, escolhido em validação semi-sintética), com ESS; medir a concentração da exposição nos contextos reais, sem pesos | A ordem entre métodos só vale fora do simulador se a diferença superar o dp entre sementes com ESS suficiente | Sutton & Barto: amostragem por importância (cap. 5) |
 
 ## 5. Sequência de avaliação
 
@@ -85,7 +86,9 @@ Ordem recomendada para avaliar um novo método ou repetir esta avaliação em ou
    - Regra de saída corrigida e calibrada.
    - Os três protocolos.
 7. **Registro de trajetórias.** A partir delas: concentração em vários níveis (e), repetição e popularidade (O4).
-8. **Síntese.** Cada afirmação recebe sinal, controle, evidência e força, numa tabela como a `docs/sintese.md`.
+8. **Avaliação fora do simulador (g).** Validar os estimadores em dados semi-sintéticos e aplicar as políticas ao log
+   real (`docs/off_policy.md`).
+9. **Síntese.** Cada afirmação recebe sinal, controle, evidência e força, numa tabela como a `docs/sintese.md`.
 
 ## 6. Relato mínimo
 
@@ -102,9 +105,9 @@ Toda tabela de resultados deve trazer:
 
 | Lacuna | Por que importa | Primeiro passo |
 |---|---|---|
-| Avaliação off-policy (IPS, doubly robust) | Avalia a política no log real, sem simulador; testa O1 e O2 sem a regra de saída | Estimar o valor das políticas treinadas com IPS sobre o big_matrix |
+| OPE da sessão e com máscara | O OPE feito (controle g) é por passo e sem a máscara de itens já vistos: não estima a duração da sessão (O2) nem reproduz o NX | Repetir o `ope_politicas.py` com a máscara dos itens já vistos na sessão |
 | Retenção entre sessões (C2 do artigo) | O objetivo de longo prazo do RL vai além de uma sessão | Usar as revisitas em outra sessão (70% das repetições reais) como sinal |
-| Varredura de λ₁, λ₂ e do *survival bonus* | B5 é hipótese apoiada com um único valor do bônus | Variar a constante do DORL-const sob o E6 |
+| Varredura de λ₁ | O bônus já foi variado (semana 10, etapa 4); a penalidade de incerteza ficou em 0,05 | Variar λ₁ no MOPO nas regras N4 e E6 |
 | Segundo conjunto de dados (KuaiRand) | Todos os achados são de um simulador e um conjunto de dados | Repetir os passos 3 e 4 da seção 5 |
 | Calibração da saída por usuário | O E6 usa duas probabilidades globais | Estimar P(fim \| repete categoria) por usuário |
 
@@ -117,4 +120,7 @@ Toda tabela de resultados deve trazer:
   (cap. 2), e o papel da recompensa, da hipótese da recompensa (cap. 3). **Confirmar os capítulos.**
 - Afsar et al. (2022, ACM CSUR). A dependência de simuladores aparece entre os desafios de avaliação da revisão.
   **Confirmar a seção.**
-- Resultados citados: `docs/experimentos_semana8.md`, `docs/semana9.md`, `docs/semana10.md`, `docs/sintese.md`.
+- Sutton & Barto, cap. 5 (amostragem por importância, controle g), e as referências de OPE do
+  `docs/off_policy_leitura.md` foram dadas de memória: **confirmar seção, título e ano**.
+- Resultados citados: `docs/experimentos_semana8.md`, `docs/semana9.md`, `docs/semana10.md`, `docs/off_policy.md`,
+  `docs/sintese.md`.

@@ -105,15 +105,21 @@ Nomes das seções do Aggarwal foram dados de memória: confirmar no livro.
   pouco (+2,5) e 8,35 com folga (+6,2). O FB encurta em todos os passos da dose (27,4 → 14,7). Controle inverso:
   b = 0 com o `train_max` do MOPO volta à cobertura do MOPO no E6 (48,0% × 50,2%). Hipótese do `train_max` confirmada
   nos dois sentidos.
+- Avaliação off-policy no log real (feito, 16/11; `docs/off_policy.md`; no `main` desde 17/11, merge `d706527`):
+  SNIPS com π_β por contagens em 9,45 M passos de usuários fora da avaliação, escolhido em validação semi-sintética;
+  20 políticas retreinadas com checkpoint (`roda_ckpt.sh`, época 200, logs conferidos contra os originais). 95% da
+  exposição em 2–16 itens (Gini 0,997–1,000 contra 0,244 da política de registro); 17 de 20 abaixo da política de
+  registro (0,881); ESS 215–2.911; ordem dos métodos não identificável (dp entre sementes maior que as diferenças).
 
 ## Próximos passos (a semana 10 é a última; no Termo final, o campo Planejamento leva os próximos passos, como nos relatórios de referência)
 
-1. Feito: E6 com DORL-const e MOPO (11/11), revisitas (11/11), tabela de síntese (`docs/sintese.md`).
-2. Opcional: sementes 5–9 com N = 8c (`SEEDS="5 6 7 8 9" roda_a5.sh 8`, MBPO/DORL e MOPO/DORLconst; ~6 h na 4090)
-   para DORL − MBPO (+3,5) e MOPO → DORL-const (+3,0), hoje com 5 sementes.
-3. Decidir se a avaliação off-policy (branch `off-policy`) entra no `main` e no relatório; depois, congelar os
-   experimentos (tag).
-4. Esqueleto do relatório e apêndice técnico único (semanas 8–10).
+1. Feito: E6 com DORL-const e MOPO (11/11), revisitas (11/11), tabela de síntese (`docs/sintese.md`); a avaliação
+   off-policy entrou no `main` (17/11, merge `d706527`) e entra no relatório (síntese B8; controle g do protocolo).
+2. Na fila da 4090 desde 17/11 (`a5_fila5.out`, `a5_fila6.out`): sementes 5–9 com N = 8c (MBPO/DORL e MOPO/DORLconst)
+   para DORL − MBPO (+3,5) e MOPO → DORL-const (+3,0), hoje com 5 sementes. Conferir com
+   `grep -c ": fim" a5_fila5.out a5_fila6.out` (10 em cada, sem "INCOMPLETO"); exportar e ler com a mesma regra.
+3. Depois do N = 8c: congelar os experimentos (tag).
+4. Relatório e apêndice técnico: esperam os modelos que o Gabriel vai receber; não propor esqueleto antes.
 Em aberto: Length do MBPO não monótono no N; por que o *survival bonus* impede o ciclo no FB (o ciclo é dos métodos sem bônus);
 por que a escala da recompensa no estado reduz a cobertura (hipótese: estado menos informativo); por que, na regra N4, a personalização sobe com a dose enquanto a cobertura cai.
 
@@ -135,8 +141,9 @@ por que a escala da recompensa no estado reduz a cobertura (hipótese: estado me
 - Push da 4090 falhando com `vscode-git-*.sock ECONNREFUSED`: terminal de sessão antiga do VS Code. Abrir terminal novo
   ou, no Mac, `git pull <host-4090>:dorl_passo1 main`. Não deixar credencial do GitHub na 4090 (máquina compartilhada).
 - Os usuários de avaliação não têm nenhuma interação com os itens do small_matrix no big_matrix (0 de 533.090 linhas);
-  os demais usuários (até 5.765) têm 9,45 M linhas com esses itens (base possível para avaliação off-policy).
-- As políticas não são salvas por padrão (`--is_save` desligado); o estado não usa embedding de usuário.
+  os demais usuários (até 5.765) têm 9,45 M linhas com esses itens (base da avaliação off-policy, `ope_dados.py`).
+- As políticas não são salvas por padrão (`--is_save` desligado); o estado não usa embedding de usuário. Os checkpoints
+  da época 200 (`CK_*`, `roda_ckpt.sh`) ficam na 4090, em `saved_models/KuaiEnv-v0/A2C_with_emb/`.
 - FB: o bloco de N + 1 itens vale só entre as trajetórias em ciclo puro, não para a média de itens distintos.
 - Ruído do Length na regra N4: `MOPO-tmax` e SB0 são a mesma configuração a menos de 0,0005 por passo; com 5 sementes
   diferiam em 2,9 passos (18,8 × 15,9), com 10 empatam (17,6 × 17,2) e a diferença inverte nas sementes 5–9
@@ -169,6 +176,10 @@ por que a escala da recompensa no estado reduz a cobertura (hipótese: estado me
 | `tmax.patch`, `roda_tmax.sh` | Controle da varredura: MOPO com o `train_max` do DORL (`TMAX_LAMBDA=5`; `TM_MOPO_{N4,E6}_s*`) e, opcional, SB0 com o do MOPO (`TM_SB0_*`); nas tabelas, `MOPO-tmax` e `SB0-tmin` |
 | `bolha.py` | Bolha por trajetória sob NX_10 (variedade e Gini-Simpson relativos às janelas de 10 itens do usuário no big_matrix) |
 | `figuras.py` | Refaz `docs/figuras/` a partir de `results/` |
+| `ope.py`, `ope_contexto.py` | Avaliação off-policy por passo (IPS, SNIPS, DM, DR) e validações semi-sintéticas, com π_β conhecida e dependente do contexto → `results/ope/ope_validacao.txt`, `ope_contexto.txt` |
+| `ope_dados.py` | Log real do OPE: sessões dos usuários fora da avaliação com itens do small_matrix (9,45 M passos) e π_β por contagens → `results/ope/ope_dados.txt` (`ope_log.npz`, 206 MB, não versionado) |
+| `roda_ckpt.sh` | Retreino de MBPO/MOPO/DORL/DORL-const com checkpoint (`CK_*_s*`), conferido contra os logs originais; mantém só a época 200 |
+| `ope_politicas.py`, `ope_compara.py` | Aplica os checkpoints ao log real (SNIPS com IC por *bootstrap*, ESS, concentração da exposição) e cruza com o simulador → `results/ope/` |
 | `tests/` | Testes de fidelidade contra cópias literais do código do DORL (ver `tests/README.md`) |
 | `results/` | Logs, tabelas e saídas exportadas da 4090; índice em `results/README.md` |
 | `docs/` | Contexto do TCC, registro de experimentos e figuras |

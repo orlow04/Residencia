@@ -1,8 +1,8 @@
 # Síntese dos experimentos: afirmação × sinal × evidência × força
 
-Estado em 11/11/2026. Versão para artigo (LaTeX, `booktabs`): `docs/tabelas/sintese.tex`.
+Estado em 17/11/2026. Versão para artigo (LaTeX, `booktabs`): `docs/tabelas/sintese.tex`.
 Cada número vem de um arquivo em `results/`, indicado na coluna de evidência ou no registro da etapa
-(`docs/experimentos_semana8.md`, `docs/semana9.md`). Comparações entre métodos: média ± dp entre 5 sementes; uma
+(`docs/experimentos_semana8.md`, `docs/semana9.md`, `docs/semana10.md`, `docs/off_policy.md`). Comparações entre métodos: média ± dp entre 5 sementes; uma
 diferença conta quando supera o maior dp entre sementes dos dois métodos.
 
 **Sinal** (eixos da pergunta orientadora): T = sinal de treino (r̂, P_U, P_E); S = regra do simulador (regra de saída);
@@ -10,7 +10,7 @@ M = métrica ou protocolo de avaliação.
 
 **Controle** que produziu a evidência: (a) desvio entre sementes; (b) referência sem sinal (política aleatória);
 (c) ablação por constante; (d) variação da regra de saída ou do protocolo; (e) concentração medida em vários níveis;
-(f) referência empírica (comportamento real no big_matrix).
+(f) referência empírica (comportamento real no big_matrix); (g) avaliação off-policy no log real, sem simulador.
 
 **Força**: *Reproduzida* (diferença acima do dp, na direção do artigo); *Condicional* (reproduzida só sob uma
 condição do simulador); *Dentro do ruído* (diferença menor que o dp); *Não sustentada* (o efeito aparece sem o
@@ -39,6 +39,7 @@ mecanismo alegado); *Invertida* (outro nível ou protocolo dá a ordem oposta); 
 | B5 | O comportamento é decidido pela razão entre o *survival bonus* e a variação do r̂ | T, S | c, d | Bônus implícito do MBPO 0,45 → 0,04 no E5, e o MBPO passa a escolher itens. Varredura do bônus (b = 0 a 8,35; na regra N4, 10 sementes por ponto): na regra N4, o Length só sobe com doses grandes (bônus zero 17,4; b = 1 e 2 dentro do dp; b = 4: 19,9; 8,35: 23,6), e o FB encurta em todos os passos da dose (27,4 → 25,4 → 23,0 → 19,6 → 14,7; ciclo puro 0,70 → 0,15 → 0,05 com 5 sementes); na saída calibrada, a cobertura cai de forma monótona (24,3% → 9,9% → 2,5%) sem ganho de Length. Ressalva: com bônus zero e a normalização de estado do DORL, a cobertura já cai (E6: 50,2% → 24,3%; N4: 11,2% → 6,1%), então 54–65% da queda MOPO → DORL-const não é do bônus. Controle nos dois sentidos: o MOPO só com essa normalização reproduz a queda (E6: 22,8%; N4: 5,6%), e b = 0 com a normalização do MOPO volta à cobertura do MOPO (E6: 48,0%) (semana 10, etapa 4) | Verificada para o FB (dose-resposta em todos os passos) e para o Length com b ≥ 4 (b = 4 por margem pequena); para a cobertura, dois fatores, ambos verificados (bônus; escala da recompensa no estado, nos dois sentidos) |
 | B6 | A concentração depende do nível medido | M | b, e | MCD (categorias) × cobertura (itens) dão ordens opostas; nenhum método forma bolha individual: V 9,2–11,4 contra 8,02 do usuário e 8,88 do acaso (bolha, etapa 8) | Verificada |
 | B7 | A repetição permitida no FB infla a concentração e não segue a popularidade, ao contrário da revisita real | S, M | e, f | As 18 variantes repetem 6,7–74,3% dos passos FB, contra 3,4% nas sessões reais de 10–30 itens. Cobertura com e sem repetições: MBPO 3,9% / 6,6%, MBPO-N1 6,5% / 16,9%, DORL-E6 0,9% / 2,3%. Revisitas reais vão ao top 10% de popularidade 2× mais que as visualizações (20,3% contra 10,6%); nas políticas, passos repetidos ≈ passos em geral (MBPO 17,3% contra 17,8%), abaixo dos 30,6% do acaso (semana 10, revisitas) | Verificada (dp de popularidade grande) |
+| B8 | Fora do simulador, as políticas concentram a exposição em poucos itens e valem menos por passo que a política de registro; a ordem dos métodos não é identificável | S, M | a, g | 20 políticas (época 200) aplicadas a 9,45 M passos reais de usuários fora da avaliação; SNIPS com π_β por contagens, escolhido em validação semi-sintética. 95% da exposição em 2–16 dos 3.327 itens; Gini 0,997–1,000 contra 0,244 da política de registro. SNIPS abaixo da política de registro (0,881) em 17 de 20, com IC95 inteiro abaixo em 15. Maior diferença entre médias de métodos 0,29, contra dp entre sementes de 0,27–0,63; ESS 215–2.911 (`docs/off_policy.md`) | Verificada (concentração; valor abaixo do registro na maioria das sementes); ordem dos métodos não identificável |
 
 ## Notas
 
@@ -46,4 +47,6 @@ mecanismo alegado); *Invertida* (outro nível ou protocolo dá a ordem oposta); 
   recompensa no estado de treino (`run_Policy_Main.py:250`); a causa da queda de cobertura com bônus zero foi testada em 16/11 (`MOPO-tmax`): é essa normalização.
 - Semana 10 concluída: bandits com 5 sementes (A5, 13/11); revisitas (B7, 11/11); janela corrigida para
   MOPO e DORL-const (A1, A3, B3, B5; 12/11).
+- Avaliação off-policy (B8, 16/11; no `main` desde 17/11): o valor é por passo (a duração da sessão não é estimada), e
+  a política é aplicada sem a máscara de itens já vistos; o IC95 cobre só a amostragem de usuários (`docs/off_policy.md`).
 - Uma calibração da saída probabilística, um conjunto de dados (KuaiRec), λ₁ e λ₂ fixos nos valores do artigo.
