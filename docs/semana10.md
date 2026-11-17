@@ -64,7 +64,7 @@ A e B rodaram no Mac; C, na 4090.
 Small_matrix: 32,4% das células têm watch_ratio > 1, e 20,5% da recompensa de avaliação vem da parte acima de 1.
 
 Entre os usuários de avaliação, 11,8% das linhas repetem um par; 56% dessas repetições são duplicatas exatas. Sem as
-duplicatas, sobram 5,5% de repetições, 70% delas em outra sessão. O CLAUDE.md citava 62% de duplicatas, com outro
+duplicatas, sobram 5,5% de repetições, 70% delas em outra sessão. Uma versão anterior das notas citava 62% de duplicatas, com outro
 denominador. O número deste script é o que vale.
 
 **Resultado C** (FB; média ± dp entre 5 sementes; `results/revisitas/revisitas_resumo.csv`). Taxa de base da

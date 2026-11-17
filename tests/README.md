@@ -22,61 +22,19 @@ Requisitos: numpy, pandas, scipy e scikit-learn (o venv do DORL já tem).
 | `test_tmax.py` | `tmax.patch` aplicado ao `run_Policy_Main.py` | `MAX_R − MIN_R` de `simulated_env.py:81–82` com o `entropy_min/max` de `prepare_envs`: intacto sem `TMAX_LAMBDA`; com a variável, igual ao `train_max` da execução com o outro `lambda_entropy`, nos dois sentidos; o patch só acrescenta linhas |
 | `test_e5.py` | `e5_alvo.patch` aplicado ao `KuaiEnv.py` | o `KuaiEnv.get_df_kuairec` original, **com os dados reais** (o carregador lê categorias e características): idêntico sem `E5_RAW_WR`; com a variável, só o alvo muda |
 
-## Como rodar (da raiz deste repositório)
+## Como rodar
+
+Da raiz do repositório, com o `dorl-workspace` criado pelo `setup.sh`:
 
 ```bash
-python make_synthetic_kuairec.py --out /tmp/synth --n_users 500 --n_items 120 \
-    --small_items 100 --small_users 50 --per_user 80
-python tests/prepara_dados_teste.py /tmp/synth /tmp/rtest
-
-python tests/test_ref.py    "$PWD/diagnostico_pe.py"     /tmp/synth
-python tests/test_evmat.py  "$PWD/r_hat_vs_avaliacao.py" /tmp/rtest
-python tests/test_random.py "$PWD/politica_aleatoria.py" /tmp/rtest /tmp/rtest/dom.pickle
-
-# patch: compara o arquivo original (do git) com o arquivo já alterado
-git -C dorl-workspace/DORL-codes show HEAD:src/core/worldModel/simulated_env.py > /tmp/simenv_orig.py
-python tests/test_patch.py /tmp/simenv_orig.py \
-    dorl-workspace/DORL-codes/src/core/worldModel/simulated_env.py /tmp/synth /tmp/pe_log_teste.csv
-
-# trajetórias: original (do git) × cópia com o traj_log.patch
-git -C dorl-workspace/DORL-codes show HEAD:src/core/evaluation/evaluator.py > /tmp/eval_orig.py
-cp /tmp/eval_orig.py /tmp/eval_patch.py && patch -s /tmp/eval_patch.py traj_log.patch
-python tests/test_traj.py /tmp/eval_orig.py /tmp/eval_patch.py dorl-workspace/DORL-codes/src/tianshou /tmp/traj_teste.csv
-
-# bolha: V, D e janelas do usuário contra a definição item a item
-python tests/test_bolha.py "$PWD/bolha.py"
-
-# critérios além da acurácia; mecanismo da diversidade e FB
-python tests/test_alem.py "$PWD/alem_da_acuracia.py"
-python tests/test_mecanismo.py "$PWD/mecanismo_bolha.py" "$PWD/fb_rotacao.py"
-
-# avaliação off-policy (branch off-policy)
-python tests/test_ope.py "$PWD/ope.py"
-python tests/test_ope_politicas.py "$PWD/ope_politicas.py" "$PWD/dorl-workspace/DORL-codes"
-
-python tests/test_sessoes.py "$PWD/sessoes_reais.py"
-
-# A5: regra de saída original (do git) × cópia com o a5_janela.patch (de dorl-workspace/DORL-codes)
-(cd dorl-workspace/DORL-codes && git show HEAD:environments/KuaiRec/env/KuaiEnv.py > /tmp/kuai_orig.py \
-  && cp /tmp/kuai_orig.py /tmp/kuai_a5.py && patch -s /tmp/kuai_a5.py ../../a5_janela.patch \
-  && python ../../tests/test_a5.py /tmp/kuai_orig.py /tmp/kuai_a5.py)
-
-# E6: mesma estrutura do A5, com o e6_saida_prob.patch (testar também com os três patches aplicados juntos)
-(cd dorl-workspace/DORL-codes && cp /tmp/kuai_orig.py /tmp/kuai_e6.py && patch -s /tmp/kuai_e6.py ../../e6_saida_prob.patch \
-  && python ../../tests/test_e6.py /tmp/kuai_orig.py /tmp/kuai_e6.py)
-
-# tmax.patch (controle do train_max)
-(cd dorl-workspace/DORL-codes && git show HEAD:run_Policy_Main.py > /tmp/rpm_orig.py \
-  && cp /tmp/rpm_orig.py /tmp/rpm_tmax.py && patch -s /tmp/rpm_tmax.py ../../tmax.patch \
-  && python ../../tests/test_tmax.py /tmp/rpm_orig.py /tmp/rpm_tmax.py)
-
-# E5: carregador original (do git) × cópia com o e5_alvo.patch, nos dados reais (de dorl-workspace/DORL-codes)
-# Rode duas vezes se video_duration_normed.csv ainda não existir: a primeira chamada cria esse cache e a
-# duração lida do CSV difere da calculada em memória no último dígito.
-cd dorl-workspace/DORL-codes
-git show HEAD:environments/KuaiRec/env/KuaiEnv.py > /tmp/kuai_orig.py
-cp /tmp/kuai_orig.py /tmp/kuai_patch.py && patch -s /tmp/kuai_patch.py ../../e5_alvo.patch
-python ../../tests/test_e5.py /tmp/kuai_orig.py /tmp/kuai_patch.py environments/KuaiRec/data
+bash tests/roda_testes.sh
 ```
 
-Cada teste imprime uma linha começando com `OK:` ou falha com `AssertionError`.
+O script gera os dados sintéticos numa pasta temporária e lê os arquivos originais do DORL-codes do git, de modo que
+o estado dos patches no `dorl-workspace` não importa. Para cada patch, compara o original com uma cópia com o patch
+aplicado; os três patches do `KuaiEnv.py` (E5, A5 e E6) também são testados juntos. O `test_e5` exige os dados
+reais em `dorl-workspace/DORL-codes/environments/KuaiRec/data` e é pulado sem eles. Cada teste imprime uma linha
+começando com `OK:` ou falha com `AssertionError`; o script termina com `TODOS OS TESTES PASSARAM` ou com a lista
+dos que falharam. Os comandos de cada teste, para rodar um a um, estão no próprio `roda_testes.sh`.
+
+Última execução: 17/11/2026, no Mac, 16 de 16 testes passaram (~35 s).

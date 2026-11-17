@@ -6,3 +6,6 @@ __pycache__/
 
 # Artigos e relatórios de terceiros (direitos autorais): só locais
 papers/
+
+# Instruções locais do assistente (Claude Code); não fazem parte dos experimentos
+CLAUDE.md

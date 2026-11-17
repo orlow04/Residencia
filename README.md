@@ -1,235 +1,172 @@
-# Passo 1 — Pipeline do DORL com versões congeladas (KuaiRec)
+# Auditoria da avaliação do DORL no KuaiRec
 
-Objetivo deste passo: sair com (1) ambiente reprodutível, (2) dados do KuaiRec validados contra a
-Tabela 1 e (3) a primeira métrica da Tabela 2 (MBPO no KuaiRec), mais os baselines UCB e ε-greedy.
+Repositório do TCC de Gabriel Orlow de Oliveira Sene (Bacharelado em Inteligência Artificial, UFG, formato
+Residência, 2026). O trabalho reproduz o DORL (Gao et al., SIGIR '23) no KuaiRec e examina quais sinais decidem o
+resultado da avaliação de um sistema de recomendação baseado em reforço (RLRS).
 
-| Arquivo | Para que serve |
+**Pergunta orientadora:** quais sinais usados são influentes para avaliar um sistema de recomendação baseado em
+reforço? Ela é decomposta em sinais de treino (a predição do modelo de usuário r̂, a penalidade de incerteza P_U e o
+termo de entropia P_E), regras do simulador (a regra de saída do usuário simulado) e métricas e protocolos de
+avaliação.
+
+## Resultados principais
+
+Critério em todo o trabalho: média ± dp entre sementes; uma diferença conta quando supera o maior dp entre sementes
+dos dois métodos. A síntese completa, com a força de cada evidência, está em [`docs/sintese.md`](docs/sintese.md).
+
+1. **A vantagem do DORL é de duração da sessão, não de recompensa por passo.** Ela depende da regra de saída
+   determinística: some com a saída calibrada nas sessões reais e se inverte quando o comprimento da sessão é fixado.
+2. **O ganho do DORL vem de um *survival bonus*,** o bônus fixo por passo que o termo de entropia soma à recompensa,
+   e não da variação do termo: o DORL com o termo constante (DORL-const) reproduz o DORL.
+3. **A comparação DORL × MOPO mistura três fatores:** a variação do termo de entropia (sem efeito), o *survival
+   bonus* e a escala da recompensa no estado da política (`train_max`), que muda junto com o peso da entropia.
+4. **A concentração depende do nível medido.** Pela métrica do artigo (categorias dominantes), os métodos de RL
+   parecem menos concentrados que o acaso; pela cobertura de itens, DORL e DORL-const são os mais concentrados. No
+   log real (avaliação off-policy), todas as políticas põem 95% da exposição em 2 a 16 itens.
+5. **Os métodos de RL ficam abaixo do acaso em recompensa por passo** nos três protocolos da regra original, e os
+   bandits ficam abaixo da política aleatória em recompensa por trajetória e em duração.
+6. **Cinco sementes não bastam para diferenças pequenas:** uma diferença de ~3 passos de comprimento entre duas
+   configurações equivalentes desapareceu com 10 sementes.
+
+Os números de cada item estão em [`docs/resultados_semana10.md`](docs/resultados_semana10.md) e nos registros
+semanais listados abaixo.
+
+## Como conferir
+
+1. **Ler.** Cada número dos documentos em `docs/` aponta para um arquivo em `results/` (índice em
+   [`results/README.md`](results/README.md)). Os logs de todas as execuções, inclusive as descartadas, estão em
+   `results/logs/`.
+2. **Recalcular em CPU, sem GPU e sem os dados** (precisa de numpy, pandas e scipy; ~15 s):
+   ```bash
+   python verifica_resultados.py
+   ```
+   Refaz, a partir dos logs, os resumos entre sementes, os resumos no formato da Tabela 2 e a comparação OPE ×
+   simulador, e compara com os arquivos commitados. Com o ambiente instalado (`setup.sh`), os testes de fidelidade
+   conferem os scripts e os patches contra cópias literais do código do DORL (~1 min):
+   ```bash
+   bash tests/roda_testes.sh
+   ```
+3. **Refazer do zero, com GPU:** [`docs/reproducao.md`](docs/reproducao.md) (ambiente, dados, modelo de usuário e
+   cada experimento).
+
+## Base experimental
+
+| Item | Valor |
 |---|---|
-| `setup.sh` | Clona o DORL-codes (commit `818c9bd`) e o fork do tianshou (`0f59e38`), cria o ambiente Python 3.10 e grava `versions.txt` |
-| `requirements.txt` | Versões fixadas e o motivo de cada uma |
-| `smoke_test.sh` + `make_synthetic_kuairec.py` | Roda a pipeline inteira com dados sintéticos em ~2 min, sem baixar nada |
-| `validate_kuairec.py` | Confere usuários, itens, interações e categorias contra a Tabela 1 e grava os SHA-256 dos dados |
-| `table2_from_log.py` | Resume um log no formato da Tabela 2, com a mesma agregação do script dos autores |
-| `diagnostico_pe.py`, `r_hat_vs_avaliacao.py`, `politica_aleatoria.py` | Análises S1, S2 e S3, em CPU e sem treino (seção 7) |
-| `pe_log.patch`, `analisa_pe_log.py`, `verifica_E2.sh` | Registro do P_E no treino (P) e DORL com P_E constante (E2) (seção 8) |
-| `e1_protocolos.py` | E1: agregação entre sementes, posições e inversões por protocolo (seção 9) |
-| `exporta_resultados.sh`, `figuras.py` | Copiam da 4090 para `results/` o que entra no repositório; geram `docs/figuras/` (seção 10) |
-| `tests/` | Testes de fidelidade dos scripts contra cópias literais do código do DORL (`tests/README.md`) |
+| Artigo | Gao et al., SIGIR '23 (DORL) |
+| Código | `chongminggao/DORL-codes` no commit `818c9bd`; fork do tianshou no commit `0f59e38`. Clonados pelo `setup.sh`; não são versionados aqui |
+| Dados | KuaiRec (Zenodo, registro 18164998; SHA-256 em `results/KuaiRec.zip.sha256`). Treino no big_matrix (12.530.806 interações); avaliação no small_matrix (1.411 usuários × 3.327 itens, totalmente observado) |
+| Hardware | RTX 4090 (treino das políticas, ~45–50 min por semente) e MacBook M3 Pro (análises em CPU) |
+| Argumentos | Tirados dos logs dos autores, não do README do DORL: `--num_leave_compute 4 --leave_threshold 0 --which_tracker avg --reward_handle cat --window_size 3 --read_message pointneg` |
+| Sementes | 0–4 por método; 0–9 na varredura do *survival bonus* na regra original |
 
-O que já foi verificado (20/10/2026, CPU, sem GPU):
-- `setup.sh` + `smoke_test.sh` rodam de ponta a ponta numa pasta limpa: pré-processamento,
-  modelo de usuário, DORL, UCB e ε-greedy.
-- `table2_from_log.py` aplicado aos **logs originais dos autores** (`results_for_paper/results_all`)
-  reproduz **exatamente** os 40 valores da Tabela 2 (5 métodos × 4 métricas × 2 datasets).
+| Método | `--lambda_variance` (λ₁) | `--lambda_entropy` (λ₂) | O que é |
+|---|---|---|---|
+| MBPO | 0 | 0 | Sem penalidades |
+| MOPO | 0.05 | 0 | Penalidade de incerteza |
+| DORL | 0.05 | 5 | Incerteza e termo de entropia |
+| DORL-const | 0.05 | 5 | DORL com o P_E constante (`PE_CONST=1.9609`): só o *survival bonus* |
+| UCB, ε-greedy | — | — | Bandits do artigo |
+| Aleatória | — | — | Referência sem sinal (`politica_aleatoria.py`, reimplementação validada) |
 
-O que **não** foi verificado: execução com os dados reais e em GPU.
+Protocolos de avaliação do DORL: **FB** (repetição de itens permitida), **NX_0** (repetição proibida; o da Tabela 2)
+e **NX_10** (repetição proibida e sessão fixa em 10 passos). Métricas do artigo: R_tra (recompensa por trajetória),
+R_each (recompensa por passo), Length (comprimento da sessão) e MCD (fração dos itens em categorias dominantes).
+Métricas acrescentadas: cobertura de itens, Gini da exposição, personalização, variedade por usuário (bolha) e
+repetição.
 
----
+## Experimentos
 
-## 1. Ambiente
+| Id | Pergunta | Scripts | Resultados | Registro |
+|---|---|---|---|---|
+| R | As afirmações da Tabela 2 se mantêm entre sementes? | `table2_from_log.py`, `e1_protocolos.py` | `results/table2/`, `results/e1/` | `docs/experimentos_semana8.md` |
+| S1 | Quanto do P_E é sinal e quanto é preenchimento? | `diagnostico_pe.py` | `results/analises/pe_diag.json` | idem |
+| S2 | O r̂ prevê a recompensa de avaliação? | `r_hat_vs_avaliacao.py` | `results/analises/rhat_aval.json` | idem |
+| S3 | Quanto vale cada métrica sem nenhum sinal? | `politica_aleatoria.py` | `results/e1/aleatoria.json` | idem |
+| E1 | A ordem dos métodos depende do protocolo? | `e1_protocolos.py` | `results/e1/` | idem |
+| P | Que valores o P_E assume no treino? | `pe_log.patch`, `analisa_pe_log.py` | `results/pe/` | idem |
+| E2 | O ganho do DORL vem da variação do P_E ou do seu valor médio? | `pe_log.patch` (`PE_CONST`), `verifica_E2.sh` | `results/e1/`, `results/pe/verifica_E2.txt` | idem |
+| Traj | Registro das trajetórias de avaliação | `traj_log.patch`, `roda_trajetorias.sh`, `verifica_traj.sh` | `results/trajetorias/` | `docs/semana9.md`, etapa 2 |
+| Bolha | As políticas formam bolha por usuário? | `bolha.py` | `results/bolha/` | etapa 3 |
+| E5 | E com o modelo de usuário treinado no sinal da avaliação? | `e5_alvo.patch`, `roda_e5.sh` | `results/e5/` | etapa 4 |
+| E3, A5 | Quanto o resultado depende do N e da janela da regra de saída? | `roda_e3.sh`, `a5_janela.patch`, `roda_a5.sh` | `results/e3/`, `results/a5/` | etapas 5 e 6; `docs/semana10.md`, etapa 2 |
+| Mecanismo | De onde vêm o ciclo no FB e a diversidade? | `fb_rotacao.py`, `mecanismo_bolha.py` | `results/fb/`, `results/mecanismo/` | etapa 7 |
+| Além | Critérios além dos do artigo mudam a leitura? | `alem_da_acuracia.py` | `results/alem/` | etapa 8 |
+| Sessões | A regra de saída corresponde às sessões reais? | `sessoes_reais.py` | `results/sessoes/` | etapa 9 |
+| E6 | O que sobrevive a uma saída calibrada nas sessões reais? | `e6_saida_prob.patch`, `roda_e6.sh` | `results/e6/` | etapa 10 |
+| Revisitas | Como a repetição real se compara à das políticas? | `revisitas.py` | `results/revisitas/` | `docs/semana10.md`, etapa 1 |
+| Bandits | Os resultados dos bandits se mantêm com 5 sementes? | `roda_bandits.sh` | `results/e1/` | etapa 3 |
+| SB, S10 | O efeito do *survival bonus* cresce com o seu tamanho? | `roda_bonus.sh` | `results/sb/`, `results/s10/` | etapa 4 |
+| TM | A escala da recompensa no estado muda a concentração? | `tmax.patch`, `roda_tmax.sh` | `results/tmax/`, `results/s10/` | etapa 4 |
+| OPE | Fora do simulador, as conclusões se mantêm? | `roda_ckpt.sh`, `ope*.py` | `results/ope/` | `docs/off_policy.md` |
+| Protocolo | Como avaliar um RLRS a partir desses achados? | — | — | `docs/protocolo_avaliacao.md`, `docs/sintese.md` |
 
-Rode todos os comandos a partir desta pasta (`dorl_passo1/`).
+## Mapa do repositório
 
-```bash
-bash setup.sh dorl-workspace
-source dorl-workspace/.venv/bin/activate
-```
+**Documentos (`docs/`), em ordem de leitura sugerida**
 
-No fim, o script testa a GPU. O `torch==1.13.1` do PyPI vem com CUDA 11.7 e exige driver NVIDIA ≥ 515.
-**Se a GPU for de geração recente** (RTX 40xx, H100 ou RTX 50xx), confira a mensagem do teste: o
-torch 1.13 pode não ter suporte a ela. Nesse caso, me diga o modelo da GPU antes de trocar versões.
+| Arquivo | Conteúdo |
+|---|---|
+| `sintese.md`, `tabelas/sintese.tex` | Afirmações do artigo e achados deste trabalho: sinal examinado, controle, evidência e força |
+| `resultados_semana10.md` | Números da última semana: E6, janela corrigida, bandits, repetição, *survival bonus*, `train_max`, OPE |
+| `experimentos_semana8.md` | Semana 8: reprodução, S1–S3, E1, P e E2 |
+| `semana9.md` | Semana 9: trajetórias, bolha, E5, E3/A5, mecanismo, critérios além do artigo, sessões reais e E6 |
+| `semana10.md` | Semana 10: revisitas, janela corrigida para MOPO e DORL-const, bandits, *survival bonus* e `train_max` |
+| `off_policy.md`, `off_policy_leitura.md` | Avaliação off-policy no log real; guia de leitura dos estimadores |
+| `protocolo_avaliacao.md` | Protocolo de avaliação de RLRS: objetivos O1–O6 e controles (a)–(g) |
+| `contexto_tcc.md` | Histórico, decisões e detalhes do DORL verificados no código |
+| `reproducao.md` | Reprodução passo a passo |
+| `figuras/` | Gráficos, refeitos por `figuras.py` a partir de `results/` |
 
-## 2. Teste de fumaça (antes dos dados reais)
+**Código**
 
-```bash
-bash smoke_test.sh dorl-workspace
-```
+| Grupo | Arquivos |
+|---|---|
+| Ambiente e dados | `setup.sh`, `requirements.txt`, `requirements-macos.txt`, `smoke_test.sh`, `make_synthetic_kuairec.py`, `validate_kuairec.py` |
+| Patches no DORL-codes, cada um inerte sem a sua variável de ambiente | `pe_log.patch`, `traj_log.patch`, `e5_alvo.patch`, `a5_janela.patch`, `e6_saida_prob.patch`, `tmax.patch` |
+| Execuções na GPU | `roda_trajetorias.sh`, `roda_e3.sh`, `roda_e5.sh`, `roda_a5.sh`, `roda_e6.sh`, `roda_bandits.sh`, `roda_bonus.sh`, `roda_tmax.sh`, `roda_ckpt.sh`; conferências `verifica_E2.sh` e `verifica_traj.sh`; exportação `exporta_resultados.sh` |
+| Agregação dos logs | `table2_from_log.py` (reproduz os 40 valores da Tabela 2 a partir dos logs dos autores), `e1_protocolos.py` |
+| Análises em CPU | `diagnostico_pe.py`, `r_hat_vs_avaliacao.py`, `politica_aleatoria.py`, `analisa_pe_log.py`, `bolha.py`, `alem_da_acuracia.py`, `mecanismo_bolha.py`, `fb_rotacao.py`, `sessoes_reais.py`, `revisitas.py`, `figuras.py` |
+| Avaliação off-policy | `ope.py`, `ope_contexto.py`, `ope_dados.py`, `ope_politicas.py`, `ope_compara.py` |
+| Verificação | `verifica_resultados.py`, `tests/` (ver `tests/README.md`) |
 
-Deve terminar com `TESTE DE FUMAÇA CONCLUÍDO`. O script apaga os dados sintéticos e os caches no
-final; os ambientes gravam caches na pasta de dados e, se ficassem, contaminariam a execução real.
+Cada script tem, no cabeçalho, o que faz, o uso e as opções.
 
-## 3. Dados reais do KuaiRec (fonte oficial, sem depender do servidor dos autores)
+## O que fica fora do repositório
 
-```bash
-cd dorl-workspace
-wget https://zenodo.org/records/18164998/files/KuaiRec.zip
-sha256sum KuaiRec.zip > KuaiRec.zip.sha256
-unzip KuaiRec.zip -d kuairec_raw
-mkdir -p DORL-codes/environments/KuaiRec/data
-for f in big_matrix.csv small_matrix.csv user_features.csv item_categories.csv; do
-  cp "$(find kuairec_raw -name "$f" | head -1)" DORL-codes/environments/KuaiRec/data/
-done
-
-cd DORL-codes
-python preprocessing_kuairec.py
-python ../../validate_kuairec.py --data environments/KuaiRec/data --out ../kuairec_validation.json
-```
-
-**Critério para seguir:** a validação precisa terminar com `TODOS OS CAMPOS CONFEREM`. Se algum campo
-divergir, pare e investigue; a divergência é um achado, não um detalhe.
-
-## 4. Primeira reprodução: MBPO, UCB e ε-greedy no KuaiRec
-
-As configurações abaixo foram tiradas dos **logs originais** dos autores, não do README do repositório.
-Há uma diferença importante: o README usa `--num_leave_compute 1` para as políticas de RL, mas os logs
-que geraram a Tabela 2 usam **`4`** para todos os métodos (que corresponde ao N = 4 do artigo). Os logs
-também mostram a semente usada: **2** para MBPO, MOPO e DORL no KuaiRec, e **0** para os bandits.
-
-```bash
-# 4.1 Modelo de usuário (DeepFM em ensemble), comando do README
-python run_worldModel_ensemble.py --env KuaiEnv-v0 --cuda 0 --epoch 5 --loss pointneg --message pointneg
-
-# 4.2 Cronometrar ANTES da execução longa: 2 épocas
-time python run_Policy_Main.py --env KuaiEnv-v0 --seed 2 --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
-  --which_tracker avg --reward_handle cat --lambda_variance 0 --lambda_entropy 0 --window_size 3 \
-  --read_message pointneg --message MBPO-timing --epoch 2
-
-# 4.3 Execução completa (200 épocas), em segundo plano
-nohup python run_Policy_Main.py --env KuaiEnv-v0 --seed 2 --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
-  --which_tracker avg --reward_handle cat --lambda_variance 0 --lambda_entropy 0 --window_size 3 \
-  --read_message pointneg --message MBPO_s2 > mbpo_s2.out 2>&1 &
-
-# 4.4 Baselines (independentes do modelo de usuário acima; podem rodar em paralelo)
-nohup python run_linUCB.py --env KuaiEnv-v0 --num_leave_compute 4 --leave_threshold 0 --epoch 200 --seed 0 \
-  --cuda 0 --loss pointneg --message UCB > ucb.out 2>&1 &
-nohup python run_epsilongreedy.py --env KuaiEnv-v0 --num_leave_compute 4 --leave_threshold 0 --epoch 200 --seed 0 \
-  --cuda 0 --loss pointneg --message epsilon-greedy > eps.out 2>&1 &
-```
-
-**Não altere** `--training-num`, `--test-num` nem `--episode-per-collect`. Valores diferentes dos
-padrões (100) quebram o coletor do tianshou com `AssertionError`.
-
-## 5. Comparar com a Tabela 2
-
-```bash
-python ../../table2_from_log.py "saved_models/KuaiEnv-v0/A2C_with_emb/logs/[MBPO_s2]_"*.log \
-  --dataset KuaiRec --method MBPO --all-protocols
-python ../../table2_from_log.py "saved_models/KuaiEnv-v0/LinUCB/logs/[UCB]_"*.log --dataset KuaiRec --method UCB
-python ../../table2_from_log.py "saved_models/KuaiEnv-v0/EpsilonGreedy/logs/[epsilon-greedy]_"*.log \
-  --dataset KuaiRec --method epsilon-greedy
-```
-
-Como ler a saída:
-- O `±` do artigo é a dispersão **entre épocas de uma execução**, não entre sementes. "Dentro de um
-  desvio" é um critério frouxo; registre também a diferença bruta.
-- Os nomes dos logs originais terminam em `_s2` e `_s4`, o que sugere que os autores rodaram várias
-  sementes e reportaram uma. Isso é hipótese, não fato verificado. Por isso, depois da semente 2,
-  rode as sementes 0, 1, 3 e 4 e reporte a média entre sementes.
-- `--all-protocols` imprime também FB e NX_10. Não são da Tabela 2, mas são os dados do experimento
-  de inversão por protocolo; guarde todos os logs em `saved_models/`.
-
-## 6. DORL (e MOPO) no KuaiRec
-
-Configuração tirada do log original dos autores (`results_for_paper/results_all/kuairec/[DORL]_*.log`).
-O DORL usa os **mesmos** argumentos do MBPO; mudam só as duas penalidades:
-
-| Método | `--lambda_variance` | `--lambda_entropy` |
+| Item | Onde fica | Registro aqui |
 |---|---|---|
-| MBPO | 0 | 0 |
-| MOPO | 0.05 | 0 |
-| DORL | 0.05 | 5 |
+| Código do DORL e do tianshou | Clonado pelo `setup.sh` | `results/ambiente/dorl_commit.txt`, `dorl_codes_diff.patch` |
+| Dados do KuaiRec | Zenodo | `results/KuaiRec.zip.sha256`, `results/kuairec_validation.json` |
+| Matrizes do modelo de usuário (~38 MB cada) | RTX 4090 | `results/ambiente/mats.sha256` |
+| Trajetórias de avaliação (CSV) | RTX 4090 | `results/trajetorias/*.ok` (SHA-256 de cada CSV conferido) |
+| Registro bruto do P_E (~2 GB) | RTX 4090 | `results/pe/pe_log_DORL_s2.sha256` |
+| Log do OPE (`ope_log.npz`, 206 MB) e checkpoints das políticas | RTX 4090 | `results/ope/ope_dados.txt`; retreino conferido contra os logs originais (`roda_ckpt.sh`) |
 
-**Atenção:** o primeiro comando de DORL no README do repositório usa `--lambda_variance 0.01 --lambda_entropy 0.05`.
-Não é o que gerou a Tabela 2. O log dos autores e a lista de comandos mais abaixo no mesmo README usam `0.05` e `5`.
+## Cuidados na reprodução
 
-O modelo de usuário é o mesmo da seção 4.1 (`--read_message pointneg`); não precisa treinar de novo.
-No log dos autores, o DORL levou ~14% mais tempo que o MBPO; aqui, conte ~45–50 min por semente.
+- O primeiro comando de DORL no README do DORL usa `--lambda_variance 0.01 --lambda_entropy 0.05`; o que gerou a
+  Tabela 2 é `0.05` e `5`.
+- Não altere `--training-num`, `--test-num` nem `--episode-per-collect`: valores diferentes de 100 quebram o coletor
+  do tianshou.
+- O ± da Tabela 2 é a dispersão entre épocas de uma execução; os métodos são comparados pelo desvio entre sementes.
+- Há logs repetidos e incompletos. O `e1_protocolos.py` usa o log completo mais recente de cada semente e lista os
+  descartados; filtre os logs por semente com glob estrito (`[[]DORL_s[0-9][]]_*.log`).
+- O treino é determinístico (`DORL_pelog_s2` = `DORL_s2`): reexecutar uma semente reproduz o log.
+- O big_matrix tem pares usuário–vídeo duplicados (mesmo timestamp e watch_ratio); remova-os antes de contar
+  revisitas.
+- Os usuários de avaliação não têm interação com os itens do small_matrix no big_matrix; a avaliação off-policy usa
+  os demais usuários.
 
-```bash
-# DORL, 5 sementes em sequência (rode dentro de tmux ou com nohup bash -c '...' &)
-for s in 0 1 2 3 4; do
-  python run_Policy_Main.py --env KuaiEnv-v0 --seed $s --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
-    --which_tracker avg --reward_handle cat --lambda_variance 0.05 --lambda_entropy 5 --window_size 3 \
-    --read_message pointneg --message DORL_s$s > dorl_s$s.out 2>&1
-done
+## Limitações
 
-# Opcional: MOPO (só a penalidade de variância). Isola o efeito da penalidade de entropia,
-# que é a contribuição do DORL. Pode rodar em paralelo com o laço acima.
-for s in 0 1 2 3 4; do
-  python run_Policy_Main.py --env KuaiEnv-v0 --seed $s --cuda 0 --num_leave_compute 4 --leave_threshold 0 \
-    --which_tracker avg --reward_handle cat --lambda_variance 0.05 --lambda_entropy 0 --window_size 3 \
-    --read_message pointneg --message MOPO_s$s > mopo_s$s.out 2>&1
-done
-```
+- Um conjunto de dados (KuaiRec) e um simulador com regra de saída artesanal, sem usuários reais.
+- λ₁ e λ₂ fixos nos valores do artigo; uma única calibração da saída probabilística.
+- Cinco sementes na maioria das comparações; dez só na varredura do *survival bonus* na regra original.
+- A avaliação off-policy estima o valor por passo, sem a duração da sessão e sem a máscara de itens já vistos.
 
-Comparar com a Tabela 2:
+## Estado
 
-```bash
-for m in DORL MOPO; do
-  for f in saved_models/KuaiEnv-v0/A2C_with_emb/logs/[[]${m}_s[0-9][]]_*.log; do   # filtro estrito
-    python ../../table2_from_log.py "$f" --dataset KuaiRec --method $m --all-protocols
-  done
-done
-```
-
-O que esperar no KuaiRec (Tabela 2): o ganho do DORL sobre o MBPO está em **Length** (26.7 contra 15.6)
-e, por consequência, em **R_tra** (20.5 contra 12.0). R_each e MCD ficam praticamente iguais aos do MBPO
-(MCD 0.379 contra 0.362). Se a média entre sementes do DORL não ficar claramente acima do MBPO em
-Length e R_tra, a afirmação principal do artigo não se reproduziu aqui.
-
-Se uma semente foi interrompida e repetida, há mais de um log para ela. O `e1_protocolos.py` (seção 9)
-descarta os incompletos e os repetidos e lista quais usou; o laço acima não faz isso.
-
-## 7. Análises sem treino (S1, S2, S3), em CPU
-
-Rodam no Mac, de `dorl-workspace/DORL-codes`, com os dados da seção 3. S1 e S2 precisam das matrizes do
-modelo de usuário (`find saved_models -name "*_mat*.pickle"`; hash em `results/ambiente/mats.sha256`).
-
-```bash
-# S1: quanto do P_E é sinal e quanto é preenchimento
-python ../../diagnostico_pe.py --data environments/KuaiRec/data \
-  --matpre matPre.pickle --matvar matVar.pickle --out pe_diag.json
-# S2: o r_hat prevê a recompensa usada na avaliação?
-python ../../r_hat_vs_avaliacao.py --data environments/KuaiRec/data --matpre matPre.pickle --out rhat_aval.json
-# S3: política aleatória nos três protocolos (referência do E1)
-python ../../politica_aleatoria.py --data environments/KuaiRec/data \
-  --domination environments/KuaiRec/env/feature_domination.pickle --seeds 0 1 2 3 4 --out aleatoria.json
-```
-
-Saídas: `results/analises/pe_diag.json`, `results/analises/rhat_aval.json`, `results/e1/aleatoria.json`.
-
-## 8. Registro do P_E (P) e DORL com P_E constante (E2), na 4090
-
-O `pe_log.patch` altera só o `simulated_env.py`. Sem `PE_LOG` e `PE_CONST`, a recompensa é idêntica à
-original (`tests/test_patch.py`).
-
-```bash
-git apply ../../pe_log.patch        # em dorl-workspace/DORL-codes
-```
-
-Os comandos exatos estão em `results/pe/comandos_P_E2.md`. Em resumo: o DORL da semente 2 roda com
-`PE_LOG=pe_log_DORL_s2.csv`, o `analisa_pe_log.py` dá a constante (média do P_E na última fase,
-c = 1,9609), e as cinco sementes `DORLconst_s*` rodam com `PE_CONST=1.9609`.
-
-O `verifica_E2.sh` confirma a constante sem depender do histórico do shell. Como o treino é
-determinístico, ele repete 2 épocas por semente e compara com os logs (`results/pe/verifica_E2.txt`).
-Use um arquivo novo de `PE_LOG` a cada execução: o patch abre o arquivo em modo de acréscimo.
-
-## 9. E1: inversão por protocolo
-
-```bash
-L=saved_models/KuaiEnv-v0
-python ../../e1_protocolos.py \
-  "MBPO=$L/A2C_with_emb/logs/[[]MBPO_s[0-9][]]_*.log" \
-  "MOPO=$L/A2C_with_emb/logs/[[]MOPO_s[0-9][]]_*.log" \
-  "DORL=$L/A2C_with_emb/logs/[[]DORL_s[0-9][]]_*.log" \
-  "DORL-const=$L/A2C_with_emb/logs/[[]DORLconst_s[0-9][]]_*.log" \
-  "UCB=$L/LinUCB/logs/[[]UCB[]]_*.log" \
-  "eps-greedy=$L/EpsilonGreedy/logs/[[]epsilon-greedy[]]_*.log" \
-  --aleatoria aleatoria.json --out e1 > e1_saida.txt
-```
-
-O mesmo comando, apontando para `results/logs/`, reproduz `results/e1/e1_saida.txt` no Mac.
-
-## 10. Levar os resultados para o repositório
-
-Na 4090, na raiz do repositório e com o venv ativo, rode `bash exporta_resultados.sh`. Ele copia os logs,
-as saídas do E1 e o resumo do P_E, e grava o diff do DORL-codes, as versões do venv e os hashes das
-matrizes. Depois, em qualquer máquina, `python figuras.py` refaz `docs/figuras/` a partir de `results/`.
-O índice de `results/` está em `results/README.md`.
-
-## Registro para o apêndice técnico
-
-Está em `results/`: as versões do venv (`ambiente/versions_venv.txt`), o commit e o diff do DORL-codes,
-`KuaiRec.zip.sha256`, `kuairec_validation.json`, os logs, o tempo medido em 4.2 (`timing_4.2.txt`) e as
-saídas do `table2_from_log.py` (`table2/`). O `versions_INVALIDO.txt` fica só como histórico.
+Fase experimental encerrada em 17/11/2026. Pendentes nessa data: as sementes 5–9 com N = 8 e janela corrigida
+(`roda_a5.sh 8`), para DORL − MBPO e MOPO → DORL-const, e a exportação dos logs das execuções do `train_max` e das
+sementes 5–9, que ainda estavam só na 4090.

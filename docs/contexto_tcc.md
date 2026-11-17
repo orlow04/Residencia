@@ -1,6 +1,6 @@
 # Contexto do TCC — histórico, decisões e detalhes técnicos
 
-Atualizado em 29/10/2026 (semana 8, dia do gate). Complementa o `CLAUDE.md`.
+Atualizado em 29/10/2026 (semana 8, dia do gate). Complementa o `README.md`.
 
 ## 1. Trajetória da residência (do Termo de Aceite)
 
