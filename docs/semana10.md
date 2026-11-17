@@ -10,7 +10,7 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 | Band | Sementes 1–4 de UCB e ε-greedy (`roda_bandits.sh`) | Feito |
 | SB | Varredura do *survival bonus*: b ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`roda_bonus.sh`) | Feito |
 | TM | Controle da varredura: MOPO com o `train_max` do DORL (`tmax.patch`, `roda_tmax.sh`) | Feito (16/11) |
-| S10 | Sementes 5–9 na regra N4 (MOPO, MOPO-tmax, b = 0, 1, 2, 4, DORL-const) e controle inverso no E6 | Preparado, não rodado |
+| S10 | Sementes 5–9 na regra N4 (MOPO, MOPO-tmax, b = 0, 1, 2, 4, DORL-const) e controle inverso no E6 | Feito (17/11) |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -299,28 +299,28 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
    b = 1 e b = 2, o ganho é de +3,7 e +4,3 passos, acima do dp (2,7 e 2,4). Entre b = 1, 2 e 4 não há diferença
    (19,6 a 20,2). De b = 4 para 8,35, mais +4,2, acima do dp (2,7). O ganho de Length do MOPO para o DORL-const vem
    todo do bônus: a conclusão do E2 se mantém.
-   - **Ressalva (16/11, controle do `train_max`; `results/tmax/n4_resumo.csv`).** O MOPO-tmax é a mesma configuração
-     de b = 0, a menos de 0,0005 de recompensa por passo, e dá Length 18,8 ± 2,5 contra 15,9 ± 2,4. Duas
-     configurações equivalentes diferem em 2,9 passos, mais que o dp de cada uma. Logo, com 5 sementes, diferenças
-     de Length dessa ordem na regra N4 não são confiáveis, mesmo acima do dp.
-   - Contra o MOPO-tmax, as doses intermediárias não se distinguem do bônus zero (+0,8; +1,4; +1,0 para b = 1, 2 e
-     4). Só o bônus inteiro fica acima das duas referências (+8,1 contra b = 0; +5,2 contra o MOPO-tmax, dp 2,7).
-     O que se sustenta: o bônus de 8,35 aumenta o Length; a forma da curva entre 0 e 4 não está resolvida.
-   - A conclusão do E2 (DORL-const = DORL) não muda. Muda a parte do ganho MOPO → DORL-const (+8,4) atribuível
-     ao bônus: entre 5,2 e 8,1 passos, conforme a referência de bônus zero.
+   - **Revisto com 10 sementes (17/11; seção "Sementes 5–9" adiante).** Com 5 sementes, MOPO-tmax e b = 0, que
+     são a mesma configuração, diferiam em 2,9 passos. Com 10, empatam, e a diferença inverte o sinal nas sementes
+     5–9. Contra a referência de bônus zero (17,41 ± 2,31, 20 execuções), b = 1 e b = 2 ficam dentro do dp; b = 4
+     supera por margem pequena (+2,5, dp 2,3); b = 8,35 supera com folga (+6,2). Os ganhos de +3,7 e +4,3 citados
+     acima, de 5 sementes, não se sustentam.
+   - A conclusão do E2 (DORL-const = DORL) não muda. Do MOPO para o DORL-const, o ganho de Length é do bônus: as três
+     configurações sem bônus (MOPO, MOPO-tmax e b = 0) não diferem entre si.
 2. **Na regra E6, nenhuma dose compra Length.** De b = 0 a b = 4, o Length fica entre 21,14 e 21,20, variação menor
    que o dp (0,05 a 0,09). Confirma o E6 com cinco pontos em vez de dois.
 3. **A cobertura cai com a dose, de forma monótona, na regra E6:** 24,3% → 15,3% → 9,9% → 5,5% → 3,0% → 2,5%. Cada
    passo até b = 4 supera o dp; o último (3,0% → 2,5%) não. A personalização cai junto (0,83 → 0,16), e a repetição
    no FB sobe (0,23 → 0,62). Na regra N4, a queda é menor e não é monótona ponto a ponto (6,1% → 5,7% → 4,6% → 5,0% → 3,8% → 3,4%); de
-   b = 0 para b = 4, a diferença (−2,3 pontos) supera o dp (1,1).
+   b = 0 para b = 4, a diferença (−2,3 pontos) supera o dp (1,1). Com 10 sementes na regra N4, o padrão se repete
+   (5,9% → 4,8% → 5,0% → 4,2% → 3,3% para b = 0, 1, 2, 4 e 8,35).
 4. **Correção: b = 0 não reproduz o MOPO em cobertura.** Com a mesma recompensa, a cobertura cai de 50,2% para 24,3%
    no E6 e de 11,2% para 6,1% no N4, sem sobreposição entre sementes (E6: 43,6–55,6% contra 19,9–28,5%; N4:
    8,6–16,3% contra 4,3–7,2%). No E6, a MCD também muda (0,669 → 0,563) e o Length sobe 0,39 (dp 0,09).
    - Consequência: a frase "do MOPO para o DORL-const muda só o bônus fixo por passo" (E2, E6 e etapa 2) está
      errada. Mudam duas coisas: o bônus e a normalização da recompensa no estado de treino.
    - Da queda de cobertura do MOPO para o DORL-const, a parte que ocorre com bônus zero é 25,9 de 47,7 pontos no
-     E6 (54%) e 5,1 de 7,8 pontos no N4 (65%). O restante acompanha o tamanho do bônus.
+     E6 (54%) e 5,1 de 7,8 pontos no N4 (65%; com 10 sementes, 4,2 de 6,7 pontos, 63%). O restante acompanha o
+     tamanho do bônus.
    - Causa, testada em 16/11 (`MOPO-tmax`: MOPO com `TMAX_LAMBDA=5`; `results/alem/alem_resumo.csv`): é a escala do
      canal de recompensa do estado de treino. O estado concatena a recompensa dividida por `train_max` e limitada a
      1 (`state_tracker2.py:231–241`); o patch muda o `train_max` de 0,9387 para 9,4842 (linha `TMAX_LAMBDA` dos
@@ -334,6 +334,8 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
      Não há sobreposição entre sementes do MOPO e do MOPO-tmax (E6: 43,6–55,6% contra 20,5–27,1%; N4: 8,6–16,3%
      contra 4,3–6,5%), e a diferença entre MOPO-tmax e b = 0 fica dentro do dp (1,5 e 0,7 ponto). A personalização
      acompanha (E6: 0,958 → 0,794, contra 0,831 de b = 0; N4: 0,524 → 0,313, contra 0,384).
+     Confirmado no sentido inverso em 17/11: b = 0 com o `train_max` do MOPO volta à cobertura do MOPO no E6
+     (48,0% contra 50,2%; seção "Sementes 5–9" adiante).
    - Leitura: a comparação DORL × MOPO do artigo tem três fatores, não dois: a variação do P_E (sem efeito, E2), o
      *survival bonus* e a escala da recompensa no estado, que muda junto com λ₂ sem ser parte do método.
    - Hipótese, não testada: com a faixa maior, o canal de recompensa do treino fica comprimido em [0; 0,1], o estado
@@ -341,28 +343,86 @@ no DORL-const. A série SB isola, portanto, o tamanho do bônus; o passo MOPO �
    - Demais métricas do MOPO-tmax (`results/tmax/n4_resumo.csv`, `e6_resumo.csv`). Na regra E6, ele reproduz
      b = 0 também no Length em NX_0 (21,14 ± 0,07 contra 21,15 ± 0,09; MOPO: 20,76 ± 0,09) e na MCD (0,586 contra
      0,563; MOPO: 0,669; dp 0,02): o Length a mais de b = 0 no E6 (+0,39) vem da escala do estado. Na regra N4, o
-     FB é igual (Length 27,81 ± 0,07 contra 27,68 ± 0,24: o ciclo continua), mas o Length em NX_0 não (18,8 contra
-     15,9; ver a ressalva do item 1). O `fb_rotacao.py` não foi rodado nessas execuções.
+     FB é igual (Length 27,81 ± 0,07 contra 27,68 ± 0,24: o ciclo continua). O Length em NX_0 diferia com 5
+     sementes (18,8 contra 15,9) e empata com 10 (17,57 contra 17,25). O `fb_rotacao.py` não foi rodado nessas
+     execuções.
    - O comportamento no FB não muda do MOPO para b = 0 nem para o MOPO-tmax; nele a atribuição ao bônus se
-     mantém. Para Length e R_tra na regra N4, vale a ressalva do item 1.
+     mantém. Com 10 sementes, o mesmo vale para Length e R_tra em NX_0 na regra N4.
 5. **No FB com a regra N4, o bônus reduz o ciclo de forma gradual.** Length 27,7 → 21,6 → 14,3; repetição
    0,73 → 0,53 → 0,31; ciclo puro 0,70 → 0,15 → 0,05 (b = 0, 4 e 8,35). A pergunta em aberto ("por que o *survival
    bonus* impede o ciclo no FB") ganha um fato: o efeito é gradual, não um limiar. O mecanismo continua sem
-   explicação. Na regra E6, o sinal é o oposto: a repetição no FB cresce com a dose.
+   explicação. Na regra E6, o sinal é o oposto: a repetição no FB cresce com a dose. Com 10 sementes, cada passo
+   sucessivo da dose encurta o FB acima do dp (seção "Sementes 5–9").
 6. **Nenhuma dose leva a recompensa por passo acima do acaso.** Na regra N4, o R_each fica entre 0,71 e 0,81 contra
    0,872; para b = 4 e b = 8,35 a diferença está dentro do dp (0,111 e 0,095). Em NX_10, o R_tra fica entre 6,3 e 7,4 contra 8,72,
    acima do dp em todos os pontos.
 
-**Preparado e não rodado (16/11): sementes 5–9 na regra N4 e controle inverso.** Motivo: a ressalva do item 1.
+**Sementes 5–9 na regra N4 e controle inverso (17/11; `results/s10/`).** Motivo: a ressalva do item 1.
 - Execuções: b = 0, 1, 2 e 4 (`SEEDS="5 6 7 8 9" roda_bonus.sh N4`), MOPO-tmax (`roda_tmax.sh N4`), MOPO e
-  DORL-const (`roda_trajetorias.sh`, que passou a aceitar sementes sem log original). São 35 execuções.
-- Controle inverso, sementes 0–4: b = 0 com o `train_max` do MOPO na regra E6 (`METODOS="SB0" roda_tmax.sh E6`).
-- Leitura combinada antes de rodar, com 10 sementes por ponto no Length em NX_0:
+  DORL-const (`roda_trajetorias.sh`, que passou a aceitar sementes sem log original). São 35 execuções, todas com 200
+  épocas. As sementes 0–4 do MOPO e do DORL-const são as reexecuções `*_traj_s*`, idênticas às originais.
+- Controle inverso, sementes 0–4: b = 0 com o `train_max` do MOPO na regra E6 (`TM_SB0_E6_s*`; `SB0-tmin-E6`).
+- Regra de leitura fixada antes de rodar, com 10 sementes por ponto no Length em NX_0:
   (a) se b = 0 e MOPO-tmax ficarem a menos de um dp, os 2,9 passos eram ruído e os dois viram uma referência só;
   (b) uma dose intermediária conta como efeito se superar essa referência por mais que o maior dp;
   (c) se MOPO-tmax continuar acima do MOPO e de b = 0, a equivalência entre as duas configurações precisa ser revista.
 - Controle inverso: se a hipótese vale, a cobertura volta à do MOPO-E6 (50,2%) e o Length a 20,76.
 
-**Limitações.** Sem ponto entre b = 4 e 8,35. O controle do `train_max` foi feito só num sentido (MOPO com a escala do DORL; o inverso, b = 0 com a escala do MOPO, não rodou). Cinco sementes por ponto não resolvem diferenças de Length de cerca de 3 passos na regra N4. λ₁ fixo.
+Resultado, regra N4, 10 sementes por linha (`results/s10/n4_resumo.csv`; cobertura em NX_10, `results/s10/alem/`):
+
+| Configuração | Length (NX_0) | R_tra (NX_0) | R_each (NX_0) | Cobertura (%) | Length (FB) |
+|---|---|---|---|---|---|
+| MOPO | 16,69 ± 2,19 | 12,39 ± 2,07 | 0,741 ± 0,064 | 9,9 ± 2,7 | 26,12 ± 2,87 |
+| MOPO-tmax | 17,57 ± 2,47 | 12,59 ± 2,56 | 0,717 ± 0,101 | 5,6 ± 0,8 | 27,63 ± 0,36 |
+| b = 0 | 17,25 ± 2,25 | 12,28 ± 2,02 | 0,713 ± 0,080 | 5,9 ± 0,9 | 27,39 ± 0,50 |
+| b = 1 | 18,89 ± 2,13 | 13,58 ± 2,30 | 0,718 ± 0,074 | 4,8 ± 0,7 | 25,41 ± 1,13 |
+| b = 2 | 19,34 ± 2,72 | 13,53 ± 2,55 | 0,694 ± 0,051 | 5,0 ± 0,8 | 22,96 ± 1,83 |
+| b = 4 | 19,95 ± 2,06 | 15,90 ± 1,64 | 0,801 ± 0,082 | 4,2 ± 0,7 | 19,64 ± 2,28 |
+| b = 8,35 (DORL-const) | 23,56 ± 2,87 | 18,64 ± 1,03 | 0,802 ± 0,093 | 3,3 ± 0,3 | 14,72 ± 2,53 |
+| Bônus zero (b = 0 e MOPO-tmax, 20) | 17,41 ± 2,31 | 12,44 ± 2,25 | 0,715 ± 0,089 | 5,8 ± 0,8 | 27,51 ± 0,44 |
+| Aleatória (5) | 4,60 ± 0,02 | 4,01 ± 0,02 | 0,872 ± 0,001 | 86,5 | 4,59 ± 0,01 |
+
+Leitura pela regra:
+1. **(a) vale.** b = 0 − MOPO-tmax = −0,32 passo (maior dp 2,47). A diferença de 5 sementes (−2,9) inverte nas
+   sementes 5–9 (18,63 contra 16,35). Os dois formam a referência de bônus zero.
+2. **(c) não ocorre.** MOPO-tmax − MOPO = +0,88 (dp 2,47); MOPO − referência = −0,72 (dp 2,31). As três
+   configurações sem bônus têm o mesmo Length.
+3. **(b): só doses grandes.** Contra a referência: b = 1, +1,48 (maior dp 2,31); b = 2, +1,93 (2,72): dentro.
+   b = 4, +2,54 (2,31): supera, por margem pequena. b = 8,35, +6,15 (2,87): supera. Entre doses sucessivas, só
+   4 → 8,35 supera o dp. O R_tra segue o mesmo padrão (b = 4: +3,46; b = 8,35: +6,21; b = 1 e 2 dentro).
+   - Exploratório, fora da regra: Spearman entre b e o Length nas 50 execuções com b ≤ 4 = 0,42 (p = 0,002). Há
+     tendência, mas b = 1 e b = 2 não se distinguem do bônus zero com 10 sementes.
+
+Outros fatos (não estavam na regra):
+4. **O FB responde à dose em todos os passos.** Length 27,39 → 25,41 → 22,96 → 19,64 → 14,72 (b = 0 a 8,35); cada passo
+   sucessivo supera o maior dp (−1,97, dp 1,13; −2,45, dp 1,83; −3,32, dp 2,28; −4,92, dp 2,53). Repete-se nas duas
+   metades (sementes 0–4: 27,7 → 25,9 → 23,6 → 21,6 → 14,3; 5–9: 27,1 → 25,0 → 22,4 → 17,7 → 15,1). É o efeito mais
+   robusto do bônus na regra N4.
+5. **R_each não muda com a dose.** Contra a referência, nenhuma dose passa do dp em NX_0 (b = 8,35: +0,086, dp 0,093)
+   nem em NX_10 (+0,091, dp 0,124). Todas ficam abaixo do acaso (0,872).
+6. **Cobertura:** MOPO 9,9 ± 2,7% contra 5,8 ± 0,8% do bônus zero, sem sobreposição entre sementes (7,5–16,3% contra
+   4,3–7,2%). Da queda MOPO → DORL-const (6,7 pontos), 4,2 ocorrem com bônus zero (63%). Contra a referência:
+   b = 1, −0,92 ponto (maior dp 0,80, supera); b = 2, −0,76 (dentro); b = 4, −1,52; b = 8,35, −2,46 (superam).
+7. **Personalização na regra N4 sobe com a dose** (bônus zero 0,35; b = 1: 0,39; b = 2: 0,48; b = 4: 0,53;
+   b = 8,35: 0,61; MOPO 0,49; `results/s10/alem/alem_resumo.csv`), ao contrário do E6 (0,83 → 0,16). Cobertura e
+   personalização andam em sentidos opostos na regra N4.
+
+Resultado, controle inverso (regra E6, 5 sementes; `results/s10/e6_resumo.csv`, `results/s10/alem/`):
+
+| Configuração | Recompensa | `train_max` | Cobertura (%) | Personalização | MCD (NX_0) | Length (NX_0) |
+|---|---|---|---|---|---|---|
+| MOPO-E6 | MOPO | 0,94 | 50,2 ± 5,0 | 0,958 | 0,669 ± 0,019 | 20,76 ± 0,09 |
+| SB0-tmin-E6 | b = 0 | 0,94 | 48,0 ± 8,9 | 0,945 | 0,670 ± 0,030 | 20,69 ± 0,14 |
+| SB0-E6 | b = 0 | 9,48 | 24,3 ± 3,9 | 0,831 | 0,563 ± 0,019 | 21,15 ± 0,09 |
+| MOPO-tmax-E6 | MOPO | 9,48 | 22,8 ± 2,7 | 0,794 | 0,586 ± 0,020 | 21,14 ± 0,07 |
+
+8. **O controle inverso confirma a hipótese.** Com a recompensa de b = 0 e o `train_max` do MOPO, a política volta ao
+   MOPO em cobertura, personalização, MCD e Length. As sementes não se sobrepõem às de b = 0 (38,1–61,1% contra
+   19,9–28,5%). Nos dois sentidos, o que decide é o `train_max`, não a recompensa. O script só aceita a execução se
+   o log registra a troca (linha `TMAX_LAMBDA`).
+
+**Limitações.** Sem ponto entre b = 4 e 8,35. Na regra N4, 10 sementes por ponto, exceto b = 0,5 (5); na regra E6,
+5. O controle inverso só rodou no E6. Mesmo com 10 sementes, o efeito de b = 4 no Length passa o dp por margem
+pequena. λ₁ fixo.
 Uma calibração do E6.
 

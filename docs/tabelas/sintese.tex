@@ -48,11 +48,11 @@ B4 & A regra de saída não corresponde ao usuário real & S & d, f &
   $P(\text{fim}\mid\text{repete categoria}) = 6{,}3\%$ contra 2,6\%; o simulador supõe 100\% contra 0\% &
   Verificada (associação) \\
 B5 & Decide a razão entre \textit{survival bonus} e variação do $\hat r$ & T, S & c, d &
-  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Varredura ($b = 0$ a 8,35): em $N = 4$,
-  Length 15,9 $\to$ 19,6 $\to$ 24,0 e ciclo puro no FB 0,70 $\to$ 0,15 $\to$ 0,05; na saída calibrada, cobertura
+  E5: bônus implícito do MBPO $0{,}45 \to 0{,}04$, e o MBPO passa a escolher itens. Varredura ($b = 0$ a 8,35): em $N = 4$ (10 sementes),
+  Length só com doses grandes (17,4 sem bônus; 19,9 com $b = 4$; 23,6 com 8,35) e FB 27,4 $\to$ 14,7 em todos os passos; na saída calibrada, cobertura
   24,3\% $\to$ 9,9\% $\to$ 2,5\% sem ganho de Length. Com bônus zero a cobertura já cai (50,2\% $\to$ 24,3\%):
-  54--65\% da queda MOPO $\to$ DORL-const não é do bônus, e sim da escala da recompensa no estado (MOPO só com ela: 22,8\%) &
-  Verificada (ciclo; Length com o bônus inteiro, doses intermediárias não resolvidas); cobertura: dois fatores verificados \\
+  54--65\% da queda MOPO $\to$ DORL-const não é do bônus, e sim da escala da recompensa no estado (controle nos dois sentidos: 22,8\% e 48,0\%) &
+  Verificada (FB; Length com $b \geq 4$); cobertura: dois fatores verificados \\
 B6 & A concentração depende do nível medido & M & b, e &
   MCD e cobertura em ordens opostas; sem bolha individual (V 9,2--11,4 contra 8,02 do usuário) & Verificada \\
 B7 & A repetição do FB infla a concentração e não segue a popularidade & S, M & e, f &
