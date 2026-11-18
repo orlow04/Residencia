@@ -15,7 +15,8 @@ Critério em todo o trabalho: média ± dp entre sementes; uma diferença conta 
 dos dois métodos. A síntese completa, com a força de cada evidência, está em [`docs/sintese.md`](docs/sintese.md).
 
 1. **A vantagem do DORL é de duração da sessão, não de recompensa por passo.** Ela depende da regra de saída
-   determinística: some com a saída calibrada nas sessões reais e se inverte quando o comprimento da sessão é fixado.
+   determinística: some com a saída calibrada nas sessões reais, fica dentro do ruído com N = 8 e se inverte quando o
+   comprimento da sessão é fixado.
 2. **O ganho do DORL vem de um *survival bonus*,** o bônus fixo por passo que o termo de entropia soma à recompensa,
    e não da variação do termo: o DORL com o termo constante (DORL-const) reproduz o DORL.
 3. **A comparação DORL × MOPO mistura três fatores:** a variação do termo de entropia (sem efeito), o *survival
@@ -25,8 +26,9 @@ dos dois métodos. A síntese completa, com a força de cada evidência, está e
    log real (avaliação off-policy), todas as políticas põem 95% da exposição em 2 a 16 itens.
 5. **Os métodos de RL ficam abaixo do acaso em recompensa por passo** nos três protocolos da regra original, e os
    bandits ficam abaixo da política aleatória em recompensa por trajetória e em duração.
-6. **Cinco sementes não bastam para diferenças pequenas:** uma diferença de ~3 passos de comprimento entre duas
-   configurações equivalentes desapareceu com 10 sementes.
+6. **Cinco sementes não bastam para diferenças pequenas:** três diferenças de ~3 passos de comprimento, acima do dp
+   com 5 sementes, ficaram dentro do ruído com 10: entre duas configurações equivalentes na regra original, e
+   DORL − MBPO e MOPO → DORL-const com N = 8 e a janela corrigida.
 
 Os números de cada item estão em [`docs/resultados_semana10.md`](docs/resultados_semana10.md) e nos registros
 semanais listados abaixo.
@@ -36,12 +38,13 @@ semanais listados abaixo.
 1. **Ler.** Cada número dos documentos em `docs/` aponta para um arquivo em `results/` (índice em
    [`results/README.md`](results/README.md)). Os logs de todas as execuções, inclusive as descartadas, estão em
    `results/logs/`.
-2. **Recalcular em CPU, sem GPU e sem os dados** (precisa de numpy, pandas e scipy; ~15 s):
+2. **Recalcular em CPU, sem GPU e sem os dados** (precisa de numpy, pandas e scipy; ~20 s):
    ```bash
    python verifica_resultados.py
    ```
    Refaz, a partir dos logs, os resumos entre sementes, os resumos no formato da Tabela 2 e a comparação OPE ×
-   simulador, e compara com os arquivos commitados. Com o ambiente instalado (`setup.sh`), os testes de fidelidade
+   simulador, e compara com os arquivos commitados. Confere também que as reexecuções (com trajetórias e com
+   checkpoint) reproduzem as execuções originais. Com o ambiente instalado (`setup.sh`), os testes de fidelidade
    conferem os scripts e os patches contra cópias literais do código do DORL (~1 min):
    ```bash
    bash tests/roda_testes.sh
@@ -58,7 +61,7 @@ semanais listados abaixo.
 | Dados | KuaiRec (Zenodo, registro 18164998; SHA-256 em `results/KuaiRec.zip.sha256`). Treino no big_matrix (12.530.806 interações); avaliação no small_matrix (1.411 usuários × 3.327 itens, totalmente observado) |
 | Hardware | RTX 4090 (treino das políticas, ~45–50 min por semente) e MacBook M3 Pro (análises em CPU) |
 | Argumentos | Tirados dos logs dos autores, não do README do DORL: `--num_leave_compute 4 --leave_threshold 0 --which_tracker avg --reward_handle cat --window_size 3 --read_message pointneg` |
-| Sementes | 0–4 por método; 0–9 na varredura do *survival bonus* na regra original |
+| Sementes | 0–4 por método; 0–9 na varredura do *survival bonus* na regra original e com N = 8 e a janela corrigida |
 
 | Método | `--lambda_variance` (λ₁) | `--lambda_entropy` (λ₂) | O que é |
 |---|---|---|---|
@@ -89,7 +92,7 @@ repetição.
 | Traj | Registro das trajetórias de avaliação | `traj_log.patch`, `roda_trajetorias.sh`, `verifica_traj.sh` | `results/trajetorias/` | `docs/semana9.md`, etapa 2 |
 | Bolha | As políticas formam bolha por usuário? | `bolha.py` | `results/bolha/` | etapa 3 |
 | E5 | E com o modelo de usuário treinado no sinal da avaliação? | `e5_alvo.patch`, `roda_e5.sh` | `results/e5/` | etapa 4 |
-| E3, A5 | Quanto o resultado depende do N e da janela da regra de saída? | `roda_e3.sh`, `a5_janela.patch`, `roda_a5.sh` | `results/e3/`, `results/a5/` | etapas 5 e 6; `docs/semana10.md`, etapa 2 |
+| E3, A5 | Quanto o resultado depende do N e da janela da regra de saída? | `roda_e3.sh`, `a5_janela.patch`, `roda_a5.sh` | `results/e3/`, `results/a5/`, `results/s10/n8c_*` | etapas 5 e 6; `docs/semana10.md`, etapas 2 e 5 |
 | Mecanismo | De onde vêm o ciclo no FB e a diversidade? | `fb_rotacao.py`, `mecanismo_bolha.py` | `results/fb/`, `results/mecanismo/` | etapa 7 |
 | Além | Critérios além dos do artigo mudam a leitura? | `alem_da_acuracia.py` | `results/alem/` | etapa 8 |
 | Sessões | A regra de saída corresponde às sessões reais? | `sessoes_reais.py` | `results/sessoes/` | etapa 9 |
@@ -111,7 +114,7 @@ repetição.
 | `resultados_semana10.md` | Números da última semana: E6, janela corrigida, bandits, repetição, *survival bonus*, `train_max`, OPE |
 | `experimentos_semana8.md` | Semana 8: reprodução, S1–S3, E1, P e E2 |
 | `semana9.md` | Semana 9: trajetórias, bolha, E5, E3/A5, mecanismo, critérios além do artigo, sessões reais e E6 |
-| `semana10.md` | Semana 10: revisitas, janela corrigida para MOPO e DORL-const, bandits, *survival bonus* e `train_max` |
+| `semana10.md` | Semana 10: revisitas, janela corrigida para MOPO e DORL-const, bandits, *survival bonus*, `train_max` e sementes 5–9 com N = 8c |
 | `off_policy.md`, `off_policy_leitura.md` | Avaliação off-policy no log real; guia de leitura dos estimadores |
 | `protocolo_avaliacao.md` | Protocolo de avaliação de RLRS: objetivos O1–O6 e controles (a)–(g) |
 | `contexto_tcc.md` | Histórico, decisões e detalhes do DORL verificados no código |
@@ -141,7 +144,7 @@ Cada script tem, no cabeçalho, o que faz, o uso e as opções.
 | Matrizes do modelo de usuário (~38 MB cada) | RTX 4090 | `results/ambiente/mats.sha256` |
 | Trajetórias de avaliação (CSV) | RTX 4090 | `results/trajetorias/*.ok` (SHA-256 de cada CSV conferido) |
 | Registro bruto do P_E (~2 GB) | RTX 4090 | `results/pe/pe_log_DORL_s2.sha256` |
-| Log do OPE (`ope_log.npz`, 206 MB) e checkpoints das políticas | RTX 4090 | `results/ope/ope_dados.txt`; retreino conferido contra os logs originais (`roda_ckpt.sh`) |
+| Log do OPE (`ope_log.npz`, 206 MB) e checkpoints das políticas | RTX 4090 | `results/ope/ope_dados.txt`; logs do retreino (`CK_*`) idênticos aos originais (`verifica_resultados.py`) |
 
 ## Cuidados na reprodução
 
@@ -162,11 +165,12 @@ Cada script tem, no cabeçalho, o que faz, o uso e as opções.
 
 - Um conjunto de dados (KuaiRec) e um simulador com regra de saída artesanal, sem usuários reais.
 - λ₁ e λ₂ fixos nos valores do artigo; uma única calibração da saída probabilística.
-- Cinco sementes na maioria das comparações; dez só na varredura do *survival bonus* na regra original.
+- Cinco sementes na maioria das comparações; dez na varredura do *survival bonus* na regra original e na decomposição
+  com N = 8c.
 - A avaliação off-policy estima o valor por passo, sem a duração da sessão e sem a máscara de itens já vistos.
 
 ## Estado
 
-Fase experimental encerrada em 17/11/2026. Pendentes nessa data: as sementes 5–9 com N = 8 e janela corrigida
-(`roda_a5.sh 8`), para DORL − MBPO e MOPO → DORL-const, e a exportação dos logs das execuções do `train_max` e das
-sementes 5–9, que ainda estavam só na 4090.
+Fase experimental encerrada em 17/11/2026. As últimas execuções (sementes 5–9 com N = 8 e a janela corrigida) e os
+logs que estavam só na 4090 entraram no repositório em 18/11/2026; nessa data, `python verifica_resultados.py`
+termina com `TUDO CONFERE`. Versão congelada dos experimentos: tag `v1.0-experimentos`.

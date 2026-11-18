@@ -27,7 +27,7 @@ na raiz.
 | `revisitas/` | Revisitas reais (sem duplicatas) e repetição das políticas no FB | `revisitas.py` | `docs/semana10.md`, etapa 1 |
 | `sb/` | Varredura do *survival bonus*, regras N4 e E6, sementes 0–4 | `e1_protocolos.py` | etapa 4 |
 | `tmax/` | `MOPO-tmax` (MOPO com o `train_max` do DORL), regras N4 e E6, sementes 0–4 | `e1_protocolos.py` | etapa 4 |
-| `s10/` | 10 sementes na regra N4 (`n4_*`), controle inverso no E6 (`e6_*`) e critérios além do artigo (`alem/`) | `e1_protocolos.py`, `alem_da_acuracia.py` | etapa 4 |
+| `s10/` | 10 sementes na regra N4 (`n4_*`) e com N = 8c (`n8c_*`), controle inverso no E6 (`e6_*`) e critérios além do artigo na regra N4 e no E6 (`alem/`) | `e1_protocolos.py`, `alem_da_acuracia.py` | etapas 4 e 5 |
 | `ope/` | Avaliação off-policy: validações semi-sintéticas, log real, políticas e comparação com o simulador | `ope.py`, `ope_contexto.py`, `ope_dados.py`, `ope_politicas.py`, `ope_compara.py` | `docs/off_policy.md` |
 
 ## Logs que entram nos resultados
@@ -49,3 +49,8 @@ são descartados. O `verifica_resultados.py` reconstrói os globs de cada resumo
 | `[TRAJcheck_s2]_*.log` | Conferência do `traj_log.patch`: 2 épocas (`verifica_traj.sh`) |
 | `[MBPO-timing]_*.log` | Cronometragem de 2 épocas (`timing_4.2.txt`) |
 | `[pointneg]_*.log`, `[rawwr]_*.log` | Treino dos modelos de usuário (original e do E5), não são políticas |
+| `[MBPO_traj_s*]_*.log`, `[DORL_traj_s*]_*.log` | Reexecuções das sementes 0–4 com registro das trajetórias (`roda_trajetorias.sh`); idênticas às originais. As de MOPO e DORL-const entram em `s10/n4_*` |
+| `[CK_*_s*]_*.log` | Retreino com checkpoint, fonte das políticas da avaliação off-policy (`roda_ckpt.sh`); idêntico às execuções originais |
+
+As reexecuções das duas últimas linhas (e as de MOPO e DORL-const, sementes 0–4) são conferidas valor por valor
+contra as execuções originais de `e1/` pelo `verifica_resultados.py`.

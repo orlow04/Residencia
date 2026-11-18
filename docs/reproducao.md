@@ -257,6 +257,7 @@ de cada execução e pulam o que já terminou; a maioria confere também se os p
 | *Survival bonus* | `BONUS="0 0.5 1 2 4" roda_bonus.sh N4` e `E6` | `e1_protocolos.py`; `alem_da_acuracia.py` | `results/sb/` |
 | `train_max` | `roda_tmax.sh N4` e `E6`; `METODOS="MOPO SB0"` para os dois sentidos | `e1_protocolos.py`; `alem_da_acuracia.py` | `results/tmax/`, `results/alem/` |
 | Sementes 5–9 (regra N4) | `SEEDS="5 6 7 8 9"` em `roda_bonus.sh N4`, `roda_tmax.sh N4` e `roda_trajetorias.sh MOPO DORL-const` | `e1_protocolos.py`; `alem_da_acuracia.py` | `results/s10/` |
+| Sementes 5–9 (N = 8c) | `SEEDS="5 6 7 8 9"` em `roda_a5.sh 8` e `METODOS="MOPO DORLconst" roda_a5.sh 8` | `e1_protocolos.py` (com `results/e3/aleatoria_N8c.json`) | `results/s10/n8c_*` |
 | OPE | `roda_ckpt.sh` (checkpoints da época 200) | `ope.py --validacao`, `ope_contexto.py`, `ope_dados.py`, `ope_politicas.py`, `ope_compara.py` | `results/ope/` |
 
 Os globs do `e1_protocolos.py` de cada conjunto são os que o `verifica_resultados.py` reconstrói a partir dos
@@ -267,10 +268,11 @@ exatos de cada etapa, com as ressalvas, estão nos registros (`docs/semana9.md`,
 ## 13. Verificação
 
 ```bash
-python verifica_resultados.py      # recalcula as tabelas a partir de results/logs (CPU, ~15 s)
+python verifica_resultados.py      # recalcula as tabelas a partir de results/logs (CPU, ~20 s)
 bash tests/roda_testes.sh          # testes de fidelidade dos scripts e dos patches (CPU, ~1 min; exige o dorl-workspace)
 ```
 
 O primeiro confere os resumos entre sementes (`results/{e1,a5,e3,e5,e6,sb,tmax,s10}`), os resumos por log
-(`results/table2`) e a comparação OPE × simulador. Os conjuntos cujos logs ainda não foram exportados da 4090
-aparecem como INCOMPLETO.
+(`results/table2`), a comparação OPE × simulador e as reexecuções: as 20 com registro das trajetórias e as 20 com
+checkpoint (as políticas do OPE) têm de reproduzir, valor por valor, as execuções originais de `results/e1`. Um
+conjunto cujos logs não estejam em `results/logs` aparece como INCOMPLETO.

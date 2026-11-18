@@ -9,6 +9,9 @@ O que é conferido:
      os CSVs (por semente, resumo, posições) e a saída de texto precisam coincidir.
   2. Resumos por log no formato da Tabela 2 (results/table2), com o table2_from_log.py.
   3. Comparação OPE × simulador (results/ope/ope_comparacao.txt), com o ope_compara.py.
+  4. Reexecuções das sementes 0–4 de MBPO, MOPO, DORL e DORL-const, com registro das trajetórias (*_traj_s*,
+     roda_trajetorias.sh) e com checkpoint (CK_*_s*, roda_ckpt.sh; as políticas da avaliação off-policy): o treino é
+     determinístico, então cada valor por semente precisa ser igual ao da execução original (results/e1).
 
 Uso (da raiz do repositório):  python verifica_resultados.py
 Precisa de numpy, pandas e scipy (o venv do DORL tem). Sai com código 1 se algo diferir ou faltar.
@@ -28,25 +31,32 @@ RAIZ = os.path.dirname(os.path.abspath(__file__))
 LOGS = os.path.join(RAIZ, "results", "logs")
 ALE_N4 = "results/e1/aleatoria.json"     # política aleatória na regra N4 (S3)
 ALE_E6 = "results/e6/aleatoria_E6.json"  # política aleatória na saída calibrada (E6)
+ALE_N8C = "results/e3/aleatoria_N8c.json"  # política aleatória com N = 8 e a janela corrigida
 # (prefixo dos arquivos, referência aleatória usada na geração; verificado contra os *_por_semente.csv)
 CONJUNTOS = [("results/e1/e1", ALE_N4), ("results/a5/e1", ALE_N4), ("results/e3/e1", ALE_N4),
              ("results/e5/e1", ALE_N4), ("results/e6/e1", ALE_E6), ("results/sb/n4", ALE_N4),
              ("results/sb/e6", ALE_E6), ("results/tmax/n4", None), ("results/tmax/e6", None),
-             ("results/s10/n4", ALE_N4), ("results/s10/e6", ALE_E6)]
+             ("results/s10/n4", ALE_N4), ("results/s10/e6", ALE_E6), ("results/s10/n8c", ALE_N8C)]
+# Reexecuções conferidas contra results/e1: rótulo do método em results/e1 → radical da mensagem original
+REEXECUCOES = {"MBPO": "MBPO", "MOPO": "MOPO", "DORL": "DORL", "DORL-const": "DORLconst"}
 NOME_LOG = re.compile(r"^\[(?P<msg>.+?)\]_\d{4}_\d{2}_\d{2}-\d{2}_\d{2}_\d{2}\.log$")
 
 
 def glob_do_metodo(msgs):
-    """Glob que pega os logs das mensagens de um método (ex.: MBPO_s0..s9 → [[]MBPO_s[0-9][]]_*.log)."""
+    """Glob que pega os logs das mensagens de um método, só nas sementes usadas no resumo commitado
+    (ex.: MBPO_s0..s4 → [[]MBPO_s[01234][]]_*.log). Logs de outras sementes exportados depois (ex.: s5–9 de um
+    resumo com 5 sementes) não entram; os logs descartados (incompletos ou repetidos) das mesmas mensagens entram, como
+    na geração original, porque aparecem na lista de logs da saída de texto."""
     radicais = {re.sub(r"_s\d+$", "", m) for m in msgs}
     if len(radicais) != 1:
         raise ValueError(f"mensagens com radicais diferentes: {sorted(radicais)}")
     r = glob.escape(radicais.pop())
-    com_semente = all(re.search(r"_s\d+$", m) for m in msgs)
-    sem_semente = not any(re.search(r"_s\d+$", m) for m in msgs)
-    if com_semente:
-        return os.path.join(LOGS, f"[[]{r}_s[0-9][]]_*.log")
-    if sem_semente:
+    sementes = sorted({mm.group(1) for m in msgs if (mm := re.search(r"_s(\d+)$", m))})
+    if any(len(x) > 1 for x in sementes):
+        raise ValueError(f"semente com mais de um dígito em {r}: a classe de caracteres do glob não a representa")
+    if sementes and len(sementes) == len(set(msgs)):
+        return os.path.join(LOGS, f"[[]{r}_s[{''.join(sementes)}][]]_*.log")
+    if not sementes:
         return os.path.join(LOGS, f"[[]{r}[]]_*.log")
     return os.path.join(LOGS, f"[[]{r}[]_]*.log")  # ex.: [UCB] (semente 0) e [UCB_s1..4]
 
@@ -128,6 +138,29 @@ def confere_ope(tmp):
     return "ok" if novo == velho else "DIFERE"
 
 
+def confere_reexecucoes(tmp):
+    orig = pd.read_csv(os.path.join(RAIZ, "results", "e1", "e1_por_semente.csv"))
+    orig["semente"] = orig["log"].str.extract(r"_s(\d+)\]")[0]
+    chave = ["metodo", "semente", "protocolo", "metrica"]
+    res = []
+    for nome, molde in (("trajetórias", "{}_traj"), ("checkpoint", "CK_{}")):
+        specs = [f"{rot}={os.path.join(LOGS, '[[]' + glob.escape(molde.format(r)) + '_s[01234][]]_*.log')}"
+                 for rot, r in REEXECUCOES.items()]
+        out = os.path.join(tmp, "reexec_" + molde.format("x"))
+        r = subprocess.run([sys.executable, os.path.join(RAIZ, "e1_protocolos.py"), *specs, "--out", out],
+                           capture_output=True, text=True, cwd=tmp)
+        if r.returncode != 0:
+            res.append(f"{nome}: ERRO ({r.stderr.strip().splitlines()[-1]})")
+            continue
+        novo = pd.read_csv(out + "_por_semente.csv")
+        novo["semente"] = novo["log"].str.extract(r"_s(\d+)\]")[0]
+        m = novo.merge(orig, on=chave, suffixes=("", "_orig"))
+        esperado = len(REEXECUCOES) * 5 * 3 * 4  # métodos × sementes × protocolos × métricas
+        ok = len(novo) == len(m) == esperado and np.allclose(m["valor"], m["valor_orig"], rtol=1e-9, atol=1e-12)
+        res.append(f"{nome} {'ok' if ok else 'DIFERE'} ({novo['log'].nunique()} logs)")
+    return "; ".join(res)
+
+
 def main():
     falhou = False
     with tempfile.TemporaryDirectory() as tmp:
@@ -142,6 +175,9 @@ def main():
         res = confere_ope(tmp)
         falhou |= not res.startswith("ok")
         print(f"3. OPE × simulador (results/ope/ope_comparacao.txt): {res}")
+        res = confere_reexecucoes(tmp)
+        falhou |= "ok" not in res or "DIFERE" in res or "ERRO" in res
+        print(f"4. Reexecuções = execuções originais (results/e1): {res}")
     print("\nTUDO CONFERE" if not falhou else "\nHÁ DIFERENÇAS OU LOGS FALTANDO (ver acima)")
     sys.exit(1 if falhou else 0)
 

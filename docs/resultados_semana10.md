@@ -1,6 +1,7 @@
 # Semana 10 — resultados (anexo técnico do Termo)
 
-17/11/2026. Reúne os números por trás da Entrega do Termo da semana 10. O registro completo, com procedimentos,
+17/11/2026; seções 2 e 9 atualizadas em 18/11 com as sementes 5–9 com N = 8c. Reúne os números por trás da Entrega
+do Termo da semana 10. O registro completo, com procedimentos,
 ressalvas e correções, está em `docs/semana9.md` (etapa 10), `docs/semana10.md` e `docs/off_policy.md`; cada seção
 indica os arquivos de `results/` de onde vêm os números.
 
@@ -56,25 +57,34 @@ Conclusões:
 **Por quê.** Na semana 9, a correção da janela foi aplicada só a MBPO e DORL. Faltava repetir, sem o recorte, a
 decomposição termo a termo MBPO → MOPO → DORL-const → DORL.
 
-**O que foi feito.** MOPO e DORL-const com N = 4c e 8c, 5 sementes cada (`roda_a5.sh`).
+**O que foi feito.** MOPO e DORL-const com N = 4c e 8c, 5 sementes cada (`roda_a5.sh`). Em 18/11, sementes 5–9 dos
+quatro métodos com N = 8c.
 
-**Resultado** (`results/a5/e1_saida.txt`; `docs/semana10.md`, etapa 2). Diferença de Length em NX_0 em cada passo:
+**Resultado** (`results/a5/e1_saida.txt`; com 10 sementes, `results/s10/n8c_saida.txt`; `docs/semana10.md`, etapas 2
+e 5). Diferença de Length em NX_0 em cada passo:
 
-| Passo | Termo acrescentado | N = 4 (original) | N = 4c | N = 8c |
-|---|---|---|---|---|
-| MBPO → MOPO | Penalidade de incerteza | −0,2 (ruído) | +0,2 (ruído) | −0,5 (ruído) |
-| MOPO → DORL-const | *Survival bonus* | +8,4 | +5,7 | +3,0 |
-| DORL-const → DORL | Variação do P_E | −0,6 (ruído) | +0,8 (ruído) | +0,9 (ruído) |
+| Passo | Termo acrescentado | N = 4 (original) | N = 4c | N = 8c, 5 sementes | N = 8c, 10 sementes |
+|---|---|---|---|---|---|
+| MBPO → MOPO | Penalidade de incerteza | −0,2 (ruído) | +0,2 (ruído) | −0,5 (ruído) | −0,8 (ruído) |
+| MOPO → DORL-const | *Survival bonus* | +8,4 | +5,7 | +3,0 | +1,8 (ruído) |
+| DORL-const → DORL | Variação do P_E | −0,6 (ruído) | +0,8 (ruído) | +0,9 (ruído) | +1,2 (ruído) |
+| MBPO → DORL | Os três | +7,6 | +6,7 | +3,5 | +2,2 (ruído) |
 
 Conclusões:
-- Nas três regras, só o passo MOPO → DORL-const supera o ruído. Ele explica toda a vantagem do DORL sobre o MBPO em
-  Length (+6,7 com N = 4c; +3,5 com N = 8c). No Length, as configurações sem bônus empatam entre si com 10 sementes
-  (seção 5), então o ganho é do bônus; na cobertura, não (seção 6).
-- Cobertura no mesmo passo: 10,4% → 3,3% (N = 4c) e 5,7% → 3,8% (N = 8c). P_U e a variação do P_E não a alteram.
+- Com N = 4 e N = 4c, só o passo MOPO → DORL-const supera o ruído, e ele explica toda a vantagem do DORL sobre o MBPO
+  em Length (+7,6 e +6,7). No Length, as configurações sem bônus empatam entre si com 10 sementes (seção 5), então o
+  ganho é do bônus; na cobertura, não (seção 6).
+- Com N = 8c e 10 sementes, nenhum passo supera o ruído em Length, nem a vantagem do DORL (+2,2, dp 2,3). Os +3,5 e
+  +3,0 das sementes 0–4 não se confirmaram (sementes 5–9: +0,9 e +0,6). Com N = 8, a vantagem em Length fica dentro
+  do ruído com e sem o recorte da janela.
+- Em R_tra, com N = 8c e 10 sementes, DORL − MBPO = +3,5 (dp 2,0) supera o ruído, dividido entre o bônus (+2,2,
+  dp 2,2, no limite) e a variação do P_E (+2,5, dp 2,2, pouco acima). Nas métricas do artigo, é a única comparação
+  DORL-const × DORL acima do dp em todo o trabalho, numa métrica e por margem pequena.
+- No FB, o bônus encurta a sessão também com N = 8c (−14,0 passos, dp 2,9, nas duas metades das sementes).
+- Cobertura no mesmo passo: 10,4% → 3,3% (N = 4c) e 5,7% → 3,8% (N = 8c, 5 sementes). P_U e a variação do P_E não a
+  alteram.
 - No FB, MBPO e MOPO ciclam: em 60–62% das trajetórias com N = 4c, a trajetória inteira repete um bloco fixo de
   itens. DORL e DORL-const quase não ciclam (12–14%).
-- Ressalva: com N = 8c, as diferenças (+3,0 e +3,5) são de 5 sementes e da ordem do que se mostrou ruído na regra N4
-  (seção 5). As sementes 5–9 estão na fila (seção 9).
 
 ## 3. Sementes dos bandits
 
@@ -244,7 +254,7 @@ deste trabalho (B1–B8) com o sinal examinado, o controle e a força da evidên
 
 | # | Afirmação do artigo | Força |
 |---|---|---|
-| A1 | O DORL prolonga a sessão | Condicional à regra determinística |
+| A1 | O DORL prolonga a sessão | Condicional à regra determinística, com N ≤ 4 |
 | A2 | C1: a penalidade de incerteza produz efeito Mateus | Dentro do ruído |
 | A3 | C4: o termo de entropia reintroduz exploração | Não sustentada |
 | A4 | O DORL reduz a concentração | Invertida no nível do item |
@@ -252,8 +262,9 @@ deste trabalho (B1–B8) com o sinal examinado, o controle e a força da evidên
 | A6 | A Tabela 2 representa cada método | Não sustentada com uma semente |
 | A7 | C2 e C3 | Não testada |
 
-## 9. Pendente
+## 9. Sementes 5–9 com N = 8c (18/11)
 
-Sementes 5–9 com N = 8c (MBPO, DORL, MOPO e DORL-const), na fila da 4090 desde 17/11. Elas servem para confirmar, em
-Length, DORL − MBPO (+3,5) e MOPO → DORL-const (+3,0), hoje com 5 sementes. Diferenças dessa ordem com 5 sementes já
-se mostraram ruído (seção 5). O resultado entra no relatório.
+Pendentes em 17/11, as sementes 5–9 com N = 8c (MBPO, DORL, MOPO e DORL-const) rodaram e foram lidas em 18/11
+(seção 2; `docs/semana10.md`, etapa 5). Elas deviam confirmar, em Length, DORL − MBPO (+3,5) e MOPO → DORL-const
+(+3,0), medidos com 5 sementes. Nenhum dos dois se confirmou: com 10 sementes, +2,2 e +1,8, dentro do ruído, como já
+tinha acontecido na regra N4 (seção 5). Não há mais execuções pendentes.

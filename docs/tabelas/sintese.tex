@@ -5,7 +5,8 @@
 \centering
 \small
 \caption{Afirmações do DORL e achados deste trabalho: sinal examinado, controle de avaliação, evidência e força.
-Média $\pm$ dp entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes.}
+Média $\pm$ dp entre 5 sementes (10 na varredura do bônus em $N = 4$ e em $N = 8c$); uma diferença conta quando supera o
+maior dp entre sementes.}
 \label{tab:sintese}
 \begin{threeparttable}
 \begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}p{4.6cm}cc>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.0cm}@{}}
@@ -15,14 +16,15 @@ Média $\pm$ dp entre 5 sementes; uma diferença conta quando supera o maior dp 
 \multicolumn{6}{@{}l}{\textit{Afirmações do artigo}} \\
 A1 & O DORL prolonga a sessão (Length e $R_{tra}$ acima do MBPO) & S, M & a, d &
   NX\_0: $+7{,}6$ em Length, $+6{,}6$ em $R_{tra}$. NX\_10: RL abaixo do acaso em $R_{tra}$ (7,08--7,39 contra 8,72).
-  $N = 1/4c/8c$: $+4{,}8/+6{,}7/+3{,}5$, todo do passo MOPO $\to$ DORL-const em $4c/8c$. Saída calibrada: $+0{,}3$, RL $\approx$ acaso &
-  Condicional (regra determinística) \\
+  $N = 1/4c$: $+4{,}8/+6{,}7$, todo do passo MOPO $\to$ DORL-const em $4c$; $N = 8$: Length dentro do ruído nas duas janelas
+  ($+0{,}6$; $+2{,}2$ com 10 sementes). Saída calibrada: $+0{,}3$, RL $\approx$ acaso &
+  Condicional (regra determinística, $N \leq 4$) \\
 A2 & C1: a penalidade de incerteza produz efeito Mateus & T, M & a, e &
   MCD $+0{,}043$ com dp de $0{,}085$. Saída calibrada: MOPO = MBPO em cobertura (50,2\% contra 52,8\%) e MCD &
   Dentro do ruído \\
 A3 & C4: o termo de entropia reintroduz exploração & T & c &
-  P\_E constante = DORL nas quatro métricas, com a janela corrigida ($N = 4c/8c$) e, sob a saída calibrada, na cobertura (2,5\% contra 2,7\%);
-  P\_E $= 1{,}96$ de 2 na política treinada &
+  P\_E constante = DORL nas quatro métricas, com a janela corrigida em $N = 4c$ e, sob a saída calibrada, na cobertura (2,5\% contra 2,7\%);
+  em $N = 8c$ (10 sementes), igual em Length, $R_{each}$ e MCD, e $R_{tra}$ $+2{,}5$ com dp de 2,2; P\_E $= 1{,}96$ de 2 na política treinada &
   Não sustentada (\textit{survival bonus}) \\
 A4 & O DORL reduz a concentração & M & b, e &
   RL abaixo da taxa de base do acaso na MCD (0,83). Cobertura: DORL 3,3\%, MBPO 12\%, acaso 86,5\%;
@@ -43,7 +45,7 @@ B1 & O $\hat r$ não ordena os itens como a avaliação & T, M & b &
   Verificada \\
 B2 & O P\_E funciona como \textit{survival bonus} & T & c & $\approx$99\% da variação de $\tilde r$; 1,96 de 2; ablação & Verificada \\
 B3 & A política explora a regra de saída & S & d &
-  FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; $N = 8$ original é artefato do recorte; MOPO cicla como o MBPO, DORL-const como o DORL & Verificada \\
+  FB: ciclos de $N+1$ itens em 80--99\% dos ciclos puros; com $N = 8$, vantagem dentro do ruído nas duas janelas; MOPO cicla como o MBPO, DORL-const como o DORL & Verificada \\
 B4 & A regra de saída não corresponde ao usuário real & S & d, f &
   $P(\text{fim}\mid\text{repete categoria}) = 6{,}3\%$ contra 2,6\%; o simulador supõe 100\% contra 0\% &
   Verificada (associação) \\

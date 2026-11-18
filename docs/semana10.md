@@ -11,6 +11,7 @@ entre 5 sementes; uma diferença conta quando supera o maior dp entre sementes d
 | SB | Varredura do *survival bonus*: b ∈ {0; 0,5; 1; 2; 4}, regras N4 e E6 (`roda_bonus.sh`) | Feito |
 | TM | Controle da varredura: MOPO com o `train_max` do DORL (`tmax.patch`, `roda_tmax.sh`) | Feito (16/11) |
 | S10 | Sementes 5–9 na regra N4 (MOPO, MOPO-tmax, b = 0, 1, 2, 4, DORL-const) e controle inverso no E6 | Feito (17/11) |
+| S10-8c | Sementes 5–9 com N = 8c (MBPO, MOPO, DORL-const, DORL; `roda_a5.sh 8`) | Feito (18/11; etapa 5) |
 | Prot | Protocolo de avaliação de RLRS (`docs/protocolo_avaliacao.md`) | Versão 0 |
 | Sínt | Tabela de síntese (`docs/sintese.md`, `docs/tabelas/sintese.tex`) | Feito; B7 acrescentada |
 
@@ -170,13 +171,20 @@ Decomposição em Length (NX_0); "acima" = supera o maior dp entre sementes dos 
 | MOPO → DORL-const | *Survival bonus* | +8,4 (acima) | +5,7 (acima) | +3,0 (acima) |
 | DORL-const → DORL | Variação do P_E | −0,6 (ruído) | +0,8 (ruído) | +0,9 (ruído) |
 
+**Revisto com 10 sementes (18/11; etapa 5):** com N = 8c, os três passos ficam dentro do ruído em Length (−0,8; +1,8;
++1,2), e DORL − MBPO também (+2,2, dp 2,3).
+
 **Interpretação.**
 
 1. **O E2 se reproduz com a janela corrigida.** Nos três cenários, o único passo acima do ruído é o *survival bonus*.
    Ele explica toda a vantagem do DORL sobre o MBPO em Length (+6,7 com N = 4c; +3,5 com N = 8c). Em R_tra, com
    N = 8c, DORL − DORL-const = +1,6, dentro do dp (2,0).
+   - Revisto com 10 sementes (18/11; etapa 5): com N = 8c, nenhum passo supera o ruído em Length, e não há vantagem
+     do DORL a explicar (+2,2, dp 2,3). Em R_tra, DORL − DORL-const = +2,5, pouco acima do dp (2,2), e
+     MOPO → DORL-const = +2,2, no limite do dp (2,2).
 2. **A concentração de itens também vem do bônus.**
-   - A cobertura cai de 10,4% para 3,3% (N = 4c) e de 5,7% para 3,8% (N = 8c) no passo MOPO → DORL-const.
+   - A cobertura cai de 10,4% para 3,3% (N = 4c) e de 5,7% para 3,8% (N = 8c) no passo MOPO → DORL-const
+     (5 sementes; com N = 8c, as sementes 5–9 não têm cobertura calculada, ver etapa 5).
    - P_U e a variação do P_E não a alteram.
    - É o mesmo padrão do E6 (50,2% → 2,5%), agora em três regras determinísticas e na calibrada.
 3. **O ciclo do FB é dos métodos sem bônus.**
@@ -195,7 +203,8 @@ Decomposição em Length (NX_0); "acima" = supera o maior dp entre sementes dos 
    Fato registrado, sem interpretação.
 
 **Limitações.** Uma constante do bônus (a do E2) e um λ₁. A aleatória com janela corrigida está em
-`results/e3/aleatoria_N{4,8}c.json` e não entra no `e1_saida.txt` do A5.
+`results/e3/aleatoria_N{4,8}c.json` e não entra no `e1_saida.txt` do A5; a de N = 8c entra no resumo de 10 sementes
+(`results/s10/n8c_saida.txt`, etapa 5).
 
 ## Etapa 3 — Sementes dos bandits
 
@@ -426,3 +435,63 @@ Resultado, controle inverso (regra E6, 5 sementes; `results/s10/e6_resumo.csv`, 
 pequena. λ₁ fixo.
 Uma calibração do E6.
 
+## Etapa 5 — Sementes 5–9 com N = 8c
+
+Com 10 sementes, as duas diferenças de Length com N = 8c que as etapas anteriores contavam como efeito ficam dentro do
+ruído. Em R_tra, a vantagem do DORL sobre o MBPO se mantém, mas não vem de um único termo.
+
+**Pergunta.** DORL − MBPO (+3,5) e MOPO → DORL-const (+3,0), medidos em Length com 5 sementes e N = 8c (semana 9,
+etapa 6; etapa 2 acima), se mantêm com 10 sementes?
+
+**Motivo.** Na regra N4, uma diferença de 2,9 passos medida com 5 sementes sumiu com 10 (etapa 4, "Sementes 5–9"). As
+duas diferenças com N = 8c eram da mesma ordem.
+
+**Procedimento.** Sementes 5–9 de MBPO e DORL (`SEEDS="5 6 7 8 9" roda_a5.sh 8`) e de MOPO e DORL-const (idem, com
+`METODOS="MOPO DORLconst"`; DORL-const com `PE_CONST=1.9609`), em duas filas na 4090. São 20 execuções, todas com 200
+épocas e `num_leave_compute` 8 no log; nenhuma tem a linha `TMAX_LAMBDA`. Agregação com o `e1_protocolos.py` →
+`results/s10/n8c_*`, com a aleatória de N = 8c (`results/e3/aleatoria_N8c.json`, 5 sementes). Regra fixada antes de
+rodar: a do trabalho (a diferença conta se supera o maior dp entre sementes dos dois métodos), em Length no NX_0.
+
+**Resultado.** NX_0, 10 sementes por método (aleatória: 5); Length (FB) no protocolo com repetição.
+
+| Método | Length | R_tra | R_each | MCD | Length (FB) |
+|---|---|---|---|---|---|
+| MBPO | 19,43 ± 2,25 | 13,71 ± 2,04 | 0,707 ± 0,063 | 0,335 ± 0,025 | 24,28 ± 1,63 |
+| MOPO | 18,65 ± 1,89 | 12,60 ± 2,06 | 0,679 ± 0,075 | 0,317 ± 0,047 | 24,65 ± 1,36 |
+| DORL-const | 20,45 ± 1,37 | 14,76 ± 2,17 | 0,723 ± 0,079 | 0,396 ± 0,019 | 10,62 ± 2,92 |
+| DORL | 21,62 ± 1,02 | 17,25 ± 0,62 | 0,799 ± 0,037 | 0,391 ± 0,019 | 10,35 ± 1,87 |
+| Aleatória (5) | 4,16 ± 0,01 | 3,62 ± 0,01 | 0,871 ± 0,001 | 0,827 ± 0,001 | 4,15 ± 0,01 |
+
+Decomposição em Length (NX_0); a última coluna separa as sementes 0–4 (o resultado anterior) e 5–9.
+
+| Passo | Termo acrescentado | Diferença (maior dp) | Leitura | Sementes 0–4 / 5–9 |
+|---|---|---|---|---|
+| MBPO → MOPO | P_U | −0,78 (2,25) | Ruído | −0,52 / −1,03 |
+| MOPO → DORL-const | *Survival bonus* | +1,80 (1,89) | Ruído | +3,03 / +0,56 |
+| DORL-const → DORL | Variação do P_E | +1,17 (1,37) | Ruído | +0,94 / +1,40 |
+| MBPO → DORL | Os três | +2,19 (2,25) | Ruído | +3,45 / +0,93 |
+
+Leitura pela regra:
+1. **Nenhuma das duas diferenças se confirma.** DORL − MBPO cai de +3,5 para +2,2 (dp 2,3) e MOPO → DORL-const, de
+   +3,0 para +1,8 (dp 1,9). Nas sementes 5–9, +0,9 e +0,6. É o padrão da regra N4: diferenças de ~3 passos medidas com
+   5 sementes não resistem a 10.
+2. **Com N = 8, a vantagem do DORL em Length não se distingue do ruído em nenhuma das duas janelas** (+0,6 com o recorte,
+   E3; +2,2 sem ele). A afirmação principal vale com N = 1, 4 e 4c, não com N = 8. O recorte ainda muda o Length do
+   DORL (20,1 → 21,6; dp 1,0), e não o do MBPO (19,4 → 19,4).
+
+Outros fatos (não estavam na regra):
+3. **Em R_tra, a vantagem do DORL se mantém, sem um termo único.** DORL − MBPO = +3,54 (dp 2,04), acima nas duas
+   metades (+4,08 e +3,00). Nos passos: MOPO → DORL-const +2,16 (dp 2,17), no limite; DORL-const → DORL +2,50
+   (dp 2,17), pouco acima. Nas métricas do artigo, é a única comparação DORL-const × DORL acima do dp em todo o
+   trabalho (seis resumos, três protocolos): numa regra, numa métrica e por margem pequena, que vem das sementes 5–9
+   (0–4: +1,65; 5–9: +3,34). Em Length (+1,17), R_each (+0,076, dp 0,079),
+   MCD (−0,005) e R_tra no NX_10 (+0,76, dp 0,82), fica dentro do ruído.
+4. **O bônus encurta o FB também com N = 8c:** MOPO → DORL-const = −14,0 passos (dp 2,9), nas duas metades (−13,8 e
+   −14,3); a variação do P_E não muda o FB (−0,3). Como na regra N4, é o efeito mais robusto do bônus.
+5. **Recompensa por passo abaixo do acaso:** R_each de 0,68–0,80 contra 0,871 e R_tra no NX_10 de 6,20–7,31 contra
+   8,72, em todos os métodos de RL. DORL − MBPO em R_each = +0,092 (dp 0,063), acima.
+6. **MCD:** MOPO → DORL-const = +0,079 (dp 0,047), acima; todos seguem muito abaixo da taxa de base do acaso (0,32–0,40
+   contra 0,83).
+
+**Limitações.** Cobertura, personalização e ciclo puro com N = 8c seguem com 5 sementes: dependem das trajetórias, que
+ficam na 4090. Uma constante do bônus e um λ₁; a aleatória tem 5 sementes.

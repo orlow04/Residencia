@@ -207,6 +207,8 @@ cada log. A política aleatória foi refeita com o mesmo N (`results/e3/aleatori
 1. **Com o código original, a vantagem do DORL some com N = 8.** DORL − MBPO em Length: +4,8 com N = 1 e +7,6 com
    N = 4, acima do dp; +0,6 com N = 8, dentro do dp (2,3). Em R_tra, +2,3 com N = 8, dentro do dp (2,8).
    **A etapa 6 corrige esta leitura:** com a janela corrigida, a vantagem volta com N = 8.
+   **Revisto com 10 sementes (18/11):** com a janela corrigida, a vantagem em Length também fica dentro do ruído
+   (+2,2, dp 2,3); em R_tra, supera o dp (+3,5, dp 2,0). Ver a etapa 6.
 2. **O Length não é monótono no N para o MBPO** (22,6 → 15,8 → 19,4), embora a regra fique mais restritiva. A
    hipótese do recorte da janela (A5) foi testada na etapa 6 e não explica essa forma. A aleatória quase não muda de
    N = 4 para N = 8 (4,60 → 4,36).
@@ -264,6 +266,18 @@ sementes cada (`roda_a5.sh`, mensagens `A5N{4,8}_{MBPO,DORL}_s*`); aleatória co
    9,7–10,0 (`results/bolha/bolha_saida.txt`).
 6. **Lição de método:** um detalhe de fatiamento, presente em todas as execuções dos autores, decidiu uma conclusão
    (o resultado com N = 8) e seria facilmente reportado como achado.
+
+**Revisto com 10 sementes (18/11; `results/s10/n8c_*`; `docs/semana10.md`, etapa 5).**
+Os itens 2, 3 e 6 não se mantêm em Length:
+- DORL − MBPO com N = 8c: +2,2 em Length (dp 2,3), dentro do ruído; nas sementes 5–9, +0,9. Em R_tra, +3,5 (dp 2,0),
+  acima.
+- Com N = 8, a vantagem em Length fica dentro do ruído nas duas janelas (+0,6 com o recorte, 5 sementes; +2,2 sem ele,
+  10 sementes). O recorte ainda muda o Length do DORL (20,1 → 21,6; dp 1,0), e não o do MBPO (19,4 → 19,4).
+- A afirmação principal sobrevive a N = 1 e N = 4c (5 sementes cada), não a N = 8.
+- Item 6: o recorte não decide a conclusão em Length; em R_tra, a diferença passa de dentro do dp (+2,3, com o recorte,
+  5 sementes) para acima (+3,5, sem ele, 10 sementes). O caso também ilustra o número de sementes: +3,5 acima do dp
+  com 5 sementes, +2,2 dentro com 10.
+- Item 4: com 10 sementes, o MBPO com N = 8c dura 19,4; a forma não monótona permanece (22,6 → 16,6 → 19,4).
 
 **Limitações.** Dois valores de N corrigidos; MOPO e DORL-const não repetidos.
 
